@@ -27,6 +27,7 @@
     <!-- Custom styles for this template -->
     <link href="css/carousel.css" rel="stylesheet">
     <link href="css/grid.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
   </head>
 <!-- NAVBAR
 ================================================== -->
@@ -135,9 +136,9 @@
 		<!-- Qualifications -->
 		<div class="row">
 			<div class="col-md-12">
-				.col-md-12 Qualifications
+				Qualifications
 				<div class="row">
-					<div class="col-md-12">.col-md-12 Qualification Data</div>
+					<div class="col-md-12">{{qualificationsRequired}}</div>
 				</div>
 			</div>
 		 </div>
@@ -145,10 +146,14 @@
 		<!-- Career Future -->
 		<div class="row">
 			<div class="col-md-12">
-				.col-md-12 Career Future
+				Career Future
 				<div class="row">
-					<div class="col-md-6">.col-md-6 Career Future Description </div>
-					<div class="col-md-6">.col-md-6 Career Future Chart</div>
+					<div class="col-md-6">Over the next {{yearsAtUniversity}} years while your at university the amount
+                        of {{jobTitle}} roles would of {{jobIncreaseOrDecrease}} by {{jobPercentageChange}}% in London,
+                        from {{employedCurrently}} roles this year to {{employedGraduationYear}} in {{graduationYear}}.</div>
+					<div class="col-md-6 career-future-chart-container">
+                        <canvas id="career-future-chart"></canvas>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -221,6 +226,7 @@
     <script src="asset/docs.min.js"></script>
     <script src='js/Ractive.js'></script>
     <script src='js/main.js'></script>
+    <script src='lib/chart.js-master/Chart.min.js'></script>
 
   </body>
 </html>

@@ -369,10 +369,19 @@ function createDataForChart(json){
     return data;
 }
 
+
+
 function drawChart(data){
-    $('#myChart').remove();
-    $('.salary-chart').append('<canvas id="myChart" width="515" height="335"></canvas>');
-    var ctx = $('#myChart').get(0).getContext("2d");
+
+    this.data = data;
+
+    $('#career-future-chart').remove();
+    $('.career-future-chart-container').append('<canvas id="career-future-chart"></canvas>');
+
+    $('#career-future-chart').attr('width', jQuery(".career-future-chart-container").width());
+    $('#career-future-chart').attr('height', (jQuery(".career-future-chart-container").height() * 1.8));
+
+    var ctx = $('#career-future-chart').get(0).getContext("2d");
 
     var options = {
         bezierCurve : false
@@ -380,3 +389,20 @@ function drawChart(data){
 
     new Chart(ctx).Bar(data,options);             //watch out here for memory issues
 }
+
+function resizeChart(){
+
+    $('#career-future-chart').remove();
+    $('.career-future-chart-container').append('<canvas id="career-future-chart"></canvas>');
+    var ctx = $('#career-future-chart').get(0).getContext("2d");
+
+    var options = {
+        bezierCurve : false
+    }
+
+    $('#career-future-chart').attr('width', jQuery(".career-future-chart-container").width());
+    $('#career-future-chart').attr('height', (jQuery(".career-future-chart-container").height()*1.8));
+    new Chart(ctx).Bar(this.data,options);
+}
+
+$(window).resize(resizeChart);
