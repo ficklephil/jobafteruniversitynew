@@ -32,69 +32,60 @@
 <!-- NAVBAR
 ================================================== -->
   <body>
-    <div class="navbar-wrapper">
-      <div class="container">
+  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Project name</a>
 
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-          <div class="container header">
+              <form class="navbar-form navbar-left">
+                      <input type="text" id="career-input" class="form-control" placeholder="Search...">
+              </form>
 
-              <!--<div class="row">-->
-                  <!--<div class="col-md-2"></div>-->
-                  <!--<div class="col-md-6">-->
-                      <!--<input id="career-input" type='text'>-->
-                  <!--</div>-->
-                  <!--<div class="col-md-2">-->
-                      <!--<input id='graduation-input' type='text' value="2017">-->
-                  <!--</div>-->
-                  <!--<div class="col-md-2">-->
-                      <!--<div class="dropdown">-->
-                          <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Region <b class="caret"></b></a>-->
-                          <!--<ul class="dropdown-menu">-->
-                              <!--<li><a href="#">London</a></li>-->
-                              <!--<li><a href="#">Yorkshire and Humberside</a></li>-->
-                              <!--<li><a href="#">Something else here</a></li>-->
-                              <!--<li class="divider"></li>-->
-                              <!--<li class="dropdown-header">Nav header</li>-->
-                              <!--<li><a href="#">Separated link</a></li>-->
-                              <!--<li><a href="#">One more separated link</a></li>-->
-                          <!--</ul>-->
-                      <!--</div>-->
-                  <!--</div>-->
-              <!--</div>-->
-
-              <div class="row">
-                <div class="col-md-2">
-                    <div class="navbar-header">
-                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                      </button>
-                      <a class="navbar-brand" href="#">Project name</a>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <input id="career-input" type='text'>
-                </div>
-                  <div class="col-md-4">
-                    <div class="navbar-collapse collapse">
-                      <div class="nav navbar-nav">
-                        <input id='graduation-input' type='text' value="2017">
-
-                      </div>
-
-                    </div>
-                  </div>
           </div>
-        </div>
-
+          <div class="navbar-collapse collapse">
+              <ul class="nav navbar-nav navbar-right">
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Graduation Date<b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                          <li><a href="#">2014</a></li>
+                          <li><a href="#">2015</a></li>
+                          <li><a href="#">2016</a></li>
+                          <li><a href="#">2017</a></li>
+                          <li><a href="#">2018</a></li>
+                          <li><a href="#">2019</a></li>
+                          <li><a href="#">2020</a></li>
+                      </ul>
+                  </li>
+                  <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Region<b class="caret"></b></a>
+                      <ul class="dropdown-menu">
+                          <li><a href="#">London</a></li>
+                          <li><a href="#">Yorkshire and the Humber</a></li>
+                          <li><a href="#">East of England</a></li>
+                          <li><a href="#">South East (England)</a></li>
+                          <li><a href="#">South West (England)</a></li>
+                          <li><a href="#">Wales</a></li>
+                          <li><a href="#">Scotland</a></li>
+                          <li><a href="#">East Midlands (England)</a></li>
+                          <li><a href="#">North East (England)</a></li>
+                          <li><a href="#">North West (England)</a></li>
+                          <li><a href="#">Northern Ireland</a></li>
+                          <li><a href="#">West Midlands (England)</a></li>
+                      </ul>
+                  </li>
+              </ul>
+          </div>
       </div>
     </div>
 
-
-    <!-- Carousel
-    ================================================== -->
+  <!-- Carousel
+  ================================================== -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
       <!-- Indicators -->
       <ol class="carousel-indicators">

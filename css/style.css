@@ -1,3 +1,32 @@
 #career-future-chart {
   width: 100%;
   height: 100%; }
+
+.header .career-input {
+  border: 1px solid red;
+  width: 100%; }
+.header .career-input-container {
+  border: 1px solid blue;
+  width: 40%; }
+.header #graduation-input {
+  border: 1px solid red;
+  width: 90%; }
+
+.navbar .navbar-form {
+  padding: 0 15px;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none; }
+
+.career-input-form {
+  border: 1px solid red; }
+
+#career-input-container {
+  border: 1px solid red; }
+
+@media (min-width: 768px) {
+  .navbar-form .form-control {
+    width: 350px; } }
+@media (min-width: 992px) {
+  .navbar-form .form-control {
+    width: 540px; } }
