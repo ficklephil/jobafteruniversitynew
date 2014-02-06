@@ -1,3 +1,50 @@
+$primary-color: #CE0043;
+$lightest-color:#efefef;
+$medium-color:#cccccc;
+$medium-dark-color:#333333;
+$darkest-color:#1b1b1b;
+
+@mixin roboto-light() {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+}
+
+@mixin pacifico(){
+  font-family: 'Pacifico', cursive;
+}
+
+@mixin gradient(){
+  background: #f0f0f0; /* Old browsers */
+  background: -moz-linear-gradient(top,  #f0f0f0 0%, #ffffff 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f0f0f0), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #f0f0f0 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #f0f0f0 0%,#ffffff 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #f0f0f0 0%,#ffffff 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #f0f0f0 0%,#ffffff 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f0f0f0', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+}
+
+@mixin gradientGray(){
+  background: #efefef; /* Old browsers */
+  background: -moz-linear-gradient(top,  #efefef 0%, #ffffff 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#efefef), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #efefef 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #efefef 0%,#ffffff 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #efefef 0%,#ffffff 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #efefef 0%,#ffffff 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+}
+
+#container{
+   @include gradient();
+}
+
+h2{
+  @include pacifico();
+  font-size: 2.3em;
+}
+
 #career-future-chart{
   width: 100%;
   height: 100%;
@@ -45,4 +92,46 @@
       width: 540px;
     }
   }
+}
+
+.job-item{
+
+  //border:1px solid red;
+  margin-bottom: 45px;
+
+    h2{
+       color: $medium-color;
+       padding-top: 40px;
+       padding-bottom: 40px;
+       padding-left: 40px;
+       //border:1px solid red;
+       max-width: 274px;
+       background-color:$darkest-color;
+       margin-top: 0px;
+       margin-bottom: 0px;
+
+     }
+
+    .job-item-content{
+      @include roboto-light();
+      font-size: 1.6em;
+      background-color:$medium-dark-color;
+      color: $medium-color;
+      padding-top:50px;
+      padding-bottom:50px;
+      padding-left:50px;
+      padding-right:50px;
+    }
+
+    .job-item-content-left{
+      @include roboto-light();
+      font-size: 1.6em;
+      background-color:$primary-color;
+      color: $medium-color;
+      padding-top:50px;
+      padding-bottom:50px;
+      padding-left:50px;
+      padding-right:50px;
+      //min-height: 375px;
+    }
 }
