@@ -54,8 +54,8 @@
           <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav navbar-right">
                   <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Graduation Date<b class="caret"></b></a>
-                      <ul class="dropdown-menu">
+                      <a href="#" class="dropdown-toggle graduation-toggle-text" data-toggle="dropdown">Graduation Date : <span class='graduation-year'>2017</span><b class="caret"></b></a>
+                      <ul class="dropdown-menu graduation-menu">
                           <li><a href="#">2014</a></li>
                           <li><a href="#">2015</a></li>
                           <li><a href="#">2016</a></li>
@@ -66,7 +66,7 @@
                       </ul>
                   </li>
                   <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">Region<b class="caret"></b></a>
+                      <a href="#" class="dropdown-toggle region" data-toggle="dropdown">Region : London<b class="caret"></b></a>
                       <ul class="dropdown-menu">
                           <li><a href="#">London</a></li>
                           <li><a href="#">Yorkshire and the Humber</a></li>
@@ -144,7 +144,39 @@
     <div class="container marketing">
 	
 		<h3>{{jobTitle}}</h3>
-		
+
+        <!-- Job Description -->
+        <div class="row job-item">
+            <div class="col-md-12">
+
+                <div class="row">
+                    <h2>Description</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 job-item-content-full-width">{{jobDescription}}</div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- Job Duties -->
+        <div class="row job-item">
+            <div class="col-md-12">
+
+                <div class="row">
+                    <h2>Duties</h2>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12 job-item-content-full-width">{{jobTasks}}</div>
+                </div>
+
+
+            </div>
+        </div>
+
 		<!-- Qualifications -->
 		<div class="row job-item">
 			<div class="col-md-12">
@@ -154,12 +186,42 @@
                 </div>
 
 				<div class="row">
-					<div class="col-md-12 job-item-content">{{qualificationsRequired}}</div>
+					<div class="col-md-12 job-item-content-full-width">{{qualificationsRequired}}</div>
 				</div>
 
 
 			</div>
 		 </div>
+
+        <!-- Educational Background -->
+        <div class="row job-item">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Educational Background</h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 job-item-content-education">The educational background of people who do this role, when you
+                    come out of university in 2017. From the chart it looks like are mostly of gradute level,
+                    have you ever thought about doing an apprentiship, in this role instead?</div>
+                    <div class="col-md-4 education-chart-container">
+                        <canvas id="education-chart"></canvas>
+                    </div>
+                    <div class="col-md-2 job-item-education-chart-key">
+                        <ul>
+                            <li>50% Doctorate</li>
+                            <li>50% Masters Degree</li>
+                            <li>20% First Degree</li>
+                            <li>40% Foundation Degree</li>
+                            <li>30% HNC or equivalent</li>
+                            <li>10% GCSE grade A-C or equivalent</li>
+                            <li>5% GCSE grade D-E or equivalent</li>
+                            <li>2% Entry level qualification</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 		
 		<!-- Career Future -->
 		<div class="row job-item">
@@ -168,7 +230,7 @@
                     <h2>Career Future</h2>
                 </div>
 				<div class="row">
-					<div class="col-md-6 job-item-content-left">Over the next {{yearsAtUniversity}} years while your at university the amount
+					<div class="col-md-6 job-item-content-career">Over the next {{yearsAtUniversity}} years while your at university the amount
                         of {{jobTitle}} roles would of {{jobIncreaseOrDecrease}} by {{jobPercentageChange}}% in London,
                         from {{employedCurrently}} roles this year to {{employedGraduationYear}} in {{graduationYear}}.</div>
 					<div class="col-md-6 career-future-chart-container">
@@ -179,50 +241,72 @@
 		</div>
 		
 		<!-- Skills Shortage-->
-		<div class="row">
+		<div class="row job-item-small">
 			<div class="col-md-12">
-				Skills Shortages
 				<div class="row">
-					<div class="col-md-3"><img style="margin:auto;" class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image"></div>
-					<div class="col-md-9"><h4>Skills Shortage Information</h4><p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p></div>
+					<div class="col-md-2 job-item-small-col" >
+                        <div class='job-item-small-percentage-container'>
+                            <div class='job-item-small-percentage'>{{percentSkillsShortages}}%</div>
+                        </div>
+                    </div>
+					<div class="col-md-10 job-item-small-description-container"><h4>Skills Shortage</h4><p>{{jobTitle}} has a Skills Shortage of {{percentSkillsShortages}} which means that for every 100 jobs
+                        there are 4 jobs unfilled due to the population in London not having the correct skills for this role.</p></div>
 				</div>
 			</div>
 		</div>
 		
 		<!-- Unemployment -->
-		<div class="row">
-			<div class="col-md-12">
-				.col-md-12 Unemployment
-				<div class="row">
-					<div class="col-md-3"><img style="margin:auto;" class="img-circle" data-src="holder.js/140x140" alt="Generic placeholder image"></div>
-					<div class="col-md-9"><h4>Unemployment Information</h4><p>Donec sed odio dui. Etiam porta sem malesuada magna mollis euismod. Nullam id dolor id nibh ultricies vehicula ut id elit. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Praesent commodo cursus magna.</p></div>
-				</div>
-				
-			</div>
-		</div>
+        <div class="row job-item-small">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2 job-item-small-col" >
+                        <div class='job-item-small-percentage-container'>
+                            <div class='job-item-small-percentage'>{{unemploymentRate}}%</div>
+                        </div>
+                    </div>
+                    <div class="col-md-10 job-item-small-description-container"><h4>Unemployment</h4><p>{{jobTitle}} has an employment rate of {{unemploymentRate}} UK wide which means that for every 100 jobs
+                        there are 6 people unemployed within the UK for this role.</p></div>
+                </div>
+            </div>
+        </div>
 		
 		<!-- Money -->
-		<div class="row">
+		<div class="row job-item">
 			<div class="col-md-12">
-				.col-md-12 Money
+                <div class="row">
+                    <h2>Money Future</h2>
+                </div>
 				<div class="row">
-					<div class="col-md-6">.col-md-6 Salary</div>
-					<div class="col-md-6">.col-md-6 Rent</div>
+					<div class="col-md-6 job-item-content-salary-left">The current wage for {{jobTitle}} in London is £{{estimatedPayYearly}}. That's £{{estimatedPayWeekly}} per month, if inflation
+                        is at 5% for the next 4 years, your wage will be £50,000 after 4 years of work, as a graduate starts on.</div>
+					<div class="col-md-6 job-item-content-rent">The average rent for a person living in a one bed flat in London in 2017 will be £1003 per month, based on inflation.</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6">.col-md-6 Costs Breakdown</div>
-					<div class="col-md-6">.col-md-6</div>
+					<div class="col-md-6 job-item-content-salary">The current wage for {{jobTitle}} in London is £{{estimatedPayYearly}}.</div>
+					<div class="col-md-6"></div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="row">
+		<div class="row job-item">
 			<div class="col-md-12">
-				.col-md-12 Related Careers
+                <div class="row">
+                    <h2>Related Jobs</h2>
+                </div>
 				<div class="row">
-					<div class="col-md-4">.col-md-6 Related Career 1</div>
-					<div class="col-md-4">.col-md-6 Related Careers 2</div>
-					<div class="col-md-4">.col-md-6 Related Careers 3</div>
+					<div class="col-md-4 job-item-related-jobs">
+                        <ul>
+                            <li>
+                                <a href="#">London</a>
+                                <a href="#">London</a>
+                                <a href="#">London</a>
+                            </li>
+                        </ul>
+
+
+					</div>
+					<div class="col-md-4 job-item-related-jobs">.col-md-6 Related Jobs 2</div>
+					<div class="col-md-4 job-item-related-jobs">.col-md-6 Related Jobs 3</div>
 				</div>
 			</div>
 		</div>

@@ -1,4 +1,8 @@
 $primary-color: #CE0043;
+$secondary-color: #4177C1;
+$education-color: #4AABB1;
+$secondary-color-off: #1F45FC;
+$super-light-color:#ffffff;
 $lightest-color:#efefef;
 $medium-color:#cccccc;
 $medium-dark-color:#333333;
@@ -7,6 +11,11 @@ $darkest-color:#1b1b1b;
 @mixin roboto-light() {
   font-family: 'Roboto', sans-serif;
   font-weight: 100;
+}
+
+@mixin roboto-medium() {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
 }
 
 @mixin pacifico(){
@@ -37,12 +46,17 @@ $darkest-color:#1b1b1b;
 }
 
 #container{
-   @include gradient();
+  @include gradient();
 }
 
 h2{
   @include pacifico();
   font-size: 2.3em;
+}
+
+h4{
+  @include roboto-medium();
+  font-size: 1.6em;
 }
 
 #career-future-chart{
@@ -98,6 +112,15 @@ h2{
 
   //border:1px solid red;
   margin-bottom: 45px;
+  background-color: $super-light-color;
+
+  @mixin job-item-content(){
+    @include roboto-light();
+    font-size: 1.6em;
+    padding:50px;
+    background-color:$medium-dark-color;
+    color: $medium-color;
+  }
 
     h2{
        color: $medium-color;
@@ -105,33 +128,107 @@ h2{
        padding-bottom: 40px;
        padding-left: 40px;
        //border:1px solid red;
-       max-width: 274px;
+       max-width: 390px;
        background-color:$darkest-color;
        margin-top: 0px;
        margin-bottom: 0px;
 
      }
 
-    .job-item-content{
-      @include roboto-light();
-      font-size: 1.6em;
-      background-color:$medium-dark-color;
-      color: $medium-color;
-      padding-top:50px;
-      padding-bottom:50px;
-      padding-left:50px;
-      padding-right:50px;
+    .job-item-content-full-width{
+      @include job-item-content();
     }
 
-    .job-item-content-left{
-      @include roboto-light();
-      font-size: 1.6em;
+    .job-item-content-career{
+      @include job-item-content();
       background-color:$primary-color;
-      color: $medium-color;
-      padding-top:50px;
-      padding-bottom:50px;
-      padding-left:50px;
-      padding-right:50px;
-      //min-height: 375px;
     }
+
+    .job-item-content-education{
+      @include job-item-content();
+      background-color:$education-color;
+    }
+
+    .job-item-content-salary{
+      @include job-item-content();
+      background-color:$secondary-color;
+
+      @media (max-width: 991px){
+        border-bottom:8px solid white;
+      }
+
+      @media (min-width: 992px){
+        border-top:6px solid white;
+        border-right:6px solid white;
+      }
+    }
+
+    .job-item-content-salary-left{
+      @include job-item-content();
+      background-color:$secondary-color;
+
+      @media (max-width: 991px){
+        border-bottom:8px solid white;
+      }
+
+      @media (min-width: 992px){
+        border-right:6px solid white;
+        border-bottom:6px solid white;
+      }
+    }
+
+    .job-item-content-rent{
+     @include job-item-content();
+      background-color:$secondary-color;
+
+      @media (max-width: 991px){
+        border-bottom:8px solid white;
+      }
+
+      @media (min-width: 992px){
+        border-left:6px solid white;
+      }
+    }
+
+    .job-item-related-jobs{
+      border:1px solid red;
+    }
+}
+
+.job-item-small{
+
+  background-color:$lightest-color;
+  margin-bottom: 25px;
+  padding: 25px;
+
+  .job-item-small-col{
+
+    .job-item-small-percentage-container{
+
+      margin:auto;
+      border-radius: 50%;
+      width: 140px;
+      height: 140px;
+      display:table;
+      background-color:$super-light-color;
+
+      .job-item-small-percentage{
+
+        text-align:center;
+        margin:auto;
+        display: table-cell;
+        vertical-align: middle;
+        @include roboto-medium;
+        font-size: 2em;
+      }
+    }
+  }
+
+  .job-item-small-description-container{
+
+    p{
+      font-size: 1.6em;
+      @include roboto-light();
+    }
+  }
 }

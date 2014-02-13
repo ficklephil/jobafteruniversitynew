@@ -1,16 +1,26 @@
 var jobMatches = [];
 
+//NAME SPACING NEEDED
 //USE LONDON RENTS FROM http://www.voa.gov.uk/
 
 var ractive = new Ractive({
     el:'container',
     template:'#myTemplate',
-    data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayYearly:0,jobTitle:'Job Title Holder',
+    data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayYearly:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
         percentSkillsShortages:20,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:6,
         yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecrease:'no data'}
 });
 
+
+//this is not in keeping with the logic of the
+//application change
+
+function listenDropdownGraduationChange(){
+    $(".graduation-menu li a").click(function(){
+        $(".graduation-year").text($(this).text());
+    });
+};
 
 $(function() {
     var availableTags = [
@@ -84,7 +94,8 @@ function search(soc){
     getExtendedJobInfomation(soc);
     getSkillsShortages(soc,1);
     getUnemployment(soc);
-    getWorkFuture(soc);
+    getWorkFuture(soc);  //rename
+    getEductionWorkFuture(soc);
     getEstimatedPay(soc);
 
     scrollToStart();
@@ -102,7 +113,8 @@ function getCurrentYear(){
 }
 
 function getGraduationYear(){
-    return parseInt($("#graduation-input").val());
+    console.log($(".graduation-year").text());
+    return parseInt($(".graduation-year").text());
 }
 
 function searchForJob(searchInput){
@@ -157,6 +169,8 @@ function getExtendedJobInfomation(soc){
 
             ractive.set('jobTitle', json.title) ;
             ractive.set('qualificationsRequired', json.qualifications) ;
+            ractive.set('jobDescription', json.description) ;
+            ractive.set('jobTasks', json.tasks) ;
 
 //                       alert('I have JSON');
         },
@@ -272,15 +286,39 @@ function getWorkFuture(soc){
         contentType: "application/json",
         dataType: 'jsonp',
         success: function(json) {
-//            console.log('Work Future : ' + JSON.stringify(json));
-            drawChart(createDataForChart(json));
+            drawChart(createCareerFutureDataForChart(json)); //rename
             calcJobPercentageChange(json, getCurrentYear(), getGraduationYear());
-
-//           ractive.set('workFutureJobs', json.predictedEmployment[3].employment)
         },
         error: function(e) {
             console.log(e.message);
             alert('I have no JSON');
+        }
+    });
+}
+
+function getEductionWorkFuture(soc){
+    console.log('get education work futures');
+
+    var futureEducationDataForEmployed = [];
+    var formattedDatasetForEmployedChart = [];
+
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/qualification?soc='+soc+'&minYear=2013&maxYear=2020',
+        async: false,
+        contentType: "application/json",
+        dataType: 'jsonp',
+        success: function(json) {
+
+            futureEducationDataForEmployed = getFutureEducationDataForEmployed(json,2017);
+            formattedDatasetForEmployedChart = createFormattedDataForEducationChart(futureEducationDataForEmployed);
+
+            drawEducationFutureChart(formattedDatasetForEmployedChart);
+            drawEducationFutureKey();
+        },
+        error: function(e) {
+            console.log(e.message);
+            alert('I have no JSON Education Work Futures');
         }
     });
 }
@@ -343,7 +381,183 @@ function scrollToStart(){
 //scrollToStart();
 //drawChart();
 
-function createDataForChart(json){
+
+/**
+ * Associated Levels with Codes
+ *
+ * Code 1 - NQF 8 - Doctorate
+ * Code 2 - NQF 7 - Masters Degree
+ * Code 3 - NQF 6 - First Degree
+ * Code 4 - NQF 5 - Foundation Degree
+ * Code 5 - NQF 4 - HNC or Equivalent
+ * Code 6 - NQF 3 - A-Level or Equivalent
+ * Code 7 - NQF 2 -GCSE grade A-C or Equivalent
+ * Code 8 - NQF 1 - GCSE grade D-E or Equivalent
+ * Code 9 - No Qualification - Entry Level Qualification
+ * Code -9 - Missing
+ * Code -8 - Missing
+ *
+ * @param json
+ * @param year
+ * @returns {Array}
+ */
+function getFutureEducationDataForEmployed(json, year){ //rename
+
+    console.log(JSON.stringify(json.predictedEmployment));
+
+    var predictedEmployment = json.predictedEmployment;
+    //var predictedEmployeeEducationsChartFormattedData = [];
+    var predictedEmployeeEducations = [];
+    var predictedEmployeeEducation;
+    var totalEmployed = 0;//see if you can get this from elsewhere
+
+    for(var i=0;i< predictedEmployment.length;i++){
+
+        if(predictedEmployment[i].year == 2017){
+
+            for(var breakdownIndex=0; breakdownIndex < predictedEmployment[i].breakdown.length; breakdownIndex++){
+
+                var predictedEducationJSON = predictedEmployment[i].breakdown[breakdownIndex];
+
+                predictedEmployeeEducation = new Object();
+                predictedEmployeeEducation.code = predictedEducationJSON.code;
+                predictedEmployeeEducation.name = predictedEducationJSON.name;
+                predictedEmployeeEducation.employment = predictedEducationJSON.employment;
+                predictedEmployeeEducation.educationLevel = getEducationLevelForCode(predictedEducationJSON.code);
+                predictedEmployeeEducation.color = getColorForCode(predictedEducationJSON.code);
+
+                console.log('predictedEducationOfEmployed code' + predictedEmployeeEducation.code);
+                console.log('predictedEducationOfEmployed name' + predictedEmployeeEducation.name);
+                console.log('predictedEducationOfEmployed employment' + predictedEmployeeEducation.employment);
+                console.log('predictedEducationOfEmployed educationLevel' + predictedEmployeeEducation.educationLevel);
+
+                predictedEmployeeEducations.push(predictedEmployeeEducation);
+                totalEmployed += parseInt(predictedEducationJSON.employment);
+            }
+
+            break;
+        }
+    }
+
+    /* Sort array by code */
+//    predictedEmployeeEducations.sort(function(a, b){return a.code - b.code});
+
+//    for(var j=0; j < predictedEmployeeEducations.length;j++){
+//        predictedEmployeeEducationsChartFormattedData.push({value:predictedEmployeeEducations[j].employment,
+//                                                                           color:predictedEmployeeEducations[j].color});
+//    }
+
+    /* Return a Sorted Array of Predicted Employment Education Data */
+    return predictedEmployeeEducations.sort(function(a, b){return a.code - b.code});
+};
+
+function createFormattedDataForEducationChart(futureEducationData){
+
+    var formattedEducationChartData = [];
+    for(var j=0; j < futureEducationData.length;j++){
+        formattedEducationChartData.push({value:futureEducationData[j].employment, color:futureEducationData[j].color});
+    }
+    return formattedEducationChartData;
+}
+
+function drawEducationFutureKey(){
+
+    //so we use jquery to setup a key
+
+}
+
+/**
+ * Gets the education level ie. Doctorate for a code from working futures.
+ * @param code
+ */
+function getEducationLevelForCode(code){
+    switch(code){
+        case 1:
+            return "Doctorate"
+            break;
+        case 2:
+            return "Masters Degree"
+            break;
+        case 3:
+            return "First Degree"
+            break;
+        case 4:
+            return "Foundation Degree"
+            break;
+        case 5:
+            return "HNC or Equivalent"
+            break;
+        case 6:
+            return "A-Level or Equivalent"
+            break;
+        case 7:
+            return "GCSE grade A-C or Equivalent"
+            break;
+        case 8:
+            return "GCSE grade D-E or Equivalent"
+            break;
+        case 9:
+            return "No Qualification / Entry Level Qualification"
+            break;
+        case -9:
+            return "Missing"
+            break;
+        case -8:
+            return "Missing"
+            break;
+        default:
+            return "Education Level Unknown";
+    }
+}
+
+/**
+ * Find a neater way of doing this and linking it to the CSS
+ * @param code
+ * @returns {string}
+ */
+function getColorForCode(code){
+    switch(code){
+        case 1:
+            return "#6AF5FD"
+            break;
+        case 2:
+            return "#88BBBE"
+            break;
+        case 3:
+            return "#4AABB1"
+            break;
+        case 4:
+            return "#B6F9FD"
+            break;
+        case 5:
+            return "#357A7E"
+            break;
+        case 6:
+            return "#ffcc00"
+            break;
+        case 7:
+            return "#990000"
+            break;
+        case 8:
+            return "#643516"
+            break;
+        case 9:
+            return "#B1734A"
+            break;
+        case -9:
+            return "#E45A49"
+            break;
+        case -8:
+            return "#E45A49"
+            break;
+        default:
+            return "#E45A49";
+    }
+}
+
+
+function createCareerFutureDataForChart(json){
+
     var year=[];
     var predictedNumberEmployed=[];
 
@@ -369,6 +583,25 @@ function createDataForChart(json){
     return data;
 }
 
+
+function drawEducationFutureChart(data){
+
+    this.eductionFutureData = data;
+
+    $('#education-chart').remove();
+    $('.education-chart-container').append('<canvas id="education-chart"></canvas>');
+
+    $('#education-chart').attr('width', jQuery(".education-chart-container").width());
+    $('#education-chart').attr('height', (jQuery(".education-chart-container").height() * 1.8));
+
+    var ctx = $('#education-chart').get(0).getContext("2d");
+
+//    var options = {
+//        bezierCurve : false
+//    }
+
+    new Chart(ctx).Pie(data);             //watch out here for memory issues
+}
 
 
 function drawChart(data){
@@ -405,4 +638,22 @@ function resizeChart(){
     new Chart(ctx).Bar(this.data,options);
 }
 
+
+function resizeEducationChart(){
+
+    $('#education-chart').remove();
+    $('.education-chart-container').append('<canvas id="education-chart"></canvas>');
+    var ctx = $('#education-chart').get(0).getContext("2d");
+
+    $('#education-chart').attr('width', jQuery(".education-chart-container").width());
+    $('#education-chart').attr('height', (jQuery(".education-chart-container").height()*1.8));
+    new Chart(ctx).Pie(this.eductionFutureData);
+}
+
+
+
+
 $(window).resize(resizeChart);
+$(window).resize(resizeEducationChart);
+
+listenDropdownGraduationChange();
