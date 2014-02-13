@@ -94,14 +94,20 @@ function search(soc){
     getExtendedJobInfomation(soc);
     getSkillsShortages(soc,1);
     getUnemployment(soc);
-    getWorkFuture(soc);  //rename
+
+    getCareerWorkFuture(soc);
     getEductionWorkFuture(soc);
+
     getEstimatedPay(soc);
 
     scrollToStart();
 
     setYearsAtUniversity(getGraduationYear(), getCurrentYear());
     ractive.set("graduationYear", getGraduationYear());
+}
+
+function accessWorkingFutures(){
+
 }
 
 function setYearsAtUniversity(startYear, finishYear){
@@ -277,7 +283,7 @@ function setMoneyFutureData(json){
     ractive.set('estimatedPayYearly', estimatedWeeklyPay * WEEKS_IN_YEAR);
 }
 
-function getWorkFuture(soc){
+function getCareerWorkFuture(soc){
     console.log('get work futures');
     $.ajax({
         type: 'GET',
@@ -310,11 +316,11 @@ function getEductionWorkFuture(soc){
         dataType: 'jsonp',
         success: function(json) {
 
-            futureEducationDataForEmployed = getFutureEducationDataForEmployed(json,2017);
+            futureEducationDataForEmployed = getFutureEducationDataForEmployed(json,getGraduationYear());
             formattedDatasetForEmployedChart = createFormattedDataForEducationChart(futureEducationDataForEmployed);
 
             drawEducationFutureChart(formattedDatasetForEmployedChart);
-            drawEducationFutureKey();
+            drawEducationFutureKey(futureEducationDataForEmployed, getEmployedGraduationYear());
         },
         error: function(e) {
             console.log(e.message);
@@ -353,6 +359,10 @@ function calcJobPercentageChange(json, currentYear, graduationYear){
 
 function calcPercentageChange(employedCurrently,employedGraduationYear){
     return ((employedGraduationYear-employedCurrently)/employedCurrently)*100;
+}
+
+function calcEmployedEducationPercentage(employed,totalEmployed){
+    return (employed/totalEmployed)*100;
 }
 
 function calcJobIncreaseOrDecrease(employedCurrently,employedGraduationYear){
@@ -403,10 +413,7 @@ function scrollToStart(){
  */
 function getFutureEducationDataForEmployed(json, year){ //rename
 
-    console.log(JSON.stringify(json.predictedEmployment));
-
     var predictedEmployment = json.predictedEmployment;
-    //var predictedEmployeeEducationsChartFormattedData = [];
     var predictedEmployeeEducations = [];
     var predictedEmployeeEducation;
     var totalEmployed = 0;//see if you can get this from elsewhere
@@ -426,11 +433,6 @@ function getFutureEducationDataForEmployed(json, year){ //rename
                 predictedEmployeeEducation.educationLevel = getEducationLevelForCode(predictedEducationJSON.code);
                 predictedEmployeeEducation.color = getColorForCode(predictedEducationJSON.code);
 
-                console.log('predictedEducationOfEmployed code' + predictedEmployeeEducation.code);
-                console.log('predictedEducationOfEmployed name' + predictedEmployeeEducation.name);
-                console.log('predictedEducationOfEmployed employment' + predictedEmployeeEducation.employment);
-                console.log('predictedEducationOfEmployed educationLevel' + predictedEmployeeEducation.educationLevel);
-
                 predictedEmployeeEducations.push(predictedEmployeeEducation);
                 totalEmployed += parseInt(predictedEducationJSON.employment);
             }
@@ -439,17 +441,23 @@ function getFutureEducationDataForEmployed(json, year){ //rename
         }
     }
 
-    /* Sort array by code */
-//    predictedEmployeeEducations.sort(function(a, b){return a.code - b.code});
-
-//    for(var j=0; j < predictedEmployeeEducations.length;j++){
-//        predictedEmployeeEducationsChartFormattedData.push({value:predictedEmployeeEducations[j].employment,
-//                                                                           color:predictedEmployeeEducations[j].color});
-//    }
-
+    console.log('totalEmployed' + totalEmployed);
+    setEmployedGraduationYear(totalEmployed);  //THIS SHOULD BE RETURNED VIA THE METHOD AND NOT SET ANOTHER ONE
+    //as need to abstract it out
     /* Return a Sorted Array of Predicted Employment Education Data */
     return predictedEmployeeEducations.sort(function(a, b){return a.code - b.code});
 };
+
+function setEmployedGraduationYear(employed){
+    this.employedGraduationYearForEducation = employed;
+}
+
+
+function getEmployedGraduationYear(){
+    return this.employedGraduationYearForEducation;
+}
+
+
 
 function createFormattedDataForEducationChart(futureEducationData){
 
@@ -460,10 +468,20 @@ function createFormattedDataForEducationChart(futureEducationData){
     return formattedEducationChartData;
 }
 
-function drawEducationFutureKey(){
+function drawEducationFutureKey(futureEducationData, employedGraduationYear){
 
-    //so we use jquery to setup a key
+    var percentageEmployedAtEducationLevel;
 
+    $('.job-item-education-chart-key ul').remove();
+
+    $('.job-item-education-chart-key').append('<ul>');
+
+    for(var j=0; j < futureEducationData.length;j++){
+        percentageEmployedAtEducationLevel = parseInt(calcEmployedEducationPercentage(futureEducationData[j].employment, employedGraduationYear));
+        $('.job-item-education-chart-key ul').append('<li style="color:'+futureEducationData[j].color+'">'+futureEducationData[j].educationLevel+ ' - '+percentageEmployedAtEducationLevel+'%</li>');
+    }
+
+    $('.job-item-education-chart-key').append('</ul>');
 }
 
 /**
@@ -497,7 +515,7 @@ function getEducationLevelForCode(code){
             return "GCSE grade D-E or Equivalent"
             break;
         case 9:
-            return "No Qualification / Entry Level Qualification"
+            return "No Qualification"
             break;
         case -9:
             return "Missing"
@@ -596,11 +614,11 @@ function drawEducationFutureChart(data){
 
     var ctx = $('#education-chart').get(0).getContext("2d");
 
-//    var options = {
-//        bezierCurve : false
-//    }
+    var options = {
+        animateRotate : true,
+    }
 
-    new Chart(ctx).Pie(data);             //watch out here for memory issues
+    new Chart(ctx).Pie(data,options);             //watch out here for memory issues
 }
 
 

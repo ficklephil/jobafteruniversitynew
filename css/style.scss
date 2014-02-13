@@ -193,6 +193,21 @@ h4{
     .job-item-related-jobs{
       border:1px solid red;
     }
+
+  .job-item-education-chart-key{
+    //border:1px solid red;
+
+    @include roboto-light();
+
+    ul{
+      list-style-type: none;
+      font-size: 1.2em;
+
+      li{
+        padding: 3px;
+      }
+    }
+  }
 }
 
 .job-item-small{

@@ -139,6 +139,14 @@ h4 {
         border-left: 6px solid white; } }
   .job-item .job-item-related-jobs {
     border: 1px solid red; }
+  .job-item .job-item-education-chart-key {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100; }
+    .job-item .job-item-education-chart-key ul {
+      list-style-type: none;
+      font-size: 1.2em; }
+      .job-item .job-item-education-chart-key ul li {
+        padding: 3px; }
 
 .job-item-small {
   background-color: #efefef;
