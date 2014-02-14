@@ -203,7 +203,8 @@
                     <div class="col-md-6 job-item-content-education">The educational background of people who do this role, when you
                     come out of university in 2017. From the chart it looks like 55% have degrees, 25% have A-level/HNC or eqaulilent,
                     15% have completed A-levels and then go onto the role.
-                </div>
+                    </div>
+
                     <div class="col-md-3 education-chart-container">
                         <canvas id="education-chart"></canvas>
                     </div>
@@ -228,12 +229,14 @@
 		<div class="row job-item">
 			<div class="col-md-12">
                 <div class="row">
-                    <h2>Career Future</h2>
+                    <h2>Job Future<span class='title-sub-text'>in London if you graduate in 2020</span></h2>
                 </div>
 				<div class="row">
-					<div class="col-md-6 job-item-content-career">Over the next {{yearsAtUniversity}} years while your at university the amount
+					<div class="col-md-6 job-item-content-container">
+                        <div class="job-item-content-container-career">Over the next {{yearsAtUniversity}} years while your at university the amount
                         of {{jobTitle}} roles would of {{jobIncreaseOrDecrease}} by {{jobPercentageChange}}% in London,
                         from {{employedCurrently}} roles this year to {{employedGraduationYear}} in {{graduationYear}}.</div>
+                    </div>
 					<div class="col-md-6 career-future-chart-container">
                         <canvas id="career-future-chart"></canvas>
 					</div>
@@ -247,7 +250,7 @@
 				<div class="row">
 					<div class="col-md-2 job-item-small-col" >
                         <div class='job-item-small-percentage-container'>
-                            <div class='job-item-small-percentage'>{{percentSkillsShortages}}%</div>
+                            <div class='job-item-small-percentage-skills-shortage'>{{percentSkillsShortages}}%</div>
                         </div>
                     </div>
 					<div class="col-md-10 job-item-small-description-container"><h4>Skills Shortage</h4><p>{{jobTitle}} has a Skills Shortage of {{percentSkillsShortages}} which means that for every 100 jobs
@@ -262,20 +265,39 @@
                 <div class="row">
                     <div class="col-md-2 job-item-small-col" >
                         <div class='job-item-small-percentage-container'>
-                            <div class='job-item-small-percentage'>{{unemploymentRate}}%</div>
+                            <div class='job-item-small-percentage-unemployment'>{{unemploymentRate}}%</div>
                         </div>
                     </div>
-                    <div class="col-md-10 job-item-small-description-container"><h4>Unemployment</h4><p>{{jobTitle}} has an employment rate of {{unemploymentRate}} UK wide which means that for every 100 jobs
+                    <div class="col-md-10 job-item-small-description-container-unemployment"><h4>Unemployment</h4><p>{{jobTitle}} has an employment rate of {{unemploymentRate}} UK wide which means that for every 100 jobs
                         there are 6 people unemployed within the UK for this role.</p></div>
                 </div>
             </div>
         </div>
-		
+
+        <!-- Money -->
+        <div class="row job-item">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Cost of Living<span class='title-sub-text'>in London in 2019</span></h2>
+                </div>
+                <div class="row job-item-row-break">
+                    <div class="col-md-4 job-item-content-cost-of-living-left"><span class='money'>£400</span> on Electricity, Gas, Water, and Council Tax in London</div>
+                    <div class="col-md-4 job-item-content-cost-of-living"><span class='money'>£200</span> on Travelling to and from work</div>
+                    <div class="col-md-4 job-item-content-cost-of-living"><span class='money'>£600</span> on Rental accomodation for a 1 Bed Flat in London</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 job-item-content-cost-of-living-left"><span class='money'>£200</span> on Food</div>
+                    <div class="col-md-4 job-item-content-cost-of-living"><span class='money'>£100</span> on Regular Spend</div>
+                    <div class="col-md-4 job-item-content-cost-of-living"><span class='money'>£100</span> Price for a House in London</div>
+                </div>
+            </div>
+        </div>
+
 		<!-- Money -->
 		<div class="row job-item">
 			<div class="col-md-12">
                 <div class="row">
-                    <h2>Money Future</h2>
+                    <h2>Cost of Living</h2>
                 </div>
 				<div class="row">
 					<div class="col-md-6 job-item-content-salary-left">The current wage for {{jobTitle}} in London is £{{estimatedPayYearly}}. That's £{{estimatedPayWeekly}} per month, if inflation

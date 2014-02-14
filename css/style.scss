@@ -1,6 +1,9 @@
 $primary-color: #CE0043;
 $secondary-color: #4177C1;
 $education-color: #4AABB1;
+$cost-of-living-color:#AAC789;
+$unemployment-yellow-color:#f0ad4e;
+
 $secondary-color-off: #1F45FC;
 $super-light-color:#ffffff;
 $lightest-color:#efefef;
@@ -122,27 +125,82 @@ h4{
     color: $medium-color;
   }
 
+  @mixin job-item-content-small(){
+    @include job-item-content();
+    background-color:$cost-of-living-color;
+    min-height: 210px;
+    color:$medium-dark-color;
+
+    @media (max-width: 991px){
+      border-bottom:8px solid white;
+    }
+
+    @media (min-width: 992px){
+      border-left:6px solid white;
+    }
+
+    .money{
+      background-color: #efefef;
+      font-size:1.5em;
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-top: 5px;
+    }
+  }
+
     h2{
        color: $medium-color;
        padding-top: 40px;
        padding-bottom: 40px;
        padding-left: 40px;
        //border:1px solid red;
-       max-width: 390px;
+       //max-width: 390px;
        background-color:$darkest-color;
        margin-top: 0px;
        margin-bottom: 0px;
+    }
 
-     }
+    .title-sub-text{
+      @include roboto-medium();
+      font-size:0.6em;
+      margin-left: 15px;
+    }
 
     .job-item-content-full-width{
       @include job-item-content();
     }
 
-    .job-item-content-career{
+    .job-item-content-container{
       @include job-item-content();
       background-color:$primary-color;
+      min-height: 365px;
+      display: table;
+      padding-top:15px;
+
+      .job-item-content-container-career{
+        display: table-cell;
+        vertical-align: middle;
+        //border:1px solid red;
+      }
     }
+
+    .career-future-chart-container{
+      margin-top: 45px;
+    }
+
+    //.career-future-chart-container{
+    //  border:1px solid red;
+    //  display:table;
+    //  //height:400px;
+    //  height:265px;
+    //
+    //  #career-future-chart{
+    //    display: table-cell;
+    //    vertical-align: middle;
+    //    border:1px solid blue;
+    //    //height:300px;
+    //  }
+    //}
 
     .job-item-content-education{
       @include job-item-content();
@@ -190,6 +248,18 @@ h4{
       }
     }
 
+    .job-item-content-cost-of-living-left{
+      @include job-item-content-small();
+
+      @media (min-width: 992px){
+        border-left:0px;
+      }
+    }
+
+    .job-item-content-cost-of-living{
+      @include job-item-content-small();
+    }
+
     .job-item-related-jobs{
       border:1px solid red;
     }
@@ -208,11 +278,19 @@ h4{
       }
     }
   }
+
+  .job-item-row-break{
+
+    @media (min-width: 992px){
+      margin-bottom:6px;
+    }
+
+  }
 }
 
 .job-item-small{
 
-  background-color:$lightest-color;
+  background-color:$medium-dark-color;
   margin-bottom: 25px;
   padding: 25px;
 
@@ -227,23 +305,49 @@ h4{
       display:table;
       background-color:$super-light-color;
 
-      .job-item-small-percentage{
-
+      @mixin job-item-small-percentage(){
         text-align:center;
         margin:auto;
         display: table-cell;
         vertical-align: middle;
         @include roboto-medium;
         font-size: 2em;
+        color:$primary-color;
+      }
+
+      .job-item-small-percentage-skills-shortage{
+        @include job-item-small-percentage();
+      }
+
+      .job-item-small-percentage-unemployment{
+        @include job-item-small-percentage();
+        color:$unemployment-yellow-color;
       }
     }
   }
 
-  .job-item-small-description-container{
+  @mixin job-item-small-description() {
 
     p{
       font-size: 1.6em;
       @include roboto-light();
+      color:$lightest-color;
+    }
+
+    h4{
+      color:$primary-color;
+    }
+  }
+
+  .job-item-small-description-container{
+    @include job-item-small-description();
+  }
+
+  .job-item-small-description-container-unemployment{
+    @include job-item-small-description();
+
+    h4{
+      color:$unemployment-yellow-color;
     }
   }
 }

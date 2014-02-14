@@ -66,10 +66,14 @@ h4 {
     padding-top: 40px;
     padding-bottom: 40px;
     padding-left: 40px;
-    max-width: 390px;
     background-color: #1b1b1b;
     margin-top: 0px;
     margin-bottom: 0px; }
+  .job-item .title-sub-text {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 0.6em;
+    margin-left: 15px; }
   .job-item .job-item-content-full-width {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
@@ -77,14 +81,22 @@ h4 {
     padding: 50px;
     background-color: #333333;
     color: #cccccc; }
-  .job-item .job-item-content-career {
+  .job-item .job-item-content-container {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
     background-color: #333333;
     color: #cccccc;
-    background-color: #ce0043; }
+    background-color: #ce0043;
+    min-height: 365px;
+    display: table;
+    padding-top: 15px; }
+    .job-item .job-item-content-container .job-item-content-container-career {
+      display: table-cell;
+      vertical-align: middle; }
+  .job-item .career-future-chart-container {
+    margin-top: 45px; }
   .job-item .job-item-content-education {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
@@ -137,6 +149,53 @@ h4 {
     @media (min-width: 992px) {
       .job-item .job-item-content-rent {
         border-left: 6px solid white; } }
+  .job-item .job-item-content-cost-of-living-left {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #aac789;
+    min-height: 210px;
+    color: #333333; }
+    @media (max-width: 991px) {
+      .job-item .job-item-content-cost-of-living-left {
+        border-bottom: 8px solid white; } }
+    @media (min-width: 992px) {
+      .job-item .job-item-content-cost-of-living-left {
+        border-left: 6px solid white; } }
+    .job-item .job-item-content-cost-of-living-left .money {
+      background-color: #efefef;
+      font-size: 1.5em;
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-top: 5px; }
+    @media (min-width: 992px) {
+      .job-item .job-item-content-cost-of-living-left {
+        border-left: 0px; } }
+  .job-item .job-item-content-cost-of-living {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #aac789;
+    min-height: 210px;
+    color: #333333; }
+    @media (max-width: 991px) {
+      .job-item .job-item-content-cost-of-living {
+        border-bottom: 8px solid white; } }
+    @media (min-width: 992px) {
+      .job-item .job-item-content-cost-of-living {
+        border-left: 6px solid white; } }
+    .job-item .job-item-content-cost-of-living .money {
+      background-color: #efefef;
+      font-size: 1.5em;
+      padding-left: 5px;
+      padding-right: 5px;
+      padding-top: 5px; }
   .job-item .job-item-related-jobs {
     border: 1px solid red; }
   .job-item .job-item-education-chart-key {
@@ -147,9 +206,12 @@ h4 {
       font-size: 1.2em; }
       .job-item .job-item-education-chart-key ul li {
         padding: 3px; }
+  @media (min-width: 992px) {
+    .job-item .job-item-row-break {
+      margin-bottom: 6px; } }
 
 .job-item-small {
-  background-color: #efefef;
+  background-color: #333333;
   margin-bottom: 25px;
   padding: 25px; }
   .job-item-small .job-item-small-col .job-item-small-percentage-container {
@@ -159,15 +221,38 @@ h4 {
     height: 140px;
     display: table;
     background-color: white; }
-    .job-item-small .job-item-small-col .job-item-small-percentage-container .job-item-small-percentage {
+    .job-item-small .job-item-small-col .job-item-small-percentage-container .job-item-small-percentage-skills-shortage {
       text-align: center;
       margin: auto;
       display: table-cell;
       vertical-align: middle;
       font-family: 'Roboto', sans-serif;
       font-weight: 300;
-      font-size: 2em; }
+      font-size: 2em;
+      color: #ce0043; }
+    .job-item-small .job-item-small-col .job-item-small-percentage-container .job-item-small-percentage-unemployment {
+      text-align: center;
+      margin: auto;
+      display: table-cell;
+      vertical-align: middle;
+      font-family: 'Roboto', sans-serif;
+      font-weight: 300;
+      font-size: 2em;
+      color: #ce0043;
+      color: #f0ad4e; }
   .job-item-small .job-item-small-description-container p {
     font-size: 1.6em;
     font-family: 'Roboto', sans-serif;
-    font-weight: 100; }
+    font-weight: 100;
+    color: #efefef; }
+  .job-item-small .job-item-small-description-container h4 {
+    color: #ce0043; }
+  .job-item-small .job-item-small-description-container-unemployment p {
+    font-size: 1.6em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    color: #efefef; }
+  .job-item-small .job-item-small-description-container-unemployment h4 {
+    color: #ce0043; }
+  .job-item-small .job-item-small-description-container-unemployment h4 {
+    color: #f0ad4e; }
