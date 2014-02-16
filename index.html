@@ -224,6 +224,24 @@
                 </div>
             </div>
         </div>
+
+        <!-- Educational Background -->
+        <div class="row job-item">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Qualities<span class='title-sub-text'>of employees in this Job.</span></h2>
+                </div>
+                <div class="row">
+                    <!--<div class="col-md-6 job-item-content-education">The educational background of people who do this role, when you-->
+                        <!--come out of university in 2017. From the chart it looks like 55% have degrees, 25% have A-level/HNC or eqaulilent,-->
+                        <!--15% have completed A-levels and then go onto the role.-->
+                    <!--</div>-->
+                    <div class="col-md-12 qualities-chart-container">
+                        <canvas id="qualities-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
 		
 		<!-- Career Future -->
 		<div class="row job-item">
@@ -233,8 +251,8 @@
                 </div>
 				<div class="row">
 					<div class="col-md-6 job-item-content-container">
-                        <div class="job-item-content-container-career">Over the next {{yearsAtUniversity}} years while your at university the amount
-                        of {{jobTitle}} roles would of {{jobIncreaseOrDecrease}} by {{jobPercentageChange}}% in London,
+                        <div class="job-item-content-container-career">Over the next <span class='highlight'>{{yearsAtUniversity}} years</span> while your at university the amount
+                        of <span class='highlight'>{{jobTitle}}</span> roles would of <span class='highlight'>{{jobIncreaseOrDecrease}}</span> by <span class='highlight'>{{jobPercentageChange}}%</span> in London,
                         from {{employedCurrently}} roles this year to {{employedGraduationYear}} in {{graduationYear}}.</div>
                     </div>
 					<div class="col-md-6 career-future-chart-container">
@@ -297,7 +315,7 @@
 		<div class="row job-item">
 			<div class="col-md-12">
                 <div class="row">
-                    <h2>Cost of Living</h2>
+                    <h2>Salary</h2>
                 </div>
 				<div class="row">
 					<div class="col-md-6 job-item-content-salary-left">The current wage for {{jobTitle}} in London is £{{estimatedPayYearly}}. That's £{{estimatedPayWeekly}} per month, if inflation

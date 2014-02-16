@@ -95,6 +95,10 @@ h4 {
     .job-item .job-item-content-container .job-item-content-container-career {
       display: table-cell;
       vertical-align: middle; }
+      .job-item .job-item-content-container .job-item-content-container-career .highlight {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 300;
+        color: #efefef; }
   .job-item .career-future-chart-container {
     margin-top: 45px; }
   .job-item .job-item-content-education {

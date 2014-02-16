@@ -95,7 +95,8 @@ function search(soc){
     getSkillsShortages(soc,1);
     getUnemployment(soc);
 
-    getCareerWorkFuture(soc);
+//    getCareerWorkFuture(soc);
+    getRegionWorkFuture(soc);
     getEductionWorkFuture(soc);
 
     getEstimatedPay(soc);
@@ -104,9 +105,14 @@ function search(soc){
 
     setYearsAtUniversity(getGraduationYear(), getCurrentYear());
     ractive.set("graduationYear", getGraduationYear());
+
+    getOnet(soc);
 }
 
-function accessWorkingFutures(){
+function getOnet(soc){
+//    getSocToOnet();
+
+
 
 }
 
@@ -281,6 +287,62 @@ function setMoneyFutureData(json){
 
     ractive.set('estimatedPayWeekly', estimatedWeeklyPay);
     ractive.set('estimatedPayYearly', estimatedWeeklyPay * WEEKS_IN_YEAR);
+}
+
+function getRegionWorkFuture(soc){
+    console.log('get work futures');
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region?soc='+soc+'&minYear=2014&maxYear=2020',
+        async: false,
+        contentType: "application/json",
+        dataType: 'jsonp',
+        success: function(json) {
+            console.log('regionAna')
+
+//            getJobFutureInRegionChartFormatted(json);
+            drawChart(getJobFutureInRegionChartFormatted(json,1)); //rename
+//            calcJobPercentageChange(json, getCurrentYear(), getGraduationYear());
+        },
+        error: function(e) {
+            console.log(e.message);
+            alert('I have no JSON');
+        }
+    });
+}
+
+function getJobFutureInRegionChartFormatted(json,region){
+
+    var year=[];
+    var predictedNumberEmployed=[];
+
+    for(var index = 0; index < json.predictedEmployment.length; index++){
+        year.push(parseInt(json.predictedEmployment[index].year));
+        for(var j=0;j<json.predictedEmployment[index].breakdown.length; j++){
+
+            if(parseInt(json.predictedEmployment[index].breakdown[j].code) == 1){
+                predictedNumberEmployed.push(parseInt(json.predictedEmployment[index].breakdown[j].employment))
+                break;
+            }
+        }
+    }
+
+    var data = {
+        labels : year,
+        datasets : [
+            {
+//                fillColor : "rgba(255,204,0,0.45)",
+                fillColor : "#CE0043",
+                strokeColor : "#CE0043",
+                pointColor : "#CE0043",
+                pointStrokeColor : "#CE0043",
+                data : predictedNumberEmployed
+            },
+        ]
+    }
+
+    return data;
+
 }
 
 function getCareerWorkFuture(soc){
@@ -620,6 +682,26 @@ function drawEducationFutureChart(data){
 
     new Chart(ctx).Pie(data,options);             //watch out here for memory issues
 }
+
+function drawQualitiesChart(data){
+
+    this.qualitiesData = data;
+
+    $('#qualities-chart').remove();
+    $('.qualities-chart-container').append('<canvas id="qualities-chart"></canvas>');
+
+    $('#qualities-chart').attr('width', jQuery(".qualities-chart-container").width());
+    $('#qualities-chart').attr('height', (jQuery(".qualities-chart-container").height() * 1.8));
+
+    var ctx = $('#qualities-chart').get(0).getContext("2d");
+
+    var options = {
+//        animateRotate : true,
+    }
+
+    new Chart(ctx).Pie(data,options);             //watch out here for memory issues
+}
+
 
 
 function drawChart(data){
