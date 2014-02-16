@@ -9,7 +9,7 @@ var ractive = new Ractive({
     data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayYearly:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
         percentSkillsShortages:20,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:6,
-        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecrease:'no data'}
+        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0}
 });
 
 
@@ -302,7 +302,7 @@ function getRegionWorkFuture(soc){
 
 //            getJobFutureInRegionChartFormatted(json);
             drawChart(getJobFutureInRegionChartFormatted(json,1)); //rename
-//            calcJobPercentageChange(json, getCurrentYear(), getGraduationYear());
+            calcJobPercentageChangeRegion(json, getCurrentYear(), getGraduationYear(),1);
         },
         error: function(e) {
             console.log(e.message);
@@ -345,24 +345,24 @@ function getJobFutureInRegionChartFormatted(json,region){
 
 }
 
-function getCareerWorkFuture(soc){
-    console.log('get work futures');
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict?soc='+soc+'&minYear=2013&maxYear=2020',
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-            drawChart(createCareerFutureDataForChart(json)); //rename
-            calcJobPercentageChange(json, getCurrentYear(), getGraduationYear());
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON');
-        }
-    });
-}
+//function getCareerWorkFuture(soc){
+//    console.log('get work futures');
+//    $.ajax({
+//        type: 'GET',
+//        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict?soc='+soc+'&minYear=2013&maxYear=2020',
+//        async: false,
+//        contentType: "application/json",
+//        dataType: 'jsonp',
+//        success: function(json) {
+//            drawChart(createCareerFutureDataForChart(json)); //rename
+//            calcJobPercentageChange(json, getCurrentYear(), getGraduationYear());
+//        },
+//        error: function(e) {
+//            console.log(e.message);
+//            alert('I have no JSON');
+//        }
+//    });
+//}
 
 function getEductionWorkFuture(soc){
     console.log('get education work futures');
@@ -391,33 +391,70 @@ function getEductionWorkFuture(soc){
     });
 }
 
-function calcJobPercentageChange(json, currentYear, graduationYear){
-
-    console.log('json' + JSON.stringify(json));
-
+function calcJobPercentageChangeRegion(json, currentYear, graduationYear, region){
     var employedCurrently=0;
     var employedGraduationYear=0;
 
-    for(var i=0;i < json.predictedEmployment.length;i++){
-        var year = parseInt(json.predictedEmployment[i].year);
-        var numberEmployed = parseInt(json.predictedEmployment[i].employment);
+    for(var index = 0; index < json.predictedEmployment.length; index++){
 
-        if(year == currentYear){
-            employedCurrently = numberEmployed;
-            console.log('Currently Employed set as ' + employedCurrently);
-        }else if(year == graduationYear){
-            employedGraduationYear = numberEmployed;
-            console.log('In Graduation year Employed set as ' + employedGraduationYear);
+        //Find Employed from Current Year
+        if(parseInt(json.predictedEmployment[index].year) == currentYear){
+            for(var j=0;j<json.predictedEmployment[index].breakdown.length; j++){
+                if(parseInt(json.predictedEmployment[index].breakdown[j].code) == region){
+                    employedCurrently = parseInt(json.predictedEmployment[index].breakdown[j].employment);
+                    break;
+                }
+            }
+        }
+
+        //Find Employed from Graduation Year
+        if(parseInt(json.predictedEmployment[index].year) == graduationYear){
+            for(var j=0;j<json.predictedEmployment[index].breakdown.length; j++){
+                if(parseInt(json.predictedEmployment[index].breakdown[j].code) == region){
+                    employedGraduationYear = parseInt(json.predictedEmployment[index].breakdown[j].employment);
+                    break;
+                }
+            }
         }
     }
 
     setJobPercentageChange(calcPercentageChange(employedCurrently, employedGraduationYear));
     setJobIncreaseOrDecrease(calcJobIncreaseOrDecrease(employedCurrently, employedGraduationYear));
 
+    var changeInNumberOfEmployed = employedGraduationYear - employedCurrently;
+
+    ractive.set("changeInNumberOfEmployed", changeInNumberOfEmployed);
     ractive.set("employedCurrently", employedCurrently);
     ractive.set("employedGraduationYear", employedGraduationYear);
-
 }
+
+//function calcJobPercentageChange(json, currentYear, graduationYear){
+//
+//    console.log('json' + JSON.stringify(json));
+//
+//    var employedCurrently=0;
+//    var employedGraduationYear=0;
+//
+//    for(var i=0;i < json.predictedEmployment.length;i++){
+//        var year = parseInt(json.predictedEmployment[i].year);
+//        var numberEmployed = parseInt(json.predictedEmployment[i].employment);
+//
+//        if(year == currentYear){
+//            employedCurrently = numberEmployed;
+//            console.log('Currently Employed set as ' + employedCurrently);
+//        }else if(year == graduationYear){
+//            employedGraduationYear = numberEmployed;
+//            console.log('In Graduation year Employed set as ' + employedGraduationYear);
+//        }
+//    }
+//
+//    setJobPercentageChange(calcPercentageChange(employedCurrently, employedGraduationYear));
+//    setJobIncreaseOrDecrease(calcJobIncreaseOrDecrease(employedCurrently, employedGraduationYear));
+//
+//    ractive.set("employedCurrently", employedCurrently);
+//    ractive.set("employedGraduationYear", employedGraduationYear);
+//
+//}
 
 function calcPercentageChange(employedCurrently,employedGraduationYear){
     return ((employedGraduationYear-employedCurrently)/employedCurrently)*100;
@@ -431,15 +468,13 @@ function calcJobIncreaseOrDecrease(employedCurrently,employedGraduationYear){
     return (employedCurrently <= employedGraduationYear)? "increased" : "decreased";
 }
 
-function setJobIncreaseOrDecrease(increaseOrDecrease){
-    ractive.set("jobIncreaseOrDecrease", increaseOrDecrease);
+function setJobIncreaseOrDecrease(jobIncreaseOrDecreased){
+    ractive.set("jobIncreaseOrDecreased", jobIncreaseOrDecreased);
+    ractive.set("jobIncreaseOrDecrease", jobIncreaseOrDecreased.substring(0, jobIncreaseOrDecreased.length - 1));
+
 }
 
 function setJobPercentageChange(percentage){
-
-    console.log(percentage);
-    console.log(Math.round(percentage));
-
     ractive.set("jobPercentageChange", Math.round(percentage));
 }
 
