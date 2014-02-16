@@ -109,11 +109,121 @@ function search(soc){
     getOnet(soc);
 }
 
-function getOnet(soc){
-//    getSocToOnet();
+function getOnet(soc){  //remove if not used
+    getSocToOnet(soc);
+}
+
+function getSocToOnet(soc){
+
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.lmiforall.org.uk/api/v1/o-net/soc2onet/'+soc,
+        async: false,
+        contentType: "application/json",
+        dataType: 'jsonp',
+        success: function(json) {
+
+            var ONetCode = getOnetCode(json);
+            getSkillsOfEmployed(ONetCode);
+        },
+        error: function(e) {
+            console.log(e.message);
+            alert('I have no JSON');
+        }
+    });
+}
+
+function getSkillsOfEmployed(ONetCode){
+    console.log('ONet Code' + ONetCode);
+
+    var skillsDataFromOnet=[];
+
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.lmiforall.org.uk/api/v1/o-net/skills/'+encodeURI(ONetCode),
+        async: false,
+        contentType: "application/json",
+        dataType: 'jsonp',
+        success: function(json) {
+            var skillsDataFromOnet = getSkillsDataFromOnetJsonSorted(json);
+            console.log('skills' + JSON.stringify(skillsDataFromOnet));
 
 
+//            drawSkillChart(skillsDataFromOnet);
+        },
+        error: function(e) {
+            console.log(e.message);
+            alert('I have no JSON Onet');
+        }
+    });
+}
 
+function getSkillsDataFromOnetJsonSorted(json){
+
+    var skills=[];
+    for(var i=0; i < json.scales[0].skills.length; i++){
+
+        var skill = new Object();
+        skill.name = json.scales[0].skills[i].name;
+        skill.value = json.scales[0].skills[i].value;
+
+        skills.push(skill);
+    }
+
+    return skills.sort(function(a, b){return b.value - a.value});
+}
+
+function getSkillsDataFromOnetJson(json){
+
+    var skillNames=["Eating","Drinking","Sleeping","Designing","Coding"];
+    var skillValues=[];
+    var name ="hello";
+
+//    for(var i=0; i < json.scales[0].skills.length;i++){
+    for(var i=0; i < 1;i++){
+
+//        var obj = new Object();
+//        obj.name = String(json.scales[0].skills[i].name);
+
+//        var name = JSON.stringify(json.scales[0].skills[i].name); //SO IT DOES't Like the JSon Name
+
+        console.log(JSON.stringify(json.scales[0].skills[i].name));
+
+        name +=  JSON.stringify(json.scales[0].skills[i].name);
+
+        console.log('json.scales[0].skills[i].name' + JSON.stringify(json.scales[0].skills[i].name));
+        console.log('json.scales[0].skills[i].value' + json.scales[0].skills[i].value);
+
+        skillNames.push(name);
+
+//        skillNames.push(json.scales[0].skills[i].name);
+        skillValues.push(json.scales[0].skills[i].value);
+    }
+
+    console.log('skillNames' + skillNames);
+
+//    skillNames = ["Eating","Drinking","Sleeping","Designing","Coding"]
+
+    var data = {
+        labels : skillNames,
+        datasets : [
+            {
+                fillColor : "rgba(151,187,205,0.5)",
+                strokeColor : "rgba(151,187,205,1)",
+                pointColor : "rgba(151,187,205,1)",
+                pointStrokeColor : "#fff",
+                data : [3,4,3,3,4]
+            }
+        ]
+    }
+
+    return data;
+}
+
+//Assume first code is the correct one to give better UX
+function getOnetCode(json){
+    console.log("json.onetCodes[0].code" + json.onetCodes[0].code);
+    return json.onetCodes[0].code;
 }
 
 function setYearsAtUniversity(startYear, finishYear){
@@ -718,23 +828,23 @@ function drawEducationFutureChart(data){
     new Chart(ctx).Pie(data,options);             //watch out here for memory issues
 }
 
-function drawQualitiesChart(data){
+function drawSkillChart(data){
 
-    this.qualitiesData = data;
+    this.skillData = data;
 
-    $('#qualities-chart').remove();
-    $('.qualities-chart-container').append('<canvas id="qualities-chart"></canvas>');
+    $('#skill-chart').remove();
+    $('.skill-chart-container').append('<canvas id="skill-chart"></canvas>');
 
-    $('#qualities-chart').attr('width', jQuery(".qualities-chart-container").width());
-    $('#qualities-chart').attr('height', (jQuery(".qualities-chart-container").height() * 1.8));
+    $('#skill-chart').attr('width', jQuery(".skill-chart-container").width());
+    $('#skill-chart').attr('height', (jQuery(".skill-chart-container").height() * 1.8));
 
-    var ctx = $('#qualities-chart').get(0).getContext("2d");
+    var ctx = $('#skill-chart').get(0).getContext("2d");
 
     var options = {
 //        animateRotate : true,
     }
 
-    new Chart(ctx).Pie(data,options);             //watch out here for memory issues
+    new Chart(ctx).Radar(data,options);             //watch out here for memory issues
 }
 
 

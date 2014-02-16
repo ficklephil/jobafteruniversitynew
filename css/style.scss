@@ -10,6 +10,7 @@ $lightest-color:#efefef;
 $medium-color:#cccccc;
 $medium-dark-color:#333333;
 $darkest-color:#1b1b1b;
+$skills-color:#efefef;
 
 @mixin roboto-light() {
   font-family: 'Roboto', sans-serif;
@@ -214,6 +215,73 @@ h4{
     .job-item-content-education{
       @include job-item-content();
       background-color:$education-color;
+    }
+
+    .job-item-content-skills-two{
+      @include job-item-content();
+      background-color:$skills-color;
+      color:$medium-dark-color;
+
+      ul{
+        list-style-type: none;
+
+        .largest{
+          //border:1px solid red;
+          font-style:bold;
+          font-weight: 300;
+        }
+
+        .medium{
+          //border:1px solid blue;
+          font-style:italic;
+        }
+
+        .small{
+          //border:1px solid green;
+        }
+
+        li{
+          padding: 3px;
+        }
+
+
+
+      }
+    }
+
+    .job-item-content-skills{
+      @include job-item-content();
+      background-color:$skills-color;
+      color:$medium-dark-color;
+
+      ul{
+
+        list-style-type: none;
+
+        .largest{
+          font-size: 1.4em;
+        }
+
+        .large{
+          font-size: 1.1em;
+        }
+
+        .medium{
+          font-size: 0.9em;
+        }
+
+        .small{
+          font-size: 0.8em;
+        }
+
+        .smallest{
+          font-size: 0.7em;
+        }
+
+        li{
+          padding: 2px;
+        }
+      }
     }
 
     .job-item-content-salary{

@@ -109,6 +109,47 @@ h4 {
     background-color: #333333;
     color: #cccccc;
     background-color: #4aabb1; }
+  .job-item .job-item-content-skills-two {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #efefef;
+    color: #333333; }
+    .job-item .job-item-content-skills-two ul {
+      list-style-type: none; }
+      .job-item .job-item-content-skills-two ul .largest {
+        font-style: bold;
+        font-weight: 300; }
+      .job-item .job-item-content-skills-two ul .medium {
+        font-style: italic; }
+      .job-item .job-item-content-skills-two ul li {
+        padding: 3px; }
+  .job-item .job-item-content-skills {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #efefef;
+    color: #333333; }
+    .job-item .job-item-content-skills ul {
+      list-style-type: none; }
+      .job-item .job-item-content-skills ul .largest {
+        font-size: 1.4em; }
+      .job-item .job-item-content-skills ul .large {
+        font-size: 1.1em; }
+      .job-item .job-item-content-skills ul .medium {
+        font-size: 0.9em; }
+      .job-item .job-item-content-skills ul .small {
+        font-size: 0.8em; }
+      .job-item .job-item-content-skills ul .smallest {
+        font-size: 0.7em; }
+      .job-item .job-item-content-skills ul li {
+        padding: 2px; }
   .job-item .job-item-content-salary {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
