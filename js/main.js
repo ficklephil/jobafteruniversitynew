@@ -146,10 +146,11 @@ function getSkillsOfEmployed(ONetCode){
         dataType: 'jsonp',
         success: function(json) {
             var skillsDataFromOnet = getSkillsDataFromOnetJsonSorted(json);
+            drawSkills(skillsDataFromOnet);
+
+
+
             console.log('skills' + JSON.stringify(skillsDataFromOnet));
-
-
-//            drawSkillChart(skillsDataFromOnet);
         },
         error: function(e) {
             console.log(e.message);
@@ -158,9 +159,32 @@ function getSkillsOfEmployed(ONetCode){
     });
 }
 
+/*  If you get more time think about putting these in columns */
+function drawSkills(skillsData){
+
+    var fontSize=1.4;
+    var FONT_REDUCTION=0.016;
+
+    $('.skillsdata ul').remove();
+    $('.skillsdata').append('<ul class="list-inline">');
+
+    for(var j=0; j < skillsData.length;j++){
+        fontSize -= FONT_REDUCTION;
+
+        if(j == skillsData.length - 1){//Clean
+            $('.skillsdata ul').append('<li style="font-size:'+fontSize+'em">'+skillsData[j].name+'.</li>');
+        }else{
+            $('.skillsdata ul').append('<li style="font-size:'+fontSize+'em">'+skillsData[j].name+',</li>');
+        }
+    }
+
+    $('.skillsdata').append('</ul>');
+}
+
 function getSkillsDataFromOnetJsonSorted(json){
 
     var skills=[];
+
     for(var i=0; i < json.scales[0].skills.length; i++){
 
         var skill = new Object();

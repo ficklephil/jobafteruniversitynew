@@ -253,34 +253,35 @@ h4{
       @include job-item-content();
       background-color:$skills-color;
       color:$medium-dark-color;
+      //border: 1px solid red;
 
       ul{
 
         list-style-type: none;
 
-        .largest{
-          font-size: 1.4em;
-        }
-
-        .large{
-          font-size: 1.1em;
-        }
-
-        .medium{
-          font-size: 0.9em;
-        }
-
-        .small{
-          font-size: 0.8em;
-        }
-
-        .smallest{
-          font-size: 0.7em;
-        }
-
         li{
           padding: 2px;
+          margin-right:15px;
         }
+      }
+    }
+
+    .first{
+      @media (max-width: 991px){
+        padding-bottom:1px;
+      }
+    }
+
+    .middle{
+      @media (max-width: 991px){
+        padding-top:1px;
+        padding-bottom:1px;
+      }
+    }
+
+    .last{
+      @media (max-width: 991px){
+        padding-top:1px;
       }
     }
 
