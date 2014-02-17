@@ -6,7 +6,7 @@ var jobMatches = [];
 var ractive = new Ractive({
     el:'container',
     template:'#myTemplate',
-    data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayYearly:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
+    data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
         percentSkillsShortages:20,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:6,
         yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0}
@@ -415,12 +415,66 @@ function getEstimatedPay(soc){
 
 const WEEKS_IN_YEAR=52;
 
+function avgRetailPriceIndex(){
+
+    var meanInflation=0;
+    var totalInflation=0;
+
+    var retailPriceIndex = [
+        {
+            "year":2012,
+            "inflation":3.20
+        },
+        {
+            "year":2011,
+            "inflation":5.20
+        },
+        {
+            "year":2010,
+            "inflation":4.60
+        },
+        {
+            "year":2009,
+            "inflation":-0.5
+        },
+        {
+            "year":2008,
+            "inflation":4.0
+        }
+
+    ]
+
+    for(var i=0; i < retailPriceIndex.length;i++){
+        totalInflation += parseFloat(retailPriceIndex[i].inflation);
+    }
+
+    meanInflation = totalInflation/retailPriceIndex.length;
+
+    console.log('averageRetailPriceIndex ' + totalInflation/retailPriceIndex.length );
+
+    return meanInflation;
+}
+
+function numberWithCommaAtThousand(number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
 function setMoneyFutureData(json){
 
-    var estimatedWeeklyPay = parseInt(json.series[0].estpay);
+    var predictedInflation = avgRetailPriceIndex();
+    var yearsAtUniversity = 3;
 
-    ractive.set('estimatedPayWeekly', estimatedWeeklyPay);
-    ractive.set('estimatedPayYearly', estimatedWeeklyPay * WEEKS_IN_YEAR);
+    var estimatedAverageSalaryWeeklyPay = parseInt(json.series[0].estpay);
+    var estimatedAverageSalaryYearlyPay = estimatedAverageSalaryWeeklyPay * WEEKS_IN_YEAR;
+    var easYearlyPayGraduationYear = estimatedAverageSalaryYearlyPay;
+
+    for(var i=0; i < yearsAtUniversity;i++){
+        easYearlyPayGraduationYear += (easYearlyPayGraduationYear / 100) * predictedInflation;
+    }
+
+    ractive.set('easYearlyPayGraduationYear', numberWithCommaAtThousand(parseInt(easYearlyPayGraduationYear)));
+    ractive.set('estimatedPayWeekly', estimatedAverageSalaryWeeklyPay);
+    ractive.set('estimatedPayYearly', numberWithCommaAtThousand(estimatedAverageSalaryYearlyPay));
 }
 
 function getRegionWorkFuture(soc){

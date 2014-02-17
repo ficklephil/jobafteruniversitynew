@@ -106,7 +106,8 @@ h4 {
     padding: 50px;
     background-color: #333333;
     color: #cccccc;
-    background-color: #4aabb1; }
+    background-color: #4aabb1;
+    border-bottom-left-radius: 20px; }
     .job-item .job-item-content-estimated-salary .title {
       font-size: 1.2em;
       margin-bottom: 30px; }

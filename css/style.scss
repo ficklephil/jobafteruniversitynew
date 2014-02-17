@@ -160,6 +160,8 @@ h4{
        background-color:$darkest-color;
        margin-top: 0px;
        margin-bottom: 0px;
+      //border-top-left-radius: 10px;
+      //border-top-right-radius: 10px;
     }
 
     .title-sub-text{
@@ -198,6 +200,7 @@ h4{
     .job-item-content-estimated-salary{
       @include job-item-content();
       background-color:$salary-color;
+      border-bottom-left-radius: 20px;
 
       .title{
         font-size:1.2em;
