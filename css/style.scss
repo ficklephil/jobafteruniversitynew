@@ -1,6 +1,7 @@
 $primary-color: #CE0043;
 $secondary-color: #4177C1;
 $education-color: #4AABB1;
+$salary-color: #4AABB1;
 $cost-of-living-color:#AAC789;
 $unemployment-yellow-color:#f0ad4e;
 
@@ -194,6 +195,48 @@ h4{
       }
     }
 
+    .job-item-content-estimated-salary{
+      @include job-item-content();
+      background-color:$salary-color;
+
+      .title{
+        font-size:1.2em;
+        //text-align: center;
+        margin-bottom: 30px;
+
+        .salary-title-highlight{
+          font-weight: 300;
+        }
+      }
+
+      .description{
+        font-size:0.9em;
+      }
+
+      .salary-container{
+        margin:auto;
+        border-radius: 50%;
+        width: 190px;
+        height: 190px;
+        display:table;
+        background-color:$super-light-color;
+        margin-bottom: 35px;
+
+        .salary{
+          display:table-cell;
+          vertical-align: middle;
+          font-size: 1.6em;
+          font-weight: 300;
+          text-align: center;
+          color: $salary-color;
+
+        }
+      }
+
+
+
+    }
+
     .career-future-chart-container{
       margin-top: 45px;
     }
@@ -217,39 +260,7 @@ h4{
       background-color:$education-color;
     }
 
-    .job-item-content-skills-two{
-      @include job-item-content();
-      background-color:$skills-color;
-      color:$medium-dark-color;
-
-      ul{
-        list-style-type: none;
-
-        .largest{
-          //border:1px solid red;
-          font-style:bold;
-          font-weight: 300;
-        }
-
-        .medium{
-          //border:1px solid blue;
-          font-style:italic;
-        }
-
-        .small{
-          //border:1px solid green;
-        }
-
-        li{
-          padding: 3px;
-        }
-
-
-
-      }
-    }
-
-    .job-item-content-skills{
+  .job-item-content-skills{
       @include job-item-content();
       background-color:$skills-color;
       color:$medium-dark-color;

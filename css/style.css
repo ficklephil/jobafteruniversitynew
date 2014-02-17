@@ -99,6 +99,36 @@ h4 {
         font-family: 'Roboto', sans-serif;
         font-weight: 300;
         color: #efefef; }
+  .job-item .job-item-content-estimated-salary {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #4aabb1; }
+    .job-item .job-item-content-estimated-salary .title {
+      font-size: 1.2em;
+      margin-bottom: 30px; }
+      .job-item .job-item-content-estimated-salary .title .salary-title-highlight {
+        font-weight: 300; }
+    .job-item .job-item-content-estimated-salary .description {
+      font-size: 0.9em; }
+    .job-item .job-item-content-estimated-salary .salary-container {
+      margin: auto;
+      border-radius: 50%;
+      width: 190px;
+      height: 190px;
+      display: table;
+      background-color: white;
+      margin-bottom: 35px; }
+      .job-item .job-item-content-estimated-salary .salary-container .salary {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 1.6em;
+        font-weight: 300;
+        text-align: center;
+        color: #4aabb1; }
   .job-item .career-future-chart-container {
     margin-top: 45px; }
   .job-item .job-item-content-education {
@@ -109,24 +139,6 @@ h4 {
     background-color: #333333;
     color: #cccccc;
     background-color: #4aabb1; }
-  .job-item .job-item-content-skills-two {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 100;
-    font-size: 1.6em;
-    padding: 50px;
-    background-color: #333333;
-    color: #cccccc;
-    background-color: #efefef;
-    color: #333333; }
-    .job-item .job-item-content-skills-two ul {
-      list-style-type: none; }
-      .job-item .job-item-content-skills-two ul .largest {
-        font-style: bold;
-        font-weight: 300; }
-      .job-item .job-item-content-skills-two ul .medium {
-        font-style: italic; }
-      .job-item .job-item-content-skills-two ul li {
-        padding: 3px; }
   .job-item .job-item-content-skills {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
