@@ -20,10 +20,21 @@ h2 {
   font-family: 'Pacifico', cursive;
   font-size: 2.3em; }
 
+h3 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 100;
+  font-size: 2.6em; }
+
 h4 {
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
   font-size: 1.6em; }
+
+.main-title {
+  margin-bottom: 21px; }
+  .main-title h3 {
+    padding: 23px;
+    text-align: center; }
 
 #career-future-chart {
   width: 100%;
@@ -68,7 +79,9 @@ h4 {
     padding-left: 40px;
     background-color: #1b1b1b;
     margin-top: 0px;
-    margin-bottom: 0px; }
+    margin-bottom: 0px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px; }
   .job-item .title-sub-text {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
@@ -80,7 +93,9 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #333333;
-    color: #cccccc; }
+    color: #cccccc;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px; }
   .job-item .job-item-content-container {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
@@ -152,6 +167,26 @@ h4 {
     .job-item .job-item-content-savings #chartContainer {
       margin: auto; }
   .job-item .job-item-content-savings-explanation {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #333333;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px; }
+  .job-item .job-item-content-savings-over-time {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #efefef; }
+    .job-item .job-item-content-savings-over-time #chartContainerSavingsOverTime {
+      margin: auto; }
+  .job-item .job-item-content-savings-over-time-explanation {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
     font-size: 1.6em;
@@ -293,7 +328,8 @@ h4 {
 .job-item-small {
   background-color: #333333;
   margin-bottom: 25px;
-  padding: 25px; }
+  padding: 25px;
+  border-radius: 15px; }
   .job-item-small .job-item-small-col .job-item-small-percentage-container {
     margin: auto;
     border-radius: 50%;

@@ -142,8 +142,10 @@
 
     <script id='myTemplate' type='text/ractive'>
     <div class="container marketing">
-	
-		<h3>{{jobTitle}}</h3>
+
+        <div class='main-title'>
+		    <h3>{{jobTitle}}</h3>
+        </div>
 
         <!-- Job Description -->
         <div class="row job-item">
@@ -385,34 +387,58 @@
                         a month as shown below. They could 'put away' £500 into their savings each month.
                     </div>
                 </div>
-
                 <div class="row">
                     <div class="col-md-12 job-item-content-savings">
                         <div id="chartContainer" style="max-width:1100px;height: 680px;"></div>
-
                     </div>
                 </div>
-
             </div>
         </div>
 
-		<!--<div class="row job-item">-->
-			<!--<div class="col-md-12">-->
+        <!-- Savings Over Time -->
+        <div class="row job-item">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Savings over Time <span class='title-sub-text'>for a skilled employee in this role, in London, in 2019.</span></h2>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 job-item-content-savings-over-time">
+                        <div id="chartContainerSavingsOverTime" style="max-width:900px;height: 580px;"></div>
+                    </div>
+                </div>
+
+
+
+
+
                 <!--<div class="row">-->
-                    <!--<h2>Salary</h2>-->
+                    <!--<div class="col-md-12 job-item-content-savings-over-time-explanation">-->
+
+
+
+                        <!--The estimated time it would take to save up a 5% Deposit for a 1 Bed flat in London on-->
+                        <!--the wage of a {{jobTitle}}, taking into consideration the cost of living would be.-->
+
+                    <!--</div>-->
                 <!--</div>-->
-				<!--<div class="row">-->
-					<!--<div class="col-md-6 job-item-content-salary-left">The current wage for {{jobTitle}} in London is £{{estimatedPayYearly}}. That's £{{estimatedPayWeekly}} per month, if inflation-->
-                        <!--is at 5% for the next 4 years, your wage will be £50,000 after 4 years of work, as a graduate starts on.</div>-->
-					<!--<div class="col-md-6 job-item-content-rent">The average rent for a person living in a one bed flat in London in 2017 will be £1003 per month, based on inflation.</div>-->
-				<!--</div>-->
-				<!--<div class="row">-->
-					<!--<div class="col-md-6 job-item-content-salary">The current wage for {{jobTitle}} in London is £{{estimatedPayYearly}}.</div>-->
-					<!--<div class="col-md-6"></div>-->
-				<!--</div>-->
-			<!--</div>-->
-		<!--</div>-->
-		
+            </div>
+        </div>
+
+        <!-- Unemployment -->
+        <div class="row job-item-small">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2 job-item-small-col" >
+                        <div class='job-item-small-percentage-container'>
+                            <div class='job-item-small-percentage-unemployment'>36</div>
+                        </div>
+                    </div>
+                    <div class="col-md-10 job-item-small-description-container-unemployment"><h4>Deposit for a 1 Bed Flat in London</h4><p>The estimated time
+                    it would take to save up a 5% Deposit for a 1 Bed Flat in London, worked out from the estimated cost of living in 2020, and taking into account the expenses and salary of a {{jobTitle}}</p></div>
+                </div>
+            </div>
+        </div>
+
 		<div class="row job-item">
 			<div class="col-md-12">
                 <div class="row">

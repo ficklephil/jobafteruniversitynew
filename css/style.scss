@@ -59,9 +59,24 @@ h2{
   font-size: 2.3em;
 }
 
+h3{
+  @include roboto-light();
+  font-size: 2.6em;
+}
+
 h4{
   @include roboto-medium();
   font-size: 1.6em;
+}
+
+.main-title{
+  //border:1px solid red;
+  margin-bottom: 21px;
+
+  h3{
+    padding:23px;
+    text-align: center;
+  }
 }
 
 #career-future-chart{
@@ -160,8 +175,8 @@ h4{
        background-color:$darkest-color;
        margin-top: 0px;
        margin-bottom: 0px;
-      //border-top-left-radius: 10px;
-      //border-top-right-radius: 10px;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
     }
 
     .title-sub-text{
@@ -172,6 +187,8 @@ h4{
 
     .job-item-content-full-width{
       @include job-item-content();
+      border-bottom-left-radius:10px;
+      border-bottom-right-radius:10px;
     }
 
     .job-item-content-container{
@@ -279,6 +296,23 @@ h4{
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px;
   }
+
+  .job-item-content-savings-over-time{
+    @include job-item-content();
+    background-color:$lightest-color;
+
+    #chartContainerSavingsOverTime{
+      margin:auto;
+    }
+  }
+
+  .job-item-content-savings-over-time-explanation{
+    @include job-item-content();
+    background-color:$medium-dark-color;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
 
   .job-item-content-skills{
       @include job-item-content();
@@ -402,6 +436,7 @@ h4{
   background-color:$medium-dark-color;
   margin-bottom: 25px;
   padding: 25px;
+  border-radius: 15px;
 
   .job-item-small-col{
 

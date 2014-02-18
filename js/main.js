@@ -974,6 +974,9 @@ function resizeEducationChart(){
 }
 
 function drawSavingsChart(){
+
+    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
+
     var dataSource = [
         {region: "Council Tax, Gas, Water, Electricity", val: 150},
         {region: "Food", val: 200},
@@ -1008,13 +1011,14 @@ function drawSavingsChart(){
             verticalAlignment: "bottom",
             rowCount: 2
         },
+        palette: palette,
         series: [{
             type: "pie",
             argumentField: "region",
             label: {
                 visible: true,
                 font: {
-                    size: 16
+                    size: 18
                 },
                 format: "millions",
                 connector: {
@@ -1033,6 +1037,65 @@ function drawSavingsChart(){
     });
 }
 
+function drawSavingsOverTimeChart(){
+
+    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
+
+    var dataSource = [
+        { year: 2016, savings: 0 },
+        { year: 2017, savings: 1000 },
+        { year: 2018, savings: 1500},
+        { year: 2019, savings: 1900 },
+        { year: 2020, savings: 2300},
+        { year: 2021, savings: 4000}
+    ];
+
+    $("#chartContainerSavingsOverTime").dxChart({
+        dataSource: dataSource,
+        commonSeriesSettings: {
+            argumentField: "year"
+        },
+        commonAxisSettings: {
+            grid: {
+                visible: true
+            }
+        },
+        series: [
+            { valueField: "savings", name: "Savings" }
+        ],
+        tooltip:{
+            enabled: true
+        },
+        argumentAxis: {
+            label: {
+                customizeText: function () {
+                    return this.value;
+                }
+            },
+            title: 'Time (Months)'
+        },
+        valueAxis: {
+            label: {
+                customizeText: function () {
+                    return this.value;
+                }
+            },
+            title: 'Savings (£)'
+        },
+//        legend: {
+//            enabled:false,
+//            verticalAlignment: "bottom",
+//            horizontalAlignment: "center"
+//        },
+        commonPaneSettings: {
+            border:{
+                visible: true,
+                bottom: false
+            }
+        }
+    });
+}
+
 
 
 $(window).resize(resizeChart);
@@ -1042,4 +1105,7 @@ $(window).resize(resizeEducationChart);
 listenDropdownGraduationChange();
 
 $(window).resize(drawSavingsChart);
+$(window).resize(drawSavingsOverTimeChart);
+
 drawSavingsChart();
+drawSavingsOverTimeChart();
