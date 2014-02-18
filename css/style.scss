@@ -263,6 +263,23 @@ h4{
       background-color:$education-color;
     }
 
+  .job-item-content-savings{
+    @include job-item-content();
+    background-color:$lightest-color;
+    padding-top: 0px;
+
+    #chartContainer{
+      margin:auto;
+    }
+  }
+
+  .job-item-content-savings-explanation{
+    @include job-item-content();
+    background-color:$medium-dark-color;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+
   .job-item-content-skills{
       @include job-item-content();
       background-color:$skills-color;

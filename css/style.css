@@ -140,6 +140,27 @@ h4 {
     background-color: #333333;
     color: #cccccc;
     background-color: #4aabb1; }
+  .job-item .job-item-content-savings {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #efefef;
+    padding-top: 0px; }
+    .job-item .job-item-content-savings #chartContainer {
+      margin: auto; }
+  .job-item .job-item-content-savings-explanation {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #333333;
+    color: #cccccc;
+    background-color: #333333;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px; }
   .job-item .job-item-content-skills {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;

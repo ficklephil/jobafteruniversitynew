@@ -973,10 +973,73 @@ function resizeEducationChart(){
     new Chart(ctx).Pie(this.eductionFutureData);
 }
 
+function drawSavingsChart(){
+    var dataSource = [
+        {region: "Council Tax, Gas, Water, Electricity", val: 150},
+        {region: "Food", val: 200},
+        {region: "Rent", val: 600},
+        {region: "Entertainment", val: 200},
+        {region: "Travel", val: 150},
+        {region: "Savings", val: 500}
+    ];
+
+    $("#chartContainer").dxPieChart({
+        dataSource: dataSource,
+//        title: "The Population of Continents and Regions",
+        tooltip: {
+            enabled: true,
+            format:"millions",
+            percentPrecision: 2,
+            customizeText: function() {
+
+                if(this.argumentText == "Savings"){
+                    return "£" + this.originalValue + " saved per month.";
+                }
+                else{
+                    return "£" + this.originalValue + " spent on " +this.argumentText+" per month.";
+                }
+            }
+        },
+        legend: {
+            enabled:false,
+            orientation: "horizontal",
+            itemTextPosition: "right",
+            horizontalAlignment: "center",
+            verticalAlignment: "bottom",
+            rowCount: 2
+        },
+        series: [{
+            type: "pie",
+            argumentField: "region",
+            label: {
+                visible: true,
+                font: {
+                    size: 16
+                },
+                format: "millions",
+                connector: {
+                    visible: true
+                },
+                position: "columns",
+                customizeText: function(arg) {
+                    if(arg.argumentText == "Savings"){
+                        return arg.percentText + " of Estimate Avg. Salary Saved!";
+                    }else{
+                        return arg.percentText + " of Salary spent on " + arg.argumentText;
+                    }
+                }
+            }
+        }]
+    });
+}
 
 
 
 $(window).resize(resizeChart);
 $(window).resize(resizeEducationChart);
 
+
 listenDropdownGraduationChange();
+
+$(window).resize(drawSavingsChart);
+drawSavingsChart();
