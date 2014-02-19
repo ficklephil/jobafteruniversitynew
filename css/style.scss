@@ -10,6 +10,7 @@ $super-light-color:#ffffff;
 $lightest-color:#efefef;
 $medium-color:#cccccc;
 $medium-dark-color:#333333;
+$medium-dark-color:#72ac93;
 $darkest-color:#1b1b1b;
 $skills-color:#efefef;
 
@@ -47,6 +48,18 @@ $skills-color:#efefef;
   background: -ms-linear-gradient(top,  #efefef 0%,#ffffff 100%); /* IE10+ */
   background: linear-gradient(to bottom,  #efefef 0%,#ffffff 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#efefef', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+
+}
+
+@mixin gradientTitles(){
+  background: #1b1b1b; /* Old browsers */
+  background: -moz-linear-gradient(top,  #1b1b1b 0%, #454545 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#1b1b1b), color-stop(100%,#454545)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #1b1b1b 0%,#454545 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #1b1b1b 0%,#454545 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #1b1b1b 0%,#454545 100%); /* IE10+ */
+  background: linear-gradient(to bottom,  #1b1b1b 0%,#454545 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1b1b1b', endColorstr='#454545',GradientType=0 ); /* IE6-9 */
 
 }
 
@@ -401,6 +414,12 @@ h4{
 
     .job-item-content-cost-of-living{
       @include job-item-content-small();
+    }
+
+    .job-item-content-housing{
+      @include job-item-content();
+      background-color:#efefef;
+      color:$medium-dark-color;
     }
 
     .job-item-related-jobs{

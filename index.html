@@ -35,7 +35,7 @@
 <!-- NAVBAR
 ================================================== -->
   <body>
-  <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="navbar navbar-inverse navbar-static-top" role="navigation">
       <div class="container-fluid">
           <div class="navbar-header">
               <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -44,7 +44,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Project name</a>
+              <a class="navbar-brand" href="#">Job After Uni</a>
 
               <form class="navbar-form navbar-left">
                       <input type="text" id="career-input" class="form-control" placeholder="Search...">
@@ -89,50 +89,85 @@
 
   <!-- Carousel
   ================================================== -->
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>
-      <div class="carousel-inner">
-        <div class="item active">
-          <img data-src="holder.js/900x500/auto/#777:#7a7a7a/text:First slide" alt="First slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Example headline.</h1>
-              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img data-src="holder.js/900x500/auto/#666:#6a6a6a/text:Second slide" alt="Second slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img data-src="holder.js/900x500/auto/#555:#5a5a5a/text:Third slide" alt="Third slide">
-          <div class="container">
-            <div class="carousel-caption">
-              <h1>One more for good measure.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>
-            </div>
-          </div>
-        </div>
+    <!--<div id="myCarousel" class="carousel slide" data-ride="carousel">-->
+      <!--&lt;!&ndash; Indicators &ndash;&gt;-->
+      <!--<ol class="carousel-indicators">-->
+        <!--<li data-target="#myCarousel" data-slide-to="0" class="active"></li>-->
+        <!--<li data-target="#myCarousel" data-slide-to="1"></li>-->
+        <!--<li data-target="#myCarousel" data-slide-to="2"></li>-->
+      <!--</ol>-->
+      <!--<div class="carousel-inner">-->
+        <!--<div class="item active">-->
+          <!--<img data-src="holder.js/900x500/auto/#777:#7a7a7a/text:First slide" alt="First slide">-->
+          <!--<div class="container">-->
+            <!--<div class="carousel-caption">-->
+              <!--<h1>Example headline.</h1>-->
+              <!--<p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>-->
+              <!--<p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+          <!--<img data-src="holder.js/900x500/auto/#666:#6a6a6a/text:Second slide" alt="Second slide">-->
+          <!--<div class="container">-->
+            <!--<div class="carousel-caption">-->
+              <!--<h1>Another example headline.</h1>-->
+              <!--<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>-->
+              <!--<p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="item">-->
+          <!--<img data-src="holder.js/900x500/auto/#555:#5a5a5a/text:Third slide" alt="Third slide">-->
+          <!--<div class="container">-->
+            <!--<div class="carousel-caption">-->
+              <!--<h1>One more for good measure.</h1>-->
+              <!--<p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>-->
+              <!--<p><a class="btn btn-lg btn-primary" href="#" role="button">Browse gallery</a></p>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>-->
+      <!--<a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>-->
+    <!--</div>&lt;!&ndash; /.carousel &ndash;&gt;-->
+
+  <div class="jumbotron">
+      <div class="container">
+          <h1>Hello, world!</h1>
+          <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+          <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
       </div>
-      <a class="left carousel-control" href="#myCarousel" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-      <a class="right carousel-control" href="#myCarousel" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
-    </div><!-- /.carousel -->
+  </div>
 
-
+  <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+          <div class="col-md-4">
+              <h2>Heading</h2>
+              <p>When I was a graduate I had no idea of whether I would get a job or not when I came out
+                  of university. This web app will give you some useful information about :</p>
+              <ul>
+                  <li>What competition you face</li>
+                  <li>If the job market for a career will have increased by the time your out of uni.</li>
+                  <li>if you will be able to support yourself finacially from the degree you take.</li>
+                  <li>if you will be able to put enough money aside to put down a deposit on a house
+                      or a flat when you come out of uni.</li>
+              </ul>
+          </div>
+          <div class="col-md-4">
+              <!--<h2>Heading</h2>-->
+              <p>This web app will help you make an informed choice on the career which you may
+                  undertake and the learning options you choose to get there. But at the end of the day
+                  you maybe passionate about an area, therefore we give you more career options incase that
+                  career is in decline while your at university.</p>
+          </div>
+          <div class="col-md-4">
+              <h2>Datasources</h2>
+              <p>lis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+          </div>
+      </div>
+  </div>
 
     <!-- Marketing messaging and featurettes
     ================================================== -->
@@ -313,6 +348,60 @@
             </div>
         </div>
 
+        <!-- Rental Prices -->
+        <div class="row job-item">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Rent Prices<span class='title-sub-text'>Average rent of housing in London this year, and an estimate for 2019.</span></h2>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6 job-item-content-housing">
+                        <div>This is the current accommodation rental prices in London. It shows the price
+                            for a 1 Bed, 2 Bed & 3 Bed property respectively. This is current
+                        data from rental prices last month (Jan 2014) Source : Nestoria.</div>
+                        <div id="chartContainerCurrentRent" style="max-width:900px;height: 580px;"></div>
+                    </div>
+                    <div class="col-md-6  job-item-content-housing">
+                        <div>This is the estimated rental prices in London, in 2019. It shows the price
+                            for a 1 Bed, 2 Bed & 3 Bed property respectively. This takes into account
+                            the current rental price and then multiplies it by the rate of rental price increase
+                            over the last two years. Source for current rental prices : Nestoria.</div>
+                        <div id="chartContainerFutureRent" style="max-width:900px;height: 580px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Purchase Prices -->
+        <div class="row job-item">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Purchase Prices<span class='title-sub-text'>Average purchase price of housing in London this year, and an estimate for 2019.</span></h2>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-6 job-item-content-housing">
+                        <div>This is the current accommodation rental prices in London. It shows the price
+                            for a 1 Bed, 2 Bed & 3 Bed property respectively. This is current
+                            data from rental prices last month (Jan 2014) Source : Nestoria.</div>
+                        <div id="chartContainerCurrentPurchasePrice" style="max-width:900px;height: 580px;"></div>
+                    </div>
+                    <div class="col-md-6  job-item-content-housing">
+                        <div>This is the estimated rental prices in London, in 2019. It shows the price
+                            for a 1 Bed, 2 Bed & 3 Bed property respectively. This takes into account
+                            the current rental price and then multiplies it by the rate of rental price increase
+                            over the last two years. Source for current rental prices : Nestoria.</div>
+                        <div id="chartContainerFuturePurchasePrice" style="max-width:900px;height: 580px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- Money -->
         <div class="row job-item">
             <div class="col-md-12">
@@ -448,8 +537,8 @@
 					<div class="col-md-4 job-item-related-jobs">
                         <ul>
                             <li>
-                                <a href="#">London</a>
-                                <a href="#">London</a>
+                                <a href="#">{{rentPrices[2].price}}</a>
+                                <a href="#">{{buyPrices[2].price}}</a>
                                 <a href="#">London</a>
                             </li>
                         </ul>

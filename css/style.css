@@ -92,7 +92,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px; }
@@ -101,7 +101,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #ce0043;
     min-height: 365px;
@@ -119,7 +119,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #4aabb1;
     border-bottom-left-radius: 20px; }
@@ -152,7 +152,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #4aabb1; }
   .job-item .job-item-content-savings {
@@ -160,7 +160,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #efefef;
     padding-top: 0px; }
@@ -171,9 +171,9 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
-    background-color: #333333;
+    background-color: #72ac93;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px; }
   .job-item .job-item-content-savings-over-time {
@@ -181,7 +181,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #efefef; }
     .job-item .job-item-content-savings-over-time #chartContainerSavingsOverTime {
@@ -191,9 +191,9 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
-    background-color: #333333;
+    background-color: #72ac93;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px; }
   .job-item .job-item-content-skills {
@@ -201,10 +201,10 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #efefef;
-    color: #333333; }
+    color: #72ac93; }
     .job-item .job-item-content-skills ul {
       list-style-type: none; }
       .job-item .job-item-content-skills ul li {
@@ -225,7 +225,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #4177c1; }
     @media (max-width: 991px) {
@@ -240,7 +240,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #4177c1; }
     @media (max-width: 991px) {
@@ -255,7 +255,7 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #4177c1; }
     @media (max-width: 991px) {
@@ -269,11 +269,11 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #aac789;
     min-height: 210px;
-    color: #333333; }
+    color: #72ac93; }
     @media (max-width: 991px) {
       .job-item .job-item-content-cost-of-living-left {
         border-bottom: 8px solid white; } }
@@ -294,11 +294,11 @@ h4 {
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
-    background-color: #333333;
+    background-color: #72ac93;
     color: #cccccc;
     background-color: #aac789;
     min-height: 210px;
-    color: #333333; }
+    color: #72ac93; }
     @media (max-width: 991px) {
       .job-item .job-item-content-cost-of-living {
         border-bottom: 8px solid white; } }
@@ -311,6 +311,15 @@ h4 {
       padding-left: 5px;
       padding-right: 5px;
       padding-top: 5px; }
+  .job-item .job-item-content-housing {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #72ac93;
+    color: #cccccc;
+    background-color: #efefef;
+    color: #72ac93; }
   .job-item .job-item-related-jobs {
     border: 1px solid red; }
   .job-item .job-item-education-chart-key {
@@ -326,7 +335,7 @@ h4 {
       margin-bottom: 6px; } }
 
 .job-item-small {
-  background-color: #333333;
+  background-color: #72ac93;
   margin-bottom: 25px;
   padding: 25px;
   border-radius: 15px; }

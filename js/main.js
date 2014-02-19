@@ -9,7 +9,7 @@ var ractive = new Ractive({
     data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
         percentSkillsShortages:20,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:6,
-        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0}
+        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[]}
 });
 
 
@@ -498,6 +498,120 @@ function getRegionWorkFuture(soc){
         }
     });
 }
+
+function getNestoriaData(){
+
+    console.log('get Nestoria Data');
+    $.ajax({
+        type: 'GET',
+        url: 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=metadata&place_name=London&encoding=json',
+        async: false,
+        contentType: "application/json",
+        dataType: 'jsonp',
+        success: function(json) {
+            extractNestoriaData(json,"2011_m10");
+        },
+        error: function(e) {
+            console.log(e.message);
+            alert('I have no JSON from Nestoria');
+        }
+    });
+}
+
+function extractNestoriaData(json,nestoriaDataTime) {
+
+    const BUY = 'buy';
+    const RENT = 'rent';
+    var avgRentPrices=[];
+    var avgBuyPrices=[];
+    var metadata,price,month,beds,listingType;
+
+    for(var i=0;i<6;i++){
+        metadata = json.response.metadata[i];
+        price = parseInt(metadata.data["2014_m1"].avg_price);
+        month = metadata.data["2014_m1"].month;
+        beds = metadata.num_beds;
+        listingType = metadata.listing_type;
+
+        if(listingType == RENT){
+            avgRentPrices.push({"beds":beds,"price":price,"month":month,"type":listingType});
+        }else if(listingType == BUY){
+            avgBuyPrices.push({"beds":beds,"price":price,"month":month,"type":listingType});
+        }
+    }
+
+    //just want to make sure it's returned in the correct order as it's come from
+    //a json feed.
+    avgRentPrices.sort(function(a, b){return a.beds - b.beds});
+    avgBuyPrices.sort(function(a, b){return a.beds - b.beds});
+
+    createFutureRentChart(avgRentPrices);
+    createCurrentRentChart(avgRentPrices);
+
+
+    createCurrentPurchaseChart(avgBuyPrices);
+    createFuturePurchaseChart(avgBuyPrices);
+
+    console.log(avgRentPrices);
+    console.log(avgBuyPrices);
+
+    ractive.set("rentPrices", avgRentPrices);
+    ractive.set("buyPrices", avgBuyPrices);
+
+
+}
+
+function createCurrentRentChart(data){
+
+    var priceData = [];
+    var endValue = data[data.length - 1].price;
+
+    for(var i=0;i<data.length;i++){
+        priceData.push(parseInt(data[i].price));
+    }
+
+    chartContainerCurrentRent(priceData, endValue);
+}
+
+function createFutureRentChart(data){
+
+    var averagePriceIncrease = 1.5;
+    var priceData = [];
+    var endValue = (data[data.length - 1].price) * averagePriceIncrease;
+
+    for(var i=0;i<data.length;i++){
+        priceData.push(parseInt(data[i].price) * averagePriceIncrease);
+    }
+
+    chartContainerFutureRent(priceData, endValue);
+}
+
+function createCurrentPurchaseChart(data){
+
+    var priceData = [];
+    var endValue = data[data.length - 1].price;
+
+    for(var i=0;i<data.length;i++){
+        priceData.push(parseInt(data[i].price));
+    }
+
+    chartContainerCurrentPurchasePrice(priceData, endValue);
+}
+
+function createFuturePurchaseChart(data){
+
+    var averagePriceIncrease = 1.5;
+    var priceData = [];
+    var endValue = (data[data.length - 1].price) * averagePriceIncrease;
+
+    for(var i=0;i<data.length;i++){
+        priceData.push(parseInt(data[i].price) * averagePriceIncrease);
+    }
+
+    chartContainerFuturePurchasePrice(priceData, endValue);
+}
+
+//on front end we can say variable name and then [1] for the first bed
 
 function getJobFutureInRegionChartFormatted(json,region){
 
@@ -1096,6 +1210,91 @@ function drawSavingsOverTimeChart(){
     });
 }
 
+function chartContainerCurrentRent(data,endValue){
+    $('#chartContainerCurrentRent').dxBarGauge({
+        startValue: 0,
+        endValue: endValue,
+        values: data,
+        label: {
+            indent: 30,
+            format: 'fixedPoint',
+            precision: 1,
+            customizeText: function (arg) {
+                return '£' + arg.valueText;
+            }
+        },
+        title: {
+            font: {
+                size: 28
+            }
+        }
+    });
+}
+
+function chartContainerFutureRent(data,endValue){
+    $('#chartContainerFutureRent').dxBarGauge({
+        startValue: 0,
+        endValue: endValue,
+        values:data,
+        label: {
+            indent: 30,
+            format: 'fixedPoint',
+            precision: 1,
+            customizeText: function (arg) {
+                return '£' + arg.valueText;
+            }
+        },
+        title: {
+            font: {
+                size: 28
+            }
+        }
+    });
+}
+
+
+function chartContainerCurrentPurchasePrice(data,endValue){
+    $('#chartContainerCurrentPurchasePrice').dxBarGauge({
+        startValue: 0,
+        endValue: endValue,
+        values: data,
+        label: {
+            indent: 30,
+            format: 'fixedPoint',
+            precision: 1,
+            customizeText: function (arg) {
+                return '£' + arg.valueText;
+            }
+        },
+        title: {
+            font: {
+                size: 28
+            }
+        }
+    });
+}
+
+function chartContainerFuturePurchasePrice(data,endValue){
+    $('#chartContainerFuturePurchasePrice').dxBarGauge({
+        startValue: 0,
+        endValue: endValue,
+        values:data,
+        label: {
+            indent: 30,
+            format: 'fixedPoint',
+            precision: 1,
+            customizeText: function (arg) {
+                return '£' + arg.valueText;
+            }
+        },
+        title: {
+            font: {
+                size: 28
+            }
+        }
+    });
+}
+
 
 
 $(window).resize(resizeChart);
@@ -1109,3 +1308,8 @@ $(window).resize(drawSavingsOverTimeChart);
 
 drawSavingsChart();
 drawSavingsOverTimeChart();
+
+//chartContainerCurrentRent();
+//chartContainerFutureRent();
+
+getNestoriaData();
