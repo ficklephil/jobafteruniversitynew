@@ -70,18 +70,17 @@ h4 {
     width: 540px; } }
 
 .job-item {
-  margin-bottom: 45px;
-  background-color: white; }
+  margin-bottom: 45px; }
   .job-item h2 {
-    color: #cccccc;
+    color: #efefef;
     padding-top: 40px;
     padding-bottom: 40px;
     padding-left: 40px;
     background-color: #1b1b1b;
     margin-top: 0px;
     margin-bottom: 0px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px; }
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px; }
   .job-item .title-sub-text {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
@@ -93,16 +92,24 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px; }
+    color: #efefef;
+    border-bottom-left-radius: 9px;
+    border-bottom-right-radius: 9px; }
+  .job-item .job-item-content-education-description {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #72ac93;
+    color: #efefef;
+    background-color: #72ac93; }
   .job-item .job-item-content-container {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #ce0043;
     min-height: 365px;
     display: table;
@@ -120,7 +127,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #4aabb1;
     border-bottom-left-radius: 20px; }
     .job-item .job-item-content-estimated-salary .title {
@@ -153,15 +160,15 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
-    background-color: #4aabb1; }
+    color: #efefef;
+    background-color: #efefef; }
   .job-item .job-item-content-savings {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #efefef;
     padding-top: 0px; }
     .job-item .job-item-content-savings #chartContainer {
@@ -172,7 +179,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #72ac93;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px; }
@@ -182,7 +189,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #efefef; }
     .job-item .job-item-content-savings-over-time #chartContainerSavingsOverTime {
       margin: auto; }
@@ -192,7 +199,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #72ac93;
     border-bottom-left-radius: 20px;
     border-bottom-right-radius: 20px; }
@@ -202,9 +209,9 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #efefef;
-    color: #72ac93; }
+    color: #bd0102; }
     .job-item .job-item-content-skills ul {
       list-style-type: none; }
       .job-item .job-item-content-skills ul li {
@@ -226,7 +233,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #4177c1; }
     @media (max-width: 991px) {
       .job-item .job-item-content-salary {
@@ -241,7 +248,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #4177c1; }
     @media (max-width: 991px) {
       .job-item .job-item-content-salary-left {
@@ -256,7 +263,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #4177c1; }
     @media (max-width: 991px) {
       .job-item .job-item-content-rent {
@@ -270,7 +277,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #aac789;
     min-height: 210px;
     color: #72ac93; }
@@ -295,7 +302,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #aac789;
     min-height: 210px;
     color: #72ac93; }
@@ -317,7 +324,7 @@ h4 {
     font-size: 1.6em;
     padding: 50px;
     background-color: #72ac93;
-    color: #cccccc;
+    color: #efefef;
     background-color: #efefef;
     color: #72ac93; }
   .job-item .job-item-related-jobs {

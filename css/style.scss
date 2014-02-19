@@ -14,6 +14,32 @@ $medium-dark-color:#72ac93;
 $darkest-color:#1b1b1b;
 $skills-color:#efefef;
 
+//Colour scheme one
+
+//$scheme-one-color-one:#3F2860; //purple
+//$scheme-one-color-two:#90C5A9; //greeny
+//$scheme-one-color-three:#7A9A95; //bluey
+//$scheme-one-color-four:#EF6D3B; //orangy
+//$scheme-one-color-five:#FA8B60; //lightorangy
+
+//Colour Scheme two
+
+$scheme-two-color-one:#9BCE7d; //green
+$scheme-two-color-two:#72Ac93; //tourcose lighter
+$scheme-two-color-three:#699E87; //tourcose
+$scheme-two-color-four:#BD0102; //red
+$scheme-two-color-five:#98002F; //purpley
+
+//Colour Scheme three
+
+//no
+$scheme-three-color-one:#796E24; //green
+$scheme-three-color-two:#F9DF8D; //lighter yellow
+$scheme-three-color-three:#EE9C21; //more yellow
+$scheme-three-color-four:#EA7D24; //orange-yellow
+$scheme-three-color-five:#A34E24; //brown
+
+
 @mixin roboto-light() {
   font-family: 'Roboto', sans-serif;
   font-weight: 100;
@@ -145,14 +171,14 @@ h4{
 
   //border:1px solid red;
   margin-bottom: 45px;
-  background-color: $super-light-color;
+  //background-color: $super-light-color;
 
   @mixin job-item-content(){
     @include roboto-light();
     font-size: 1.6em;
     padding:50px;
-    background-color:$medium-dark-color;
-    color: $medium-color;
+    background-color:$scheme-two-color-two;
+    color: $lightest-color;
   }
 
   @mixin job-item-content-small(){
@@ -179,7 +205,7 @@ h4{
   }
 
     h2{
-       color: $medium-color;
+       color:$lightest-color;
        padding-top: 40px;
        padding-bottom: 40px;
        padding-left: 40px;
@@ -188,8 +214,8 @@ h4{
        background-color:$darkest-color;
        margin-top: 0px;
        margin-bottom: 0px;
-      border-top-left-radius: 15px;
-      border-top-right-radius: 15px;
+      border-top-left-radius: 9px;
+      border-top-right-radius: 9px;
     }
 
     .title-sub-text{
@@ -200,8 +226,14 @@ h4{
 
     .job-item-content-full-width{
       @include job-item-content();
-      border-bottom-left-radius:10px;
-      border-bottom-right-radius:10px;
+      border-bottom-left-radius:9px;
+      border-bottom-right-radius:9px;
+    }
+
+    .job-item-content-education-description{
+      @include job-item-content();
+      //background-color:$lightest-color;
+      background-color:$scheme-two-color-two;
     }
 
     .job-item-content-container{
@@ -288,9 +320,11 @@ h4{
     //  }
     //}
 
+
+
     .job-item-content-education{
       @include job-item-content();
-      background-color:$education-color;
+      background-color:$lightest-color;
     }
 
   .job-item-content-savings{
@@ -330,7 +364,7 @@ h4{
   .job-item-content-skills{
       @include job-item-content();
       background-color:$skills-color;
-      color:$medium-dark-color;
+      color:$scheme-two-color-four;
       //border: 1px solid red;
 
       ul{

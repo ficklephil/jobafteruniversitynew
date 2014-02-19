@@ -162,7 +162,7 @@ function getSkillsOfEmployed(ONetCode){
 /*  If you get more time think about putting these in columns */
 function drawSkills(skillsData){
 
-    var fontSize=1.4;
+    var fontSize=1.7;
     var FONT_REDUCTION=0.016;
 
     $('.skillsdata ul').remove();
@@ -1295,7 +1295,218 @@ function chartContainerFuturePurchasePrice(data,endValue){
     });
 }
 
+function chartContainerCurrentCostOfLiving(){
+    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
 
+    var dataSource = [
+        {region: "Council Tax, Gas, Water, Electricity", val: 150},
+        {region: "Food", val: 200},
+        {region: "Rent", val: 600},
+        {region: "Entertainment", val: 200},
+        {region: "Travel", val: 150},
+        {region: "Savings", val: 500}
+    ];
+
+    $("#chartContainerCurrentCostOfLiving").dxPieChart({
+        dataSource: dataSource,
+//        title: "The Population of Continents and Regions",
+        tooltip: {
+            enabled: true,
+            format:"millions",
+            percentPrecision: 2,
+            customizeText: function() {
+
+                if(this.argumentText == "Savings"){
+                    return "£" + this.originalValue + " saved per month.";
+                }
+                else{
+                    return "£" + this.originalValue + " spent on " +this.argumentText+" per month.";
+                }
+            }
+        },
+        legend: {
+            enabled:false,
+            orientation: "horizontal",
+            itemTextPosition: "right",
+            horizontalAlignment: "center",
+            verticalAlignment: "bottom",
+            rowCount: 2
+        },
+        palette: palette,
+        series: [{
+            type: "pie",
+            argumentField: "region",
+            label: {
+                visible: true,
+                font: {
+                    size: 14
+                },
+                format: "millions",
+                connector: {
+                    visible: true
+                },
+                position: "columns",
+                customizeText: function(arg) {
+                    return "£" + arg.originalValue;
+                }
+            }
+        }]
+    });
+}
+
+function chartContainerFutureCostOfLiving(){
+    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
+
+    var dataSource = [
+        {region: "Council Tax, Gas, Water, Electricity", val: 150},
+        {region: "Food", val: 200},
+        {region: "Rent", val: 600},
+        {region: "Entertainment", val: 200},
+        {region: "Travel", val: 150},
+        {region: "Savings", val: 500}
+    ];
+
+    $("#chartContainerFutureCostOfLiving").dxPieChart({
+        dataSource: dataSource,
+//        title: "The Population of Continents and Regions",
+        tooltip: {
+            enabled: true,
+            format:"millions",
+            percentPrecision: 2,
+            customizeText: function() {
+
+                if(this.argumentText == "Savings"){
+                    return "£" + this.originalValue + " saved per month.";
+                }
+                else{
+                    return "£" + this.originalValue + " spent on " +this.argumentText+" per month.";
+                }
+            }
+        },
+        legend: {
+            enabled:false,
+            orientation: "horizontal",
+            itemTextPosition: "right",
+            horizontalAlignment: "center",
+            verticalAlignment: "bottom",
+            rowCount: 2
+        },
+        palette: palette,
+        series: [{
+            type: "pie",
+            argumentField: "region",
+            label: {
+                visible: true,
+                font: {
+                    size: 14
+                },
+                format: "millions",
+                connector: {
+                    visible: true
+                },
+                position: "columns",
+                customizeText: function(arg) {
+                    return "£" + arg.originalValue;
+                }
+            }
+        }]
+    });
+}
+
+function chartContainerDegreeEducated(){
+    var palette = ['#9BCE7d', '#72Ac93', '#699E87', '#BD0102', '#98002F', '#fa6b63'];
+
+    var dataSource = [
+        {region: "Council Tax, Gas, Water, Electricity", val: 150},
+        {region: "Food", val: 200},
+        {region: "Rent", val: 600},
+        {region: "Entertainment", val: 200},
+        {region: "Travel", val: 150},
+        {region: "Savings", val: 500}
+    ];
+
+    $("#chartContainerDegreeEducated").dxPieChart({
+        dataSource: dataSource,
+//        title: "The Population of Continents and Regions",
+        tooltip: {
+            enabled: true,
+            format:"millions",
+            percentPrecision: 2,
+            customizeText: function() {
+
+                if(this.argumentText == "Savings"){
+                    return "£" + this.originalValue + " saved per month.";
+                }
+                else{
+                    return "£" + this.originalValue + " spent on " +this.argumentText+" per month.";
+                }
+            }
+        },
+        legend: {
+            enabled:false,
+            orientation: "horizontal",
+            itemTextPosition: "right",
+            horizontalAlignment: "center",
+            verticalAlignment: "bottom",
+            rowCount: 2
+        },
+        palette: palette,
+        series: [{
+            type: "pie",
+            argumentField: "region",
+            label: {
+                visible: true,
+                font: {
+                    size: 14
+                },
+                format: "millions",
+                connector: {
+                    visible: true
+                },
+                position: "columns",
+                customizeText: function(arg) {
+                    return "£" + arg.originalValue;
+                }
+            }
+        }]
+    });
+}
+
+function chartContainerWorkFuture(){
+    var palette = ['#9BCE7d', '#72Ac93', '#699E87', '#BD0102', '#98002F', '#fa6b63'];
+
+    $("#chartContainerWorkFuture").dxChart({
+        dataSource: [
+            {day: "Monday", employed: 3},
+            {day: "Tuesday", employed: 2},
+            {day: "Wednesday", employed: 3},
+            {day: "Thursday", employed: 4},
+            {day: "Friday", employed: 6},
+            {day: "Saturday", employed: 11},
+            {day: "Sunday", employed: 4} ],
+
+        series: {
+            argumentField: "day",
+            valueField: "employed",
+            name: "Workers Employed",
+            type: "bar",
+            color: '#98002F'
+        },
+        legend: {
+            orientation: "horizontal",
+            itemTextPosition: "right",
+            horizontalAlignment: "center",
+            verticalAlignment: "bottom"
+        },
+        argumentAxis: {
+            title: '#Years at University'
+        },
+        valueAxis: {
+            title: '#Jobs Available'
+        }
+
+    });
+}
 
 $(window).resize(resizeChart);
 $(window).resize(resizeEducationChart);
@@ -1312,4 +1523,10 @@ drawSavingsOverTimeChart();
 //chartContainerCurrentRent();
 //chartContainerFutureRent();
 
+chartContainerFutureCostOfLiving();
+chartContainerCurrentCostOfLiving();
+
 getNestoriaData();
+
+chartContainerDegreeEducated();
+chartContainerWorkFuture();
