@@ -489,7 +489,17 @@ function getRegionWorkFuture(soc){
             console.log('regionAna')
 
 //            getJobFutureInRegionChartFormatted(json);
-            drawChart(getJobFutureInRegionChartFormatted(json,1)); //rename
+//            drawChart(getJobFutureInRegionChartFormatted(json,1)); //rename
+
+            var workFutureFormattedData = getJobFutureInRegionChartFormatted(json,1);
+            var startValue = workFutureFormattedData[0].employment - 500;
+            var endValue = (workFutureFormattedData[workFutureFormattedData.length - 1].employment) + 1500;
+
+            console.log('startValue' + startValue);
+            console.log('endValue' + endValue);
+//            chartContainerWorkFuture(workFutureFormattedData,startValue,endValue);
+
+
             calcJobPercentageChangeRegion(json, getCurrentYear(), getGraduationYear(),1);
         },
         error: function(e) {
@@ -618,32 +628,57 @@ function getJobFutureInRegionChartFormatted(json,region){
     var year=[];
     var predictedNumberEmployed=[];
 
+    var employmentByYear;
+    var employmentByYearData=[];
+
+
     for(var index = 0; index < json.predictedEmployment.length; index++){
+
+        employmentByYear = new Object()
+
+        employmentByYear.year = parseInt(json.predictedEmployment[index].year);
         year.push(parseInt(json.predictedEmployment[index].year));
+
+
         for(var j=0;j<json.predictedEmployment[index].breakdown.length; j++){
 
             if(parseInt(json.predictedEmployment[index].breakdown[j].code) == 1){
-                predictedNumberEmployed.push(parseInt(json.predictedEmployment[index].breakdown[j].employment))
+
+                employmentByYear.employment = parseInt(json.predictedEmployment[index].breakdown[j].employment);
+                predictedNumberEmployed.push(parseInt(json.predictedEmployment[index].breakdown[j].employment));
                 break;
             }
         }
+
+        employmentByYearData.push(employmentByYear);
     }
 
-    var data = {
-        labels : year,
-        datasets : [
-            {
-//                fillColor : "rgba(255,204,0,0.45)",
-                fillColor : "#CE0043",
-                strokeColor : "#CE0043",
-                pointColor : "#CE0043",
-                pointStrokeColor : "#CE0043",
-                data : predictedNumberEmployed
-            },
-        ]
-    }
+    console.log(employmentByYearData);
 
-    return data;
+    var dataSource = [
+        {year: "Monday", employment: 3},
+        {year: "Tuesday", employment: 2},
+        {year: "Wednesday", employment: 3},
+        {year: "Thursday", employment: 4},
+        {year: "Friday", employment: 6},
+        {year: "Saturday", employment: 11},
+        {year: "Sunday", employment: 4} ];
+
+//    var data = {
+//        labels : year,
+//        datasets : [
+//            {
+////                fillColor : "rgba(255,204,0,0.45)",
+//                fillColor : "#CE0043",
+//                strokeColor : "#CE0043",
+//                pointColor : "#CE0043",
+//                pointStrokeColor : "#CE0043",
+//                data : predictedNumberEmployed
+//            },
+//        ]
+//    }
+
+    return employmentByYearData;
 
 }
 
@@ -1038,8 +1073,6 @@ function drawSkillChart(data){
 
     new Chart(ctx).Radar(data,options);             //watch out here for memory issues
 }
-
-
 
 function drawChart(data){
 
@@ -1472,22 +1505,16 @@ function chartContainerDegreeEducated(){
     });
 }
 
-function chartContainerWorkFuture(){
+function chartContainerWorkFuture(dataSource,startValue,endValue){
     var palette = ['#9BCE7d', '#72Ac93', '#699E87', '#BD0102', '#98002F', '#fa6b63'];
 
     $("#chartContainerWorkFuture").dxChart({
-        dataSource: [
-            {day: "Monday", employed: 3},
-            {day: "Tuesday", employed: 2},
-            {day: "Wednesday", employed: 3},
-            {day: "Thursday", employed: 4},
-            {day: "Friday", employed: 6},
-            {day: "Saturday", employed: 11},
-            {day: "Sunday", employed: 4} ],
-
+        startValue: startValue,
+        endValue: endValue,
+        dataSource: dataSource,
         series: {
-            argumentField: "day",
-            valueField: "employed",
+            argumentField: "year",
+            valueField: "employment",
             name: "Workers Employed",
             type: "bar",
             color: '#98002F'
@@ -1529,4 +1556,4 @@ chartContainerCurrentCostOfLiving();
 getNestoriaData();
 
 chartContainerDegreeEducated();
-chartContainerWorkFuture();
+//chartContainerWorkFuture();
