@@ -247,36 +247,7 @@
             </div>
         </div>
 
-
-
-
-                <!--<div class="row">-->
-                    <!--<div class="col-md-6 job-item-content-education">The educational background of people who do this role, when you-->
-                    <!--come out of university in 2017. From the chart it looks like 55% have degrees, 25% have A-level/HNC or eqaulilent,-->
-                    <!--15% have completed A-levels and then go onto the role.-->
-                    <!--</div>-->
-
-                    <!--<div class="col-md-3 education-chart-container">-->
-                        <!--<canvas id="education-chart"></canvas>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-3 job-item-education-chart-key">-->
-                        <!--<ul>-->
-                            <!--<li>50% Doctorate</li>-->
-                            <!--<li>50% Masters Degree</li>-->
-                            <!--<li>20% First Degree</li>-->
-                            <!--<li>40% Foundation Degree</li>-->
-                            <!--<li>30% HNC or equivalent</li>-->
-                            <!--<li>10% GCSE grade A-C or equivalent</li>-->
-                            <!--<li>5% GCSE grade D-E or equivalent</li>-->
-                            <!--<li>2% Entry level qualification</li>-->
-                        <!--</ul>-->
-                    <!--</div>-->
-
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-
-        <!-- Educational Background -->
+        <!-- Skills and Qualities -->
         <div class="row job-item">
             <div class="col-md-12">
                 <div class="row">
@@ -391,10 +362,10 @@
         <div class="row job-item">
             <div class="col-md-12">
                 <div class="row">
-                    <h2>Estimated Average Salary<span class='title-sub-text'>for a graduate in this role, in London, in 2019.</span></h2>
+                    <h2>Estimated Average Salary</h2>
                 </div>
                 <div class="row">
-                    <div class="col-md-4 job-item-content-estimated-salary">
+                    <div class="col-md-6 job-item-content-estimated-salary current">
                         <div class="row">
                             <div class='salary-container'>
                                 <div class='salary'>£{{estimatedPayYearly}}</div>
@@ -403,7 +374,7 @@
                             <div></div>
                         </div>
                     </div>
-                    <div class="col-md-4 job-item-content-estimated-salary">
+                    <div class="col-md-6 job-item-content-estimated-salary">
                         <div class="row">
                             <div class='salary-container'>
                                 <div class='salary'>£{{easYearlyPayGraduationYear}}</div>
@@ -414,18 +385,6 @@
                                 using Retail Price Index data from The Office of National Statistics.</div>
                         </div>
                     </div>
-                    <div class="col-md-4 job-item-content-estimated-salary">
-                        <div class="row">
-                            <div class='salary-container'>
-                                <div class='salary'>£45,000</div>
-                            </div>
-                            <div class='title'>Estimated <span class='salary-title-highlight'>Entry Level</span> Average Salary in your <span class='salary-title-highlight'>graduation year.</span> *</div>
-                            <div class='description'>* We've estimated this figure by taking the Estimated Average Salary this year for an employee aged 21,
-                                and multipled it by the predicted inflation for the time that you're at university. We've used the age of 21 as 'most people will not have been able
-                                to complete a graduate degree before this age' Source : The Office of National Statistics - Graduates in the UK Labour Market 2013</div>
-                            <div></div>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -434,22 +393,24 @@
         <div class="row job-item">
             <div class="col-md-12">
                 <div class="row">
-                    <h2>Rent Prices<span class='title-sub-text'>Average rent of housing in London this year, and an estimate for 2019.</span></h2>
+                    <h2>Rent Prices</h2>
                 </div>
+            </div>
+            <div class="col-md-12 job-item-content-education-description">
+                It's the future, and you want to rent a flat. You need to know how much
+                    it will cost, so that you know how much
+                    you can save each month, for maybe that dream flat!
+                    This is the estimated rent price in London in your Graduation Year, calculated from
+                    from the rental prices in London last month (Jan 2014), and previous rent prices.
             </div>
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-6 job-item-content-housing">
-                        <div>This is the current accommodation rental prices in London. It shows the price
-                            for a 1 Bed, 2 Bed & 3 Bed property respectively. This is current
-                        data from rental prices last month (Jan 2014) Source : Nestoria.</div>
+                        <div class='title'>Current Rent prices for 1 Bed, 2 Bed & 3 Bed property respectively. Source:Nestoria</div>
                         <div id="chartContainerCurrentRent" style="max-width:600px;height: 300px;"></div>
                     </div>
-                    <div class="col-md-6  job-item-content-housing">
-                        <div>This is the estimated rental prices in London, in 2019. It shows the price
-                            for a 1 Bed, 2 Bed & 3 Bed property respectively. This takes into account
-                            the current rental price and then multiplies it by the rate of rental price increase
-                            over the last two years. Source for current rental prices : Nestoria.</div>
+                    <div class="col-md-6 job-item-content-future-housing">
+                        <div class='title'>Estimated Graduation Year Rent prices for 1 Bed, 2 Bed & 3 Bed property respectively.</div>
                         <div id="chartContainerFutureRent" style="max-width:600px;height: 300px;"></div>
                     </div>
                 </div>

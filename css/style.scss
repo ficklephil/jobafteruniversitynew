@@ -426,12 +426,12 @@ h4{
 
     .job-item-content-estimated-salary{
       @include job-item-content();
-      background-color:$salary-color;
+      background-color:$scheme-two-color-two;
       border-bottom-left-radius: 20px;
 
       .title{
         font-size:1.2em;
-        //text-align: center;
+        text-align: center;
         margin-bottom: 30px;
 
         .salary-title-highlight{
@@ -458,13 +458,17 @@ h4{
           font-size: 1.6em;
           font-weight: 300;
           text-align: center;
-          color: $salary-color;
+          color: $medium-dark-color;
 
         }
       }
+    }
 
-
-
+    .current{
+      background-color:#efefef;
+      .title{
+        color:$scheme-two-color-two;
+      }
     }
 
     .career-future-chart-container{
@@ -619,6 +623,25 @@ h4{
       @include job-item-content();
       background-color:#efefef;
       color:$medium-dark-color;
+      //text-align: center;
+
+      .title{
+        margin-bottom: 10px;
+        font-size:1.2em;
+      }
+    }
+
+    .job-item-content-future-housing{
+      @include job-item-content();
+      background-color:$scheme-two-color-two;
+      color:$scheme-two-color-four;
+      //text-align: center;
+
+      .title{
+        margin-bottom: 10px;
+        font-size:1.2em;
+        color: $lightest-color;
+      }
     }
 
     .job-item-related-jobs{

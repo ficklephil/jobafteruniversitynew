@@ -1298,10 +1298,14 @@ function drawSavingsOverTimeChart(){
 }
 
 function chartContainerCurrentRent(data,endValue){
+//    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
+    var palette = ['#9BCE7d', '#72Ac93', '#699E87'];
+
     $('#chartContainerCurrentRent').dxBarGauge({
         startValue: 0,
         endValue: endValue,
         values: data,
+        palette:palette,
         label: {
             indent: 30,
             format: 'fixedPoint',
@@ -1319,10 +1323,13 @@ function chartContainerCurrentRent(data,endValue){
 }
 
 function chartContainerFutureRent(data,endValue){
+    var palette = ['#efefef', '#F6E2AB', '#98002f'];
+
     $('#chartContainerFutureRent').dxBarGauge({
         startValue: 0,
         endValue: endValue,
         values:data,
+        palette:palette,
         label: {
             indent: 30,
             format: 'fixedPoint',

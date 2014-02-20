@@ -256,10 +256,11 @@ h4 {
     padding: 50px;
     background-color: #72ac93;
     color: #efefef;
-    background-color: #4aabb1;
+    background-color: #72ac93;
     border-bottom-left-radius: 20px; }
     .job-item .job-item-content-estimated-salary .title {
       font-size: 1.2em;
+      text-align: center;
       margin-bottom: 30px; }
       .job-item .job-item-content-estimated-salary .title .salary-title-highlight {
         font-weight: 300; }
@@ -279,7 +280,11 @@ h4 {
         font-size: 1.6em;
         font-weight: 300;
         text-align: center;
-        color: #4aabb1; }
+        color: #72ac93; }
+  .job-item .current {
+    background-color: #efefef; }
+    .job-item .current .title {
+      color: #72ac93; }
   .job-item .career-future-chart-container {
     margin-top: 45px; }
   .job-item .job-item-content-education {
@@ -455,6 +460,22 @@ h4 {
     color: #efefef;
     background-color: #efefef;
     color: #72ac93; }
+    .job-item .job-item-content-housing .title {
+      margin-bottom: 10px;
+      font-size: 1.2em; }
+  .job-item .job-item-content-future-housing {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    font-size: 1.6em;
+    padding: 50px;
+    background-color: #72ac93;
+    color: #efefef;
+    background-color: #72ac93;
+    color: #bd0102; }
+    .job-item .job-item-content-future-housing .title {
+      margin-bottom: 10px;
+      font-size: 1.2em;
+      color: #efefef; }
   .job-item .job-item-related-jobs {
     border: 1px solid red; }
   .job-item .job-item-education-chart-key {
