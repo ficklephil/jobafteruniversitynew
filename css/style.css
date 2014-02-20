@@ -27,8 +27,8 @@ h3 {
 
 h4 {
   font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  font-size: 1.6em; }
+  font-weight: 100;
+  font-size: 2em; }
 
 .main-title {
   margin-bottom: 21px; }
@@ -342,7 +342,7 @@ h4 {
       margin-bottom: 6px; } }
 
 .job-item-small {
-  background-color: #72ac93;
+  background-color: #efefef;
   margin-bottom: 25px;
   padding: 25px;
   border-radius: 15px; }
@@ -361,7 +361,7 @@ h4 {
       font-family: 'Roboto', sans-serif;
       font-weight: 300;
       font-size: 2em;
-      color: #ce0043; }
+      color: #98002f; }
     .job-item-small .job-item-small-col .job-item-small-percentage-container .job-item-small-percentage-unemployment {
       text-align: center;
       margin: auto;
@@ -370,21 +370,21 @@ h4 {
       font-family: 'Roboto', sans-serif;
       font-weight: 300;
       font-size: 2em;
-      color: #ce0043;
+      color: #98002f;
       color: #f0ad4e; }
   .job-item-small .job-item-small-description-container p {
     font-size: 1.6em;
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
-    color: #efefef; }
+    color: #72ac93; }
   .job-item-small .job-item-small-description-container h4 {
-    color: #ce0043; }
+    color: #98002f; }
   .job-item-small .job-item-small-description-container-unemployment p {
     font-size: 1.6em;
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
-    color: #efefef; }
+    color: #72ac93; }
   .job-item-small .job-item-small-description-container-unemployment h4 {
-    color: #ce0043; }
+    color: #98002f; }
   .job-item-small .job-item-small-description-container-unemployment h4 {
     color: #f0ad4e; }

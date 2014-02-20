@@ -488,17 +488,14 @@ function getRegionWorkFuture(soc){
         success: function(json) {
             console.log('regionAna')
 
-//            getJobFutureInRegionChartFormatted(json);
-//            drawChart(getJobFutureInRegionChartFormatted(json,1)); //rename
+            //getJobFutureInRegionChartFormatted(json);
+            drawChart(getJobFutureInRegionChartJSFormatted(json,1)); //rename
 
-            var workFutureFormattedData = getJobFutureInRegionChartFormatted(json,1);
-            var startValue = workFutureFormattedData[0].employment - 500;
-            var endValue = (workFutureFormattedData[workFutureFormattedData.length - 1].employment) + 1500;
-
-            console.log('startValue' + startValue);
-            console.log('endValue' + endValue);
-//            chartContainerWorkFuture(workFutureFormattedData,startValue,endValue);
-
+            //DX Charts
+            //var workFutureFormattedData = getJobFutureInRegionDXChartFormatted(json,1);
+            //var workFutureRange = [];
+            //workFutureRange = getWorkFutureChartRange(workFutureFormattedData);
+            //chartContainerWorkFuture(workFutureFormattedData,workFutureRange[0],workFutureRange[1]);
 
             calcJobPercentageChangeRegion(json, getCurrentYear(), getGraduationYear(),1);
         },
@@ -507,6 +504,15 @@ function getRegionWorkFuture(soc){
             alert('I have no JSON');
         }
     });
+}
+
+function getWorkFutureChartRange(data){
+
+    var workFutureChartRange=[];
+    workFutureChartRange.push(parseInt(data[0].employment));
+    workFutureChartRange.push(parseInt(data[data.length - 1].employment));
+
+    return workFutureChartRange.sort(function(a, b){return a - b});
 }
 
 function getNestoriaData(){
@@ -621,9 +627,43 @@ function createFuturePurchaseChart(data){
     chartContainerFuturePurchasePrice(priceData, endValue);
 }
 
-//on front end we can say variable name and then [1] for the first bed
 
-function getJobFutureInRegionChartFormatted(json,region){
+function getJobFutureInRegionChartJSFormatted(json,region){
+
+    var year=[];
+    var predictedNumberEmployed=[];
+
+    for(var index = 0; index < json.predictedEmployment.length; index++){
+        year.push(parseInt(json.predictedEmployment[index].year));
+        for(var j=0;j<json.predictedEmployment[index].breakdown.length; j++){
+
+            if(parseInt(json.predictedEmployment[index].breakdown[j].code) == 1){
+                predictedNumberEmployed.push(parseInt(json.predictedEmployment[index].breakdown[j].employment))
+                break;
+            }
+        }
+    }
+
+    var data = {
+        labels : year,
+        datasets : [
+            {
+//                fillColor : "rgba(255,204,0,0.45)",
+                fillColor : "#98002F",
+                strokeColor : "#98002F",
+                pointColor : "#98002F",
+                pointStrokeColor : "#98002F",
+                data : predictedNumberEmployed
+            },
+        ]
+    }
+
+    return data;
+}
+
+
+//FOR DX CHART REMOVED FOR NOW
+function getJobFutureInRegionDXChartFormatted(json,region){
 
     var year=[];
     var predictedNumberEmployed=[];
@@ -718,8 +758,8 @@ function getEductionWorkFuture(soc){
             futureEducationDataForEmployed = getFutureEducationDataForEmployed(json,getGraduationYear());
             formattedDatasetForEmployedChart = createFormattedDataForEducationChart(futureEducationDataForEmployed);
 
-            drawEducationFutureChart(formattedDatasetForEmployedChart);
-            drawEducationFutureKey(futureEducationDataForEmployed, getEmployedGraduationYear());
+//            drawEducationFutureChart(formattedDatasetForEmployedChart);
+//            drawEducationFutureKey(futureEducationDataForEmployed, getEmployedGraduationYear());
         },
         error: function(e) {
             console.log(e.message);
@@ -1082,7 +1122,7 @@ function drawChart(data){
     $('.career-future-chart-container').append('<canvas id="career-future-chart"></canvas>');
 
     $('#career-future-chart').attr('width', jQuery(".career-future-chart-container").width());
-    $('#career-future-chart').attr('height', (jQuery(".career-future-chart-container").height() * 1.8));
+    $('#career-future-chart').attr('height', (jQuery(".career-future-chart-container").height() * 4.2));
 
     var ctx = $('#career-future-chart').get(0).getContext("2d");
 
@@ -1104,7 +1144,7 @@ function resizeChart(){
     }
 
     $('#career-future-chart').attr('width', jQuery(".career-future-chart-container").width());
-    $('#career-future-chart').attr('height', (jQuery(".career-future-chart-container").height()*1.8));
+    $('#career-future-chart').attr('height', (jQuery(".career-future-chart-container").height()*4.2));
     new Chart(ctx).Bar(this.data,options);
 }
 
@@ -1508,6 +1548,9 @@ function chartContainerDegreeEducated(){
 function chartContainerWorkFuture(dataSource,startValue,endValue){
     var palette = ['#9BCE7d', '#72Ac93', '#699E87', '#BD0102', '#98002F', '#fa6b63'];
 
+    console.log('startValue' + startValue);
+    console.log('endValue' + endValue);
+
     $("#chartContainerWorkFuture").dxChart({
         startValue: startValue,
         endValue: endValue,
@@ -1536,7 +1579,7 @@ function chartContainerWorkFuture(dataSource,startValue,endValue){
 }
 
 $(window).resize(resizeChart);
-$(window).resize(resizeEducationChart);
+//$(window).resize(resizeEducationChart);
 
 
 listenDropdownGraduationChange();

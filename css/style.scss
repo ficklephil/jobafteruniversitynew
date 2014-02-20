@@ -104,8 +104,8 @@ h3{
 }
 
 h4{
-  @include roboto-medium();
-  font-size: 1.6em;
+  @include roboto-light();
+  font-size: 2em;
 }
 
 .main-title{
@@ -486,7 +486,7 @@ h4{
 
 .job-item-small{
 
-  background-color:$medium-dark-color;
+  background-color:$lightest-color;
   margin-bottom: 25px;
   padding: 25px;
   border-radius: 15px;
@@ -509,7 +509,7 @@ h4{
         vertical-align: middle;
         @include roboto-medium;
         font-size: 2em;
-        color:$primary-color;
+        color:$scheme-two-color-five;
       }
 
       .job-item-small-percentage-skills-shortage{
@@ -528,11 +528,11 @@ h4{
     p{
       font-size: 1.6em;
       @include roboto-light();
-      color:$lightest-color;
+      color:$scheme-two-color-two;
     }
 
     h4{
-      color:$primary-color;
+      color:$scheme-two-color-five;
     }
   }
 
