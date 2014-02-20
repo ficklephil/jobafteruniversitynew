@@ -61,7 +61,7 @@ $( "#career-input" ).autocomplete({
         });
     },
     minLength: 3,
-    delay: 200,
+    delay: 50,
     select: function( event, ui ) {
         search(ui.item.soc);
     },
@@ -146,10 +146,8 @@ function getSkillsOfEmployed(ONetCode){
         dataType: 'jsonp',
         success: function(json) {
             var skillsDataFromOnet = getSkillsDataFromOnetJsonSorted(json);
+
             drawSkills(skillsDataFromOnet);
-
-
-
             console.log('skills' + JSON.stringify(skillsDataFromOnet));
         },
         error: function(e) {
@@ -756,7 +754,10 @@ function getEductionWorkFuture(soc){
         success: function(json) {
 
             futureEducationDataForEmployed = getFutureEducationDataForEmployed(json,getGraduationYear());
-            formattedDatasetForEmployedChart = createFormattedDataForEducationChart(futureEducationDataForEmployed);
+//            formattedDatasetForEmployedChart = createFormattedDataForEducationChart(futureEducationDataForEmployed);
+            formattedDatasetForEmployedChart = createFormattedDataForEducationDXChart(futureEducationDataForEmployed);
+
+            chartContainerDegreeEducated(formattedDatasetForEmployedChart);
 
 //            drawEducationFutureChart(formattedDatasetForEmployedChart);
 //            drawEducationFutureKey(futureEducationDataForEmployed, getEmployedGraduationYear());
@@ -935,9 +936,22 @@ function getEmployedGraduationYear(){
 
 function createFormattedDataForEducationChart(futureEducationData){
 
+    console.log('futureEducationData' + JSON.stringify(futureEducationData));
+
     var formattedEducationChartData = [];
     for(var j=0; j < futureEducationData.length;j++){
         formattedEducationChartData.push({value:futureEducationData[j].employment, color:futureEducationData[j].color});
+    }
+    return formattedEducationChartData;
+}
+
+function createFormattedDataForEducationDXChart(futureEducationData){
+
+    console.log('futureEducationData' + JSON.stringify(futureEducationData));
+
+    var formattedEducationChartData = [];
+    for(var j=0; j < futureEducationData.length;j++){
+        formattedEducationChartData.push({val:parseInt(futureEducationData[j].employment), educationLevel:futureEducationData[j].educationLevel});
     }
     return formattedEducationChartData;
 }
@@ -1486,33 +1500,17 @@ function chartContainerFutureCostOfLiving(){
     });
 }
 
-function chartContainerDegreeEducated(){
+function chartContainerDegreeEducated(chartData){
     var palette = ['#9BCE7d', '#72Ac93', '#699E87', '#BD0102', '#98002F', '#fa6b63'];
 
-    var dataSource = [
-        {region: "Council Tax, Gas, Water, Electricity", val: 150},
-        {region: "Food", val: 200},
-        {region: "Rent", val: 600},
-        {region: "Entertainment", val: 200},
-        {region: "Travel", val: 150},
-        {region: "Savings", val: 500}
-    ];
-
     $("#chartContainerDegreeEducated").dxPieChart({
-        dataSource: dataSource,
-//        title: "The Population of Continents and Regions",
+        dataSource: chartData,
         tooltip: {
             enabled: true,
             format:"millions",
             percentPrecision: 2,
             customizeText: function() {
-
-                if(this.argumentText == "Savings"){
-                    return "£" + this.originalValue + " saved per month.";
-                }
-                else{
-                    return "£" + this.originalValue + " spent on " +this.argumentText+" per month.";
-                }
+                return this.percentText + " ("+ this.originalValue + " Jobs) in this role are filled by people who's highest education level is a " + this.originalArgument +".";
             }
         },
         legend: {
@@ -1526,7 +1524,7 @@ function chartContainerDegreeEducated(){
         palette: palette,
         series: [{
             type: "pie",
-            argumentField: "region",
+            argumentField: "educationLevel",
             label: {
                 visible: true,
                 font: {
@@ -1538,7 +1536,7 @@ function chartContainerDegreeEducated(){
                 },
                 position: "columns",
                 customizeText: function(arg) {
-                    return "£" + arg.originalValue;
+                    return this.percentText + this.originalArgument;
                 }
             }
         }]
@@ -1598,5 +1596,5 @@ chartContainerCurrentCostOfLiving();
 
 getNestoriaData();
 
-chartContainerDegreeEducated();
+//chartContainerDegreeEducated();
 //chartContainerWorkFuture();
