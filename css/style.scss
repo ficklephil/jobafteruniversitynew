@@ -182,7 +182,9 @@ $scheme-three-color-five:#A34E24; //brown
 }
 
 
-
+.navbar-inverse .navbar-nav>li>a:hover{
+  color:#1b1b1b;
+}
 
 body{
   background-color: #efefef;
@@ -237,7 +239,7 @@ h4{
 
   p{
     font-size:1.6em;
-    color:#787878;
+    //color:#787878;
   }
 
   ul{
@@ -295,6 +297,11 @@ h4{
     width:100%;
   }
 
+  .cost-of-living-input{
+    border:1px solid red;
+    width:100%;
+  }
+
   .career-input-container{
     border:1px solid blue;
     width:40%;
@@ -324,11 +331,21 @@ h4{
 .navbar-form{
   .form-control{
     @media (min-width: 768px){
-      width: 350px;
+      width: 250px;
     }
 
     @media (min-width: 992px){
-      width: 540px;
+      width: 350px;
+    }
+  }
+
+  .cost-of-living-control{
+    @media (min-width: 768px){
+      width: 200px;
+    }
+
+    @media (min-width: 992px){
+      width: 300px;
     }
   }
 }

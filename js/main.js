@@ -6,10 +6,10 @@ var jobMatches = [];
 var ractive = new Ractive({
     el:'container',
     template:'#myTemplate',
-    data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
+    data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayMonthly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
         percentSkillsShortages:20,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:6,
-        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[]}
+        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0}
 });
 
 
@@ -91,6 +91,10 @@ $( "#career-input" ).autocomplete({
 
 function search(soc){
 
+    getExpenses();
+    calcUsersFutureExpenses(getExpenses());
+    ractive.set("userExpenses", getExpenses());
+
     getExtendedJobInfomation(soc);
     getSkillsShortages(soc,1);
     getUnemployment(soc);
@@ -107,6 +111,30 @@ function search(soc){
     ractive.set("graduationYear", getGraduationYear());
 
     getOnet(soc);
+
+    getNestoriaData();
+}
+
+function getExpenses(){
+
+    if($("#cost-input").val() == ""){
+        return 500;
+    }else {
+        return parseInt($("#cost-input").val());
+    }
+}
+
+function calcUsersFutureExpenses(currentExpense){
+
+    var predictedInflation = avgRetailPriceIndex();
+    var yearsAtUniversity = 3;
+    var userFutureExpense = currentExpense;
+
+    for(var i=0; i < yearsAtUniversity;i++){
+        userFutureExpense += (currentExpense / 100) * predictedInflation;
+    }
+
+    ractive.set("userFutureExpenses", parseInt(userFutureExpense) );
 }
 
 function getOnet(soc){  //remove if not used
@@ -472,6 +500,7 @@ function setMoneyFutureData(json){
 
     ractive.set('easYearlyPayGraduationYear', numberWithCommaAtThousand(parseInt(easYearlyPayGraduationYear)));
     ractive.set('estimatedPayWeekly', estimatedAverageSalaryWeeklyPay);
+    ractive.set('estimatedPayMonthly', estimatedAverageSalaryWeeklyPay*4);
     ractive.set('estimatedPayYearly', numberWithCommaAtThousand(estimatedAverageSalaryYearlyPay));
 }
 
@@ -573,6 +602,52 @@ function extractNestoriaData(json,nestoriaDataTime) {
     ractive.set("buyPrices", avgBuyPrices);
 
 
+    //over here you want to
+
+    calcSavingPerMonth(avgRentPrices[0].price);
+}
+
+function calcSavingPerMonth(rentFor1BedFlat){
+
+    var userExpensePerMonth = ractive.get('userFutureExpenses');
+    var flatPerMonth = rentFor1BedFlat;
+    var estimatedPayMonthly = ractive.get('estimatedPayMonthly');
+    var totalSavingPerMonth = estimatedPayMonthly - (userExpensePerMonth + flatPerMonth);
+
+    ractive.set("userSavingPerMonth", totalSavingPerMonth);
+
+    setPrepareSavingsChart(totalSavingPerMonth);
+
+}
+
+function setPrepareSavingsChart(totalSavingPerMonth){
+
+    //so let's run through each year and the saving from that year
+
+    var yearsSavingsToShow = 11;
+    var yearlySavings = totalSavingPerMonth * 12;
+    var savingTime=[];
+    var year = getGraduationYear();
+    console.log('year' + year);
+
+
+    for(var i=0;i < yearsSavingsToShow;i++){
+
+        savingTime.push({year:year,savings:yearlySavings * i});
+        year++;
+    }
+
+
+//    var dataSource = [
+//        { year: 2016, savings: 0 },
+//        { year: 2017, savings: 1000 },
+//        { year: 2018, savings: 1500},
+//        { year: 2019, savings: 1900 },
+//        { year: 2020, savings: 2300},
+//        { year: 2021, savings: 4000}
+//    ];
+
+    drawSavingsOverTimeChart(savingTime);
 }
 
 function createCurrentRentChart(data){
@@ -1238,21 +1313,21 @@ function drawSavingsChart(){
     });
 }
 
-function drawSavingsOverTimeChart(){
+function drawSavingsOverTimeChart(savingsDataSource){
 
     var palette = ['#BD0102'];
 
-    var dataSource = [
-        { year: 2016, savings: 0 },
-        { year: 2017, savings: 1000 },
-        { year: 2018, savings: 1500},
-        { year: 2019, savings: 1900 },
-        { year: 2020, savings: 2300},
-        { year: 2021, savings: 4000}
-    ];
+//    var dataSource = [
+//        { year: 2016, savings: 0 },
+//        { year: 2017, savings: 1000 },
+//        { year: 2018, savings: 1500},
+//        { year: 2019, savings: 1900 },
+//        { year: 2020, savings: 2300},
+//        { year: 2021, savings: 4000}
+//    ];
 
     $("#chartContainerSavingsOverTime").dxChart({
-        dataSource: dataSource,
+        dataSource: savingsDataSource,
         commonSeriesSettings: {
             argumentField: "year"
         },
@@ -1598,10 +1673,10 @@ $(window).resize(resizeChart);
 listenDropdownGraduationChange();
 
 $(window).resize(drawSavingsChart);
-$(window).resize(drawSavingsOverTimeChart);
+//$(window).resize(drawSavingsOverTimeChart);
 
 drawSavingsChart();
-drawSavingsOverTimeChart();
+//drawSavingsOverTimeChart();
 
 //chartContainerCurrentRent();
 //chartContainerFutureRent();
@@ -1609,7 +1684,7 @@ drawSavingsOverTimeChart();
 chartContainerFutureCostOfLiving();
 chartContainerCurrentCostOfLiving();
 
-getNestoriaData();
+//getNestoriaData();
 
 //chartContainerDegreeEducated();
 //chartContainerWorkFuture();

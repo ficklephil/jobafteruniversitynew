@@ -47,7 +47,8 @@
               <a class="navbar-brand" href="#">Job after university?</a>
 
               <form class="navbar-form navbar-left">
-                      <input type="text" id="career-input" class="form-control" placeholder="Search...">
+                  <input type="text" id="cost-input" class="form-control cost-of-living-control" placeholder="Expenses (per month), excluding rent.">
+                    <input type="text" id="career-input" class="form-control" placeholder="What job would you like after university?">
               </form>
 
           </div>
@@ -104,18 +105,15 @@
               <p>When I was a graduate I had no idea of whether I would get a job or not when I came out
                   of university. This web app will give you some useful information about :</p>
               <ul>
-                  <li>What competition you face</li>
-                  <li>If the job market for a career will have increased by the time your out of uni.</li>
+                  <li>If the job market for a career will have increased by the time your out of university.</li>
                   <li>if you will be able to support yourself finacially from the degree you take.</li>
-                  <li>if you will be able to put enough money aside to put down a deposit on a house
-                      or a flat when you come out of uni.</li>
+                  <li>if you will be able to put enough money aside to put down a 5% Deposit (Using the Help to Buy scheme)
+                  on a Property in your region.</li>
               </ul>
           </div>
           <div class="col-md-4 middle-column">
               <p>This web app will help you make an informed choice on the career which you may
-                  undertake and the learning options you choose to get there. But at the end of the day
-                  you maybe passionate about an area, therefore we give you more career options incase that
-                  career is in decline while your at university.</p>
+                  undertake and the learning options you choose to get there.</p>
           </div>
           <div class="col-md-4">
               <h2>Datasources</h2>
@@ -216,7 +214,7 @@
                     <div class="col-md-12 job-item-content-education-description">
                         It's always important to have the right skills for any job! If you're
                         going to do this job after university you will need to possess some of the following skills.
-                        They are delightfully shown in order of importance.
+                        They are shown in order of importance.
                     </div>
                 </div>
 
@@ -297,8 +295,7 @@
                             <div class='job-item-small-percentage-skills-shortage'>{{percentSkillsShortages}}%</div>
                         </div>
                     </div>
-					<div class="col-md-10 job-item-small-description-container"><h4>Skills Shortage</h4><p>{{jobTitle}} has a Skills Shortage of {{percentSkillsShortages}} which means that for every 100 jobs
-                        there are 4 jobs unfilled due to the population in London not having the correct skills for this role.</p></div>
+					<div class="col-md-10 job-item-small-description-container"><h4>Skills Shortage</h4><p>{{jobTitle}} has a Skills Shortage of {{percentSkillsShortages}}% for this role.</p></div>
 				</div>
 			</div>
 		</div>
@@ -405,72 +402,87 @@
         </div>
 
         <!-- Cost of Living -->
-        <div class="row job-item">
-            <div class="col-md-12">
-                <div class="row">
-                    <h2>Cost of Living</h2>
-                </div>
-            </div>
-            <div class="col-md-12 job-item-content-education-description">
-                We all have to live, here is the cost of it in London in your graduation year.
-                We've calculated this from taking the current average cost of living, and multiplying
-                it by inflation.
-            </div>
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-6 job-item-content-housing">
-                        <div class='title'>Current Estimated cost of living</div>
-                        <div id="chartContainerCurrentCostOfLiving" style="max-width:600px;height: 300px;"></div>
-                    </div>
-                    <div class="col-md-6 job-item-content-future-housing">
-                        <div class='title'>Estimated cost of living graduation year.</div>
-                        <div id="chartContainerFutureCostOfLiving" style="max-width:600px;height: 300px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-
-        <!-- Cost of Living -->
         <!--<div class="row job-item">-->
             <!--<div class="col-md-12">-->
                 <!--<div class="row">-->
                     <!--<h2>Cost of Living</h2>-->
                 <!--</div>-->
             <!--</div>-->
+            <!--<div class="col-md-12 job-item-content-education-description">-->
+                <!--This is your average cost of living per month, excluding rent.-->
+                <!--You would of put this in at the top of the page, if you havn't-->
+                <!--it will just default to £500. Over here we've giving you-->
+                <!--an estimated average cost of living per month in your graduation year,-->
+                <!--just by multiplying your current cost of living by inflation again.-->
+            <!--</div>-->
             <!--<div class="col-md-12">-->
                 <!--<div class="row">-->
                     <!--<div class="col-md-6 job-item-content-housing">-->
-                        <!--<div>This is the current cost of living Source : Nestoria.</div>-->
-                        <!--<div id="chartContainerCurrentCostOfLiving" style="max-width:600px;height: 420px;"></div>-->
+                        <!--<div class='title'>Current Estimated cost of living</div>-->
+                        <!--<div id="chartContainerCurrentCostOfLiving" style="max-width:600px;height: 300px;"></div>-->
                     <!--</div>-->
-                    <!--<div class="col-md-6  job-item-content-housing">-->
-                        <!--<div>This is the future cost of living in : Nestoria.</div>-->
-                        <!--<div id="chartContainerFutureCostOfLiving" style="max-width:600px;height: 420px;"></div>-->
+                    <!--<div class="col-md-6 job-item-content-future-housing">-->
+                        <!--<div class='title'>Estimated cost of living graduation year.</div>-->
+                        <!--<div id="chartContainerFutureCostOfLiving" style="max-width:600px;height: 300px;"></div>-->
                     <!--</div>-->
                 <!--</div>-->
             <!--</div>-->
         <!--</div>-->
 
+        <div class="row job-item">
+            <div class="col-md-12">
+                <div class="row">
+                    <h2>Expenses</h2>
+                </div>
+            </div>
+            <div class="col-md-12 job-item-content-education-description">
+                This is your average cost of living per month, excluding rent.
+                If you havn't input this above it will default to £500. Over here we've giving you
+                an estimated average cost of living per month in your graduation year,
+                just by multiplying your current cost of living by inflation again.
+            </div>
+            <div class="col-md-6 job-item-content-estimated-salary current">
+                <div class="row">
+                    <div class='salary-container'>
+                        <div class='salary'>£{{userExpenses}}</div>
+                    </div>
+                    <div class='title'>Your <span class='salary-title-highlight'>current</span> monthly expenses. (excluding rent)</div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="col-md-6 job-item-content-estimated-salary">
+                <div class="row">
+                    <div class='salary-container'>
+                        <div class='salary'>£{{userFutureExpenses}}</div>
+                    </div>
+                    <div class='title'>Estimated monthly expenses (excluding rent) in your <span class='salary-title-highlight'>graduation year.</span> *</div>
+                    <div class='description'>* We've estimated this figure by taking your 'Current monthly cost of living (excluding rent)'
+                        and multipled it by a predicted inflation for the time that you're at university. We've calculated the predicted inflation
+                        using Retail Price Index data from The Office of National Statistics.</div>
+                </div>
+            </div>
+        </div>
 
         <div class="row job-item">
             <div class="col-md-12">
                 <div class="row">
-                    <h2>Future Savings</h2>
+                    <h2>Money put away!</h2>
                 </div>
                 <div class="row">
-                    <div class="col-md-12 job-item-content-savings-explanation">
-                        This is your estimated potential savings for the role if you took this role after graduation.
-                        The potential savings are based on your earnings being £45,000 per year, your rent being £1000 per
-                        month and your cost of living being £1500, this is of course in the region you selected : London.
-
-                        Taking into account all the above your savings per month would be : £500.
+                    <div class="col-md-12 job-item-content-estimated-salary remove-borders">
+                        <div class="row">
+                            If you spend £{{userFutureExpenses}} on expenses per month when you come out of university,
+                            and the average rent is £{{rentPrices[0].price}} for a 1 Bed Property in London, in 2017, and your average estimated salary is £{{estimatedPayMonthly}} per month as a {{jobTitle}}
+                            you will save the following figure per month!
+                        </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 job-item-content-savings">
-                        <div id="chartContainer" style="max-width:1100px;height: 680px;"></div>
+                    <div class="col-md-12 job-item-content-estimated-salary  remove-borders">
+                        <div class="row">
+                            <div class='salary-container'>
+                                <div class='salary'>£{{userSavingPerMonth}}</div>
+                            </div>
+                            <div class='title'>Average Saving per month in this role in your <span class='salary-title-highlight'>graduation year.</span> *</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -484,7 +496,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12 job-item-content-savings-explanation">
-                       If you did save £500 like the future savings section said, then the following
+                       If you did 'put away' £{{userSavingPerMonth}} per month, then the following
                         chart shows you how long it would take you to save for that special something you've
                         always dreamed about !
                     </div>
@@ -499,57 +511,31 @@
                     <div class="col-md-4 job-item-content-estimated-salary remove-borders" >
                         <div class="row">
                             <div class='salary-container'>
-                                <div class='salary'>36 Months</div>
+                                <div class='salary'>8 Years</div>
                             </div>
-                            <div class='title'>Estimated time to save for a <span class='salary-title-highlight'>1 Bed property.</span></div>
+                            <div class='title'>Estimated time to save for a 1 Bed property. Based on the Help to Buy Scheme 5% Deposit.</div>
                         </div>
                     </div>
                     <div class="col-md-4 job-item-content-estimated-salary remove-borders" >
                         <div class="row">
                             <div class='salary-container'>
-                                <div class='salary'>36 Months</div>
+                                <div class='salary'>12 Years</div>
                             </div>
-                            <div class='title'>Estimated time to save for a <span class='salary-title-highlight'>2 Bed property.</span></div>
+                            <div class='title'>Estimated time to save for a 2 Bed property. Based on the Help to Buy Scheme 5% Deposit.</div>
                         </div>
                     </div>
                     <div class="col-md-4 job-item-content-estimated-salary remove-borders" >
                         <div class="row">
                             <div class='salary-container'>
-                                <div class='salary'>36 Months</div>
+                                <div class='salary'>16 Years</div>
                             </div>
-                            <div class='title'>Estimated time to save for a <span class='salary-title-highlight'>3 Bed property.</span></div>
+                            <div class='title'>Estimated time to save for a 3 Bed property. Based on the Help to Buy Scheme 5% Deposit.</div>
                         </div>
                     </div>
                 </div>
-
-
-
             </div>
         </div>
 
-		<div class="row job-item">
-			<div class="col-md-12">
-                <div class="row">
-                    <h2>Related Jobs</h2>
-                </div>
-				<div class="row">
-					<div class="col-md-4 job-item-related-jobs">
-                        <ul>
-                            <li>
-                                <a href="#">{{rentPrices[2].price}}</a>
-                                <a href="#">{{buyPrices[2].price}}</a>
-                                <a href="#">London</a>
-                            </li>
-                        </ul>
-
-
-					</div>
-					<div class="col-md-4 job-item-related-jobs">.col-md-6 Related Jobs 2</div>
-					<div class="col-md-4 job-item-related-jobs">.col-md-6 Related Jobs 3</div>
-				</div>
-			</div>
-		</div>
-		
 		<!-- FOOTER -->
       <footer>
         <p class="pull-right"><a href="#">Back to top</a></p>
