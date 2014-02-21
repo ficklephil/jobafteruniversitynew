@@ -1176,8 +1176,8 @@ function resizeEducationChart(){
 
 function drawSavingsChart(){
 
-    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
-
+//    var palette = ['#9BCE7d', '#72Ac93', '#699E87', '#BD0102', '#98002F', '#fa6b63'];
+    var palette = ['#796844', '#F8DA98', '#B64B4B','#365F4E'];
     var dataSource = [
         {region: "Council Tax, Gas, Water, Electricity", val: 150},
         {region: "Food", val: 200},
@@ -1240,7 +1240,7 @@ function drawSavingsChart(){
 
 function drawSavingsOverTimeChart(){
 
-    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
+    var palette = ['#BD0102'];
 
     var dataSource = [
         { year: 2016, savings: 0 },
@@ -1261,6 +1261,7 @@ function drawSavingsOverTimeChart(){
                 visible: true
             }
         },
+        palette:palette,
         series: [
             { valueField: "savings", name: "Savings" }
         ],
@@ -1298,7 +1299,6 @@ function drawSavingsOverTimeChart(){
 }
 
 function chartContainerCurrentRent(data,endValue){
-//    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
     var palette = ['#9BCE7d', '#72Ac93', '#699E87'];
 
     $('#chartContainerCurrentRent').dxBarGauge({
@@ -1348,10 +1348,13 @@ function chartContainerFutureRent(data,endValue){
 
 
 function chartContainerCurrentPurchasePrice(data,endValue){
+    var palette = ['#9BCE7d', '#72Ac93', '#699E87'];
+
     $('#chartContainerCurrentPurchasePrice').dxBarGauge({
         startValue: 0,
         endValue: endValue,
         values: data,
+        palette: palette,
         label: {
             indent: 30,
             format: 'fixedPoint',
@@ -1369,10 +1372,14 @@ function chartContainerCurrentPurchasePrice(data,endValue){
 }
 
 function chartContainerFuturePurchasePrice(data,endValue){
+
+    var palette = ['#efefef', '#F6E2AB', '#98002f'];
+
     $('#chartContainerFuturePurchasePrice').dxBarGauge({
         startValue: 0,
         endValue: endValue,
         values:data,
+        palette:palette,
         label: {
             indent: 30,
             format: 'fixedPoint',
@@ -1390,7 +1397,7 @@ function chartContainerFuturePurchasePrice(data,endValue){
 }
 
 function chartContainerCurrentCostOfLiving(){
-    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
+    var palette = ['#9BCE7d', '#72Ac93', '#699E87'];
 
     var dataSource = [
         {region: "Council Tax, Gas, Water, Electricity", val: 150},
@@ -1449,7 +1456,8 @@ function chartContainerCurrentCostOfLiving(){
 }
 
 function chartContainerFutureCostOfLiving(){
-    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
+//    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
+    var palette = ['#efefef', '#F6E2AB', '#98002f','#d5d5d5'];
 
     var dataSource = [
         {region: "Council Tax, Gas, Water, Electricity", val: 150},

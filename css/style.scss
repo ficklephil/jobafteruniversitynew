@@ -273,6 +273,7 @@ h4{
 
   background-color: $scheme-two-color-four;
   color: $lightest-color;
+  margin-top:50px;
 
   border-bottom: 1px solid lightgray;
 
@@ -464,6 +465,12 @@ h4{
       }
     }
 
+  .remove-borders{
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: $scheme-two-color-two;
+  }
+
     .current{
       background-color:#efefef;
       .title{
@@ -498,7 +505,8 @@ h4{
 
   .job-item-content-savings{
     @include job-item-content();
-    background-color:$lightest-color;
+    //background-color:$scheme-two-color-two;
+    background-color:#efefef;
     padding-top: 0px;
 
     #chartContainer{
@@ -509,8 +517,8 @@ h4{
   .job-item-content-savings-explanation{
     @include job-item-content();
     background-color:$medium-dark-color;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    //border-bottom-left-radius: 20px;
+    //border-bottom-right-radius: 20px;
   }
 
   .job-item-content-savings-over-time{
@@ -626,7 +634,7 @@ h4{
       //text-align: center;
 
       .title{
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         font-size:1.2em;
       }
     }
@@ -638,7 +646,7 @@ h4{
       //text-align: center;
 
       .title{
-        margin-bottom: 10px;
+        margin-bottom: 20px;
         font-size:1.2em;
         color: $lightest-color;
       }
@@ -733,6 +741,14 @@ h4{
 
     h4{
       color:$unemployment-yellow-color;
+    }
+  }
+
+  .job-item-small-description-container-buy{
+    @include job-item-small-description();
+
+    h4{
+      color:$scheme-two-color-four;
     }
   }
 }

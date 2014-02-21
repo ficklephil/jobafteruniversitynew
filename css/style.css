@@ -159,6 +159,7 @@ h4 {
 .jumbotron {
   background-color: #bd0102;
   color: #efefef;
+  margin-top: 50px;
   border-bottom: 1px solid lightgray;
   text-align: center; }
   .jumbotron .title {
@@ -281,6 +282,10 @@ h4 {
         font-weight: 300;
         text-align: center;
         color: #72ac93; }
+  .job-item .remove-borders {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #72ac93; }
   .job-item .current {
     background-color: #efefef; }
     .job-item .current .title {
@@ -313,9 +318,7 @@ h4 {
     padding: 50px;
     background-color: #72ac93;
     color: #efefef;
-    background-color: #72ac93;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px; }
+    background-color: #72ac93; }
   .job-item .job-item-content-savings-over-time {
     font-family: 'Roboto', sans-serif;
     font-weight: 100;
@@ -461,7 +464,7 @@ h4 {
     background-color: #efefef;
     color: #72ac93; }
     .job-item .job-item-content-housing .title {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       font-size: 1.2em; }
   .job-item .job-item-content-future-housing {
     font-family: 'Roboto', sans-serif;
@@ -473,7 +476,7 @@ h4 {
     background-color: #72ac93;
     color: #bd0102; }
     .job-item .job-item-content-future-housing .title {
-      margin-bottom: 10px;
+      margin-bottom: 20px;
       font-size: 1.2em;
       color: #efefef; }
   .job-item .job-item-related-jobs {
@@ -537,3 +540,12 @@ h4 {
     color: #98002f; }
   .job-item-small .job-item-small-description-container-unemployment h4 {
     color: #f0ad4e; }
+  .job-item-small .job-item-small-description-container-buy p {
+    font-size: 1.6em;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 100;
+    color: #72ac93; }
+  .job-item-small .job-item-small-description-container-buy h4 {
+    color: #98002f; }
+  .job-item-small .job-item-small-description-container-buy h4 {
+    color: #bd0102; }
