@@ -44,7 +44,7 @@
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Job after university?</a>
+              <a class="navbar-brand" href="http://www.jobafteruniversity.co.uk">Job after university?</a>
 
               <form class="navbar-form navbar-left">
                   <input type="text" id="cost-input" class="form-control cost-of-living-control" placeholder="Expenses (per month), excluding rent.">
@@ -57,30 +57,30 @@
                   <li class="dropdown">
                       <a href="#" class="dropdown-toggle graduation-toggle-text" data-toggle="dropdown">Graduation Date : <span class='graduation-year'>2017</span><b class="caret"></b></a>
                       <ul class="dropdown-menu graduation-menu">
-                          <li><a href="#">2014</a></li>
-                          <li><a href="#">2015</a></li>
-                          <li><a href="#">2016</a></li>
-                          <li><a href="#">2017</a></li>
-                          <li><a href="#">2018</a></li>
-                          <li><a href="#">2019</a></li>
-                          <li><a href="#">2020</a></li>
+                          <li><a>2014</a></li>
+                          <li><a>2015</a></li>
+                          <li><a>2016</a></li>
+                          <li><a>2017</a></li>
+                          <li><a>2018</a></li>
+                          <li><a>2019</a></li>
+                          <li><a>2020</a></li>
                       </ul>
                   </li>
                   <li class="dropdown">
-                      <a href="#" class="dropdown-toggle region" data-toggle="dropdown">Region : London<b class="caret"></b></a>
-                      <ul class="dropdown-menu">
-                          <li><a href="#">London</a></li>
-                          <li><a href="#">Yorkshire and the Humber</a></li>
-                          <li><a href="#">East of England</a></li>
-                          <li><a href="#">South East (England)</a></li>
-                          <li><a href="#">South West (England)</a></li>
-                          <li><a href="#">Wales</a></li>
-                          <li><a href="#">Scotland</a></li>
-                          <li><a href="#">East Midlands (England)</a></li>
-                          <li><a href="#">North East (England)</a></li>
-                          <li><a href="#">North West (England)</a></li>
-                          <li><a href="#">Northern Ireland</a></li>
-                          <li><a href="#">West Midlands (England)</a></li>
+                      <a href="#" class="dropdown-toggle region" data-toggle="dropdown">Region : <span class='region-display'>London</span><b class="caret"></b></a>
+                      <ul class="dropdown-menu region-menu">
+                          <li><a>London</a></li>
+                          <li><a>North East (England)</a></li>
+                          <li><a>North West (England)</a></li>
+                          <li><a>Yorkshire & Humberside</a></li>
+                          <li><a>East Midlands (England)</a></li>
+                          <li><a>West Midlands (England)</a></li>
+                          <li><a>East of England</a></li>
+                          <li><a>South East (England)</a></li>
+                          <li><a>South West (England)</a></li>
+                          <li><a>Wales</a></li>
+                          <li><a>Scotland</a></li>
+                          <li><a>Northern Ireland</a></li>
                       </ul>
                   </li>
               </ul>
@@ -117,9 +117,9 @@
           </div>
           <div class="col-md-4">
               <h2>Datasources</h2>
-              <p>LMI for All API</p>
-              <p>The Office for National Statistics</p>
-              <p>Nestoria API</p>
+              <p><a href='http://www.lmiforall.org.uk/'>LMI for All API</a></p>
+              <p><a href='http://www.statistics.gov.uk/hub/index.html'>The Office for National Statistics</a></p>
+              <p><a href='http://www.nestoria.co.uk/help/api'>Nestoria API</a></p>
           </div>
       </div>
   </div>
@@ -195,8 +195,8 @@
             <div class="col-md-12 job-item-content-education-description">
                 Have you ever wondered how many people employed in this job are degree educated?
                 This chart will help to inform you if you need to go to university to get this job.
-                The chart shows the degree levels of a person employed in this role in London,
-                in 2017 ! So you know what educational backgrounds people who are working with you
+                The chart shows the degree levels of a person employed in this role in {{regionName}},
+                in {{graduationYear}} ! So you know what educational backgrounds people who are working with you
                 will have.
             </div>
             <div class="col-md-12 job-item-content-education">
@@ -257,7 +257,7 @@
                     <div class="col-md-12 job-item-content-education-description">
                         Have you ever wondered if after graduating from university there will be {{jobTitle}} jobs
                         available when you come out? Well over the next <span class='highlight'>{{yearsAtUniversity}} years</span> while your at university the amount
-                        of <span class='highlight'>{{jobTitle}}</span> roles would of <span class='highlight'>{{jobIncreaseOrDecreased}}</span> by <span class='highlight'>{{jobPercentageChange}}%</span> in London.
+                        of <span class='highlight'>{{jobTitle}}</span> roles would of <span class='highlight'>{{jobIncreaseOrDecreased}}</span> by <span class='highlight'>{{jobPercentageChange}}%</span> in {{regionName}}.
                         This is a {{jobIncreaseOrDecrease}} of <span class='highlight'>{{changeInNumberOfEmployed}}</span> roles between <span class='highlight'>this year</span> and your <span class='highlight'>graduation year</span>.
                     </div>
                 </div>
@@ -356,8 +356,8 @@
                 It's the future, and you want to rent a flat. You need to know how much
                     it will cost, so that you know how much
                     you can save each month, for maybe that dream flat!
-                    This is the estimated rent price in London in your Graduation Year, calculated from
-                    from the rental prices in London last month (Jan 2014), and previous rent prices.
+                    This is the estimated rent price in {{regionName}} in your Graduation Year, calculated from
+                    from the rental prices in {{regionName}} last month (Jan 2014), and previous rent prices.
             </div>
             <div class="col-md-12">
                 <div class="row">
@@ -384,8 +384,8 @@
                 It's the future, and you want to rent a flat. You need to know how much
                 it will cost, so that you know how much
                 you can save each month, for maybe that dream flat!
-                This is the estimated rent price in London in your Graduation Year, calculated from
-                from the rental prices in London last month (Jan 2014), and previous rent prices.
+                This is the estimated rent price in {{regionName}} in your Graduation Year, calculated from
+                from the rental prices in {{regionName}} last month (Jan 2014), and previous rent prices.
             </div>
             <div class="col-md-12">
                 <div class="row">
@@ -472,7 +472,7 @@
                     <div class="col-md-12 job-item-content-estimated-salary remove-borders">
                         <div class="row">
                             If you spend £{{userFutureExpenses}} on expenses per month when you come out of university,
-                            and the average rent is £{{rentPrices[0].price}} for a 1 Bed Property in London, in 2017, and your average estimated salary is £{{estimatedPayMonthly}} per month as a {{jobTitle}}
+                            and the average rent is £{{rentPrices[0].price}} for a 1 Bed Property in {{regionName}}, in 2017, and your average estimated salary is £{{estimatedPayMonthly}} per month as a {{jobTitle}}
                             you will save the following figure per month!
                         </div>
                     </div>

@@ -8,19 +8,10 @@ var ractive = new Ractive({
     template:'#myTemplate',
     data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayMonthly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
-        percentSkillsShortages:20,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:6,
-        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0}
+        percentSkillsShortages:0,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:0,
+        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0,regionName:'Unknown Region'}
 });
 
-
-//this is not in keeping with the logic of the
-//application change
-
-function listenDropdownGraduationChange(){
-    $(".graduation-menu li a").click(function(){
-        $(".graduation-year").text($(this).text());
-    });
-};
 
 $(function() {
     var availableTags = [
@@ -90,29 +81,166 @@ $( "#career-input" ).autocomplete({
 });
 
 function search(soc){
+    setStoredSocCode(soc);
 
     getExpenses();
     calcUsersFutureExpenses(getExpenses());
     ractive.set("userExpenses", getExpenses());
 
     getExtendedJobInfomation(soc);
-    getSkillsShortages(soc,1);
+    getSkillsShortages(soc,getRegionCode());
     getUnemployment(soc);
 
-//    getCareerWorkFuture(soc);
-    getRegionWorkFuture(soc);
+    getRegionWorkFuture(soc,getRegionCode());
     getEductionWorkFuture(soc);
 
     getEstimatedPay(soc);
 
     scrollToStart();
 
+    console.log('getGraduationYear()' + getGraduationYear());
+
     setYearsAtUniversity(getGraduationYear(), getCurrentYear());
     ractive.set("graduationYear", getGraduationYear());
 
+    console.log('REGION CODE : ' + getRegionCode);
+    console.log('REGION NAME : ' + getRegionName());
+    ractive.set("regionName", getRegionName());
+
+
     getOnet(soc);
 
-    getNestoriaData();
+    getNestoriaData(getRegionName());
+
+    console.log('REGION CODE ' + getRegionCode());
+
+}
+
+function getStoredSocCode(){
+    return this.socCode;
+}
+
+function setStoredSocCode(code){
+    this.socCode = code;
+}
+
+
+//GRADUATION YEAR
+
+//this is not in keeping with the logic of the
+//application change
+function listenDropdownGraduationChange(){
+    $(".graduation-menu li a").click(function(){
+        $(".graduation-year").text($(this).text());
+
+        console.log('getStoredSocCode()' + getStoredSocCode());
+
+        if(getStoredSocCode() != undefined){
+            search(getStoredSocCode());
+        }else{
+            alert('Now set what job you would like to do after university.');
+        }
+    });
+
+
+
+};
+
+function getCurrentYear(){
+    return 2014;
+}
+
+function getGraduationYear(){
+    console.log('Graduation Year : ' + $(".graduation-year").text());
+    return parseInt($(".graduation-year").text());
+}
+
+//REGION MENU
+function listenDropdownRegionChange(){
+    $(".region-menu li a").click(function(){
+        $(".region-display").text($(this).text());
+        setRegionCode(calcRegionCode($(this).text()));
+
+        if(getStoredSocCode() != undefined){
+            search(getStoredSocCode());
+        }else{
+            alert('Now set what job you would like to do after university.');
+        }
+    });
+};
+
+//improve later
+function calcRegionCode(value){
+    console.log('value' + value);
+    var code = 1;//default is London
+
+    switch(value){
+        case 'London':
+            code = 1;
+            break;
+        case 'North East (England)':
+            code = 2;
+            break;
+        case 'North West (England)':
+            code = 3;
+            break;
+        case 'Yorkshire & Humberside':
+            code = 4;
+            break;
+        case 'East Midlands (England)':
+            code = 5;
+            break;
+        case 'West Midlands (England)':
+            code = 6;
+            break;
+        case 'East of England':
+            code = 7;
+            break;
+        case 'South East (England)':
+            code = 8;
+            break;
+        case 'South West (England)':
+            code = 9;
+            break;
+        case 'Wales':
+            code = 10;
+            break;
+        case 'Scotland':
+            code = 11;
+            break;
+        case 'Northern Ireland':
+            code = 12;
+            break;
+    }
+
+    console.log('code ' + code);
+    return code;
+}
+
+//Default Region is London which is a region code of 1
+this.regionCode = 1;
+
+function setRegionCode(code){
+    this.regionCode = code;
+}
+
+function getRegionCode(){
+    return this.regionCode;
+}
+
+function getRegionName(){
+    console.log('Region Fullname : ' + $(".region-display").text());
+    return $(".region-display").text();
+}
+
+//Click on search clears search box
+function listenForClickInSearch(){
+    $("#career-input").click(function(){
+        var searchInput = $("#career-input").val();
+        if(searchInput.length > 1){
+            $("#career-input").val('');
+        }
+    });
 }
 
 function getExpenses(){
@@ -280,14 +408,6 @@ function setYearsAtUniversity(startYear, finishYear){
     ractive.set('yearsAtUniversity', startYear - finishYear);
 }
 
-function getCurrentYear(){
-    return 2014;
-}
-
-function getGraduationYear(){
-    console.log($(".graduation-year").text());
-    return parseInt($(".graduation-year").text());
-}
 
 function searchForJob(searchInput){
     $.ajax({
@@ -504,7 +624,7 @@ function setMoneyFutureData(json){
     ractive.set('estimatedPayYearly', numberWithCommaAtThousand(estimatedAverageSalaryYearlyPay));
 }
 
-function getRegionWorkFuture(soc){
+function getRegionWorkFuture(soc,region){
     console.log('get work futures');
     $.ajax({
         type: 'GET',
@@ -516,7 +636,7 @@ function getRegionWorkFuture(soc){
             console.log('regionAna')
 
             //getJobFutureInRegionChartFormatted(json);
-            drawChart(getJobFutureInRegionChartJSFormatted(json,1)); //rename
+            drawChart(getJobFutureInRegionChartJSFormatted(json,region)); //rename
 
             //DX Charts
             //var workFutureFormattedData = getJobFutureInRegionDXChartFormatted(json,1);
@@ -524,7 +644,7 @@ function getRegionWorkFuture(soc){
             //workFutureRange = getWorkFutureChartRange(workFutureFormattedData);
             //chartContainerWorkFuture(workFutureFormattedData,workFutureRange[0],workFutureRange[1]);
 
-            calcJobPercentageChangeRegion(json, getCurrentYear(), getGraduationYear(),1);
+            calcJobPercentageChangeRegion(json, getCurrentYear(), getGraduationYear(),region);
         },
         error: function(e) {
             console.log(e.message);
@@ -542,12 +662,12 @@ function getWorkFutureChartRange(data){
     return workFutureChartRange.sort(function(a, b){return a - b});
 }
 
-function getNestoriaData(){
+function getNestoriaData(regionName){
 
     console.log('get Nestoria Data');
     $.ajax({
         type: 'GET',
-        url: 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=metadata&place_name=London&encoding=json',
+        url: 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=metadata&place_name='+encodeURI(getRegionName())+'&encoding=json',
         async: false,
         contentType: "application/json",
         dataType: 'jsonp',
@@ -710,7 +830,7 @@ function getJobFutureInRegionChartJSFormatted(json,region){
         year.push(parseInt(json.predictedEmployment[index].year));
         for(var j=0;j<json.predictedEmployment[index].breakdown.length; j++){
 
-            if(parseInt(json.predictedEmployment[index].breakdown[j].code) == 1){
+            if(parseInt(json.predictedEmployment[index].breakdown[j].code) == region){
                 predictedNumberEmployed.push(parseInt(json.predictedEmployment[index].breakdown[j].employment))
                 break;
             }
@@ -931,11 +1051,17 @@ function setJobPercentageChange(percentage){
     ractive.set("jobPercentageChange", Math.round(percentage));
 }
 
+this.hasAnimated = false;
+
+//Only animated once at the start
 function scrollToStart(){
-    console.log('scrolling');
-//    $('html, body').animate({
-//        scrollTop: $("#start-content").offset().top
-//    }, 1000);
+    if(!hasAnimated){
+        $('html,body').animate({
+            scrollTop: $("#container").offset().top
+        }, 2000);
+
+        hasAnimated = true;
+    }
 }
 
 //scrollToStart();
@@ -1671,6 +1797,8 @@ $(window).resize(resizeChart);
 
 
 listenDropdownGraduationChange();
+listenDropdownRegionChange();
+
 
 $(window).resize(drawSavingsChart);
 //$(window).resize(drawSavingsOverTimeChart);
@@ -1688,3 +1816,8 @@ chartContainerCurrentCostOfLiving();
 
 //chartContainerDegreeEducated();
 //chartContainerWorkFuture();
+
+//listenForGraduateYearClick();
+//listenForRegionClick();
+
+listenForClickInSearch();

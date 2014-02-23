@@ -217,6 +217,7 @@ h4{
 .main-title{
   //border:1px solid red;
   margin-bottom: 21px;
+  margin-top:60px;
 
   h3{
     padding:23px;
@@ -239,12 +240,13 @@ h4{
 
   p{
     font-size:1.6em;
-    //color:#787878;
+    color:#787878;
   }
 
   ul{
     li{
       font-size:1.6em;
+      color:#787878;
     };
   }
 
@@ -335,7 +337,7 @@ h4{
     }
 
     @media (min-width: 992px){
-      width: 350px;
+      width: 280px;
     }
   }
 
@@ -345,7 +347,7 @@ h4{
     }
 
     @media (min-width: 992px){
-      width: 300px;
+      width: 265px;
     }
   }
 }

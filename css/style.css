@@ -122,7 +122,8 @@ h4 {
   font-size: 2em; }
 
 .main-title {
-  margin-bottom: 21px; }
+  margin-bottom: 21px;
+  margin-top: 60px; }
   .main-title h3 {
     padding: 23px;
     text-align: center; }
@@ -138,9 +139,11 @@ h4 {
   .intro-row .middle-column {
     margin-top: 65px; }
   .intro-row p {
-    font-size: 1.6em; }
+    font-size: 1.6em;
+    color: #787878; }
   .intro-row ul li {
-    font-size: 1.6em; }
+    font-size: 1.6em;
+    color: #787878; }
   .intro-row h2 {
     color: #bd0102; }
 
@@ -201,13 +204,13 @@ h4 {
     width: 250px; } }
 @media (min-width: 992px) {
   .navbar-form .form-control {
-    width: 350px; } }
+    width: 280px; } }
 @media (min-width: 768px) {
   .navbar-form .cost-of-living-control {
     width: 200px; } }
 @media (min-width: 992px) {
   .navbar-form .cost-of-living-control {
-    width: 300px; } }
+    width: 265px; } }
 
 .job-item {
   margin-bottom: 45px; }
