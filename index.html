@@ -408,7 +408,7 @@
                 This is your average cost of living per month, excluding rent.
                 If you havn't input this above, it will default to £500. Over here we've giving you
                 an estimated average cost of living per month in your graduation year &#40;{{graduationYear}}&#41;,
-                by multiplying your current cost of living by inflation calculated using the Retail Price Index.
+                by multiplying your current cost of living by predicted inflation calculated using the Retail Price Index.
             </div>
             <div class="col-md-6 job-item-content-estimated-salary current">
                 <div class="row">
@@ -441,8 +441,8 @@
                     <div class="col-md-12 job-item-content-estimated-salary remove-borders">
                         <div class="row">
                             If you spend £{{userFutureExpenses}} on expenses per month when you come out of university,
-                            and the average rent is £{{rentPrices[0].price}} for a 1 Bed Property in {{regionName}} in your graduation year &#40;{{graduationYear}}&#41;, and your average estimated salary is £{{estimatedPayMonthly}} per month as a {{jobTitle}}
-                            you will save the following figure per month :
+                            and the average rent is &pound;{{parseInt(futureRentPriceData[0])}} for a 1 Bed Property in {{regionName}} in your graduation year &#40;{{graduationYear}}&#41;, and your average estimated salary is £{{estimatedFuturePayMonthly}} per month as a {{jobTitle}}
+                            in &#40;{{graduationYear}}&#41;, you will save the following figure per month :
                         </div>
                     </div>
                     <div class="col-md-12 job-item-content-estimated-salary  remove-borders">

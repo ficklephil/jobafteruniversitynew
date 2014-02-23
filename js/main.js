@@ -9,7 +9,7 @@ var ractive = new Ractive({
     data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayMonthly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
         percentSkillsShortages:0,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:0,
-        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0,regionName:'Unknown region'}
+        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0,regionName:'Unknown region',futureRentPriceData:[],estimatedFuturePayMonthly:0}
 });
 
 
@@ -84,7 +84,7 @@ function search(soc){
     setStoredSocCode(soc);
 
     getExpenses();
-    calcUsersFutureExpenses(getExpenses());
+    calcUsersFutureExpenses(getExpenses(),getCurrentYear(),getGraduationYear());
     ractive.set("userExpenses", getExpenses());
 
     getExtendedJobInfomation(soc);
@@ -239,10 +239,10 @@ function getExpenses(){
     }
 }
 
-function calcUsersFutureExpenses(currentExpense){
+function calcUsersFutureExpenses(currentExpense, currentYear, graduationYear){
 
     var predictedInflation = avgRetailPriceIndex();
-    var yearsAtUniversity = 3;
+    var yearsAtUniversity = graduationYear - currentYear;
     var userFutureExpense = currentExpense;
 
     for(var i=0; i < yearsAtUniversity;i++){
@@ -519,8 +519,8 @@ function getEstimatedPay(soc){
         contentType: "application/json",
         dataType: 'jsonp',
         success: function(json) {
-            console.log('Estimated Pay Info : ' + JSON.stringify(json));
-            console.log(json.series[0].estpay);
+//            console.log('Estimated Pay Info : ' + JSON.stringify(json));
+//            console.log(json.series[0].estpay);
 
             setMoneyFutureData(json);
         },
@@ -581,6 +581,7 @@ function setMoneyFutureData(json){
 
     var predictedInflation = avgRetailPriceIndex();
     var yearsAtUniversity = 3;
+    const MONTHS_IN_YEAR = 12;
 
     var estimatedAverageSalaryWeeklyPay = parseInt(json.series[0].estpay);
     var estimatedAverageSalaryYearlyPay = estimatedAverageSalaryWeeklyPay * WEEKS_IN_YEAR;
@@ -593,7 +594,21 @@ function setMoneyFutureData(json){
     ractive.set('easYearlyPayGraduationYear', numberWithCommaAtThousand(parseInt(easYearlyPayGraduationYear)));
     ractive.set('estimatedPayWeekly', estimatedAverageSalaryWeeklyPay);
     ractive.set('estimatedPayMonthly', estimatedAverageSalaryWeeklyPay*4);
+
+    setEstimatedPayMonthlyGraduationYear(parseInt(easYearlyPayGraduationYear/12));
+
     ractive.set('estimatedPayYearly', numberWithCommaAtThousand(estimatedAverageSalaryYearlyPay));
+}
+
+function setEstimatedPayMonthlyGraduationYear(futureMonthlyPay){
+
+    console.log('Estimate Future Pay monthly' + futureMonthlyPay);
+    ractive.set('estimatedFuturePayMonthly', futureMonthlyPay);
+    this.estimatedFuturePayMonthly = futureMonthlyPay;
+}
+
+function getEstimatedPayMonthlyGraduationYear(){
+    return this.estimatedFuturePayMonthly;
 }
 
 function getRegionWorkFuture(soc,region){
@@ -637,7 +652,7 @@ function getNestoriaData(regionName){
     console.log('get Nestoria Data');
     $.ajax({
         type: 'GET',
-        url: 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=metadata&place_name='+encodeURI(getRegionName())+'&encoding=json',
+        url: 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=metadata&place_name='+encodeURI(regionName)+'&encoding=json',
         async: false,
         contentType: "application/json",
         dataType: 'jsonp',
@@ -692,15 +707,26 @@ function extractNestoriaData(json,nestoriaDataTime) {
     ractive.set("rentPrices", avgRentPrices);
     ractive.set("buyPrices", avgBuyPrices);
 
-    calcSavingPerMonth(avgRentPrices[0].price);
+//    calcSavingPerMonth(avgRentPrices[0].price);
 }
 
 function calcSavingPerMonth(rentFor1BedFlat){
 
+    console.log('rentFor1BedFlat' + rentFor1BedFlat);
+
     var userExpensePerMonth = ractive.get('userFutureExpenses');
     var flatPerMonth = rentFor1BedFlat;
-    var estimatedPayMonthly = ractive.get('estimatedPayMonthly');
-    var totalSavingPerMonth = estimatedPayMonthly - (userExpensePerMonth + flatPerMonth);
+//    var estimatedPayMonthly = ractive.get('estimatedPayMonthly');
+    var estimatedPayMonthly = getEstimatedPayMonthlyGraduationYear();
+
+
+    console.log('parseInt(estimatedPayMonthly)' + estimatedPayMonthly);
+    console.log('parseInt(userExpensePerMonth)' + parseInt(userExpensePerMonth));
+    console.log('flatPerMonth' + flatPerMonth);
+
+    var totalSavingPerMonth = estimatedPayMonthly - (parseInt(userExpensePerMonth) + flatPerMonth);
+
+    console.log('totalSavingPerMonth' + totalSavingPerMonth);
 
     ractive.set("userSavingPerMonth", totalSavingPerMonth);
 
@@ -769,6 +795,12 @@ function createFutureRentChart(data,currentYear, graduationYear){
     }
 
     chartContainerFutureRent(priceData, endValue);
+
+    console.log('Price data' + priceData);
+
+    ractive.set("futureRentPriceData", priceData);
+
+    calcSavingPerMonth(parseInt(priceData[0]));
 }
 
 function createCurrentPurchaseChart(data){
@@ -897,25 +929,6 @@ function getJobFutureInRegionDXChartFormatted(json,region){
     return employmentByYearData;
 
 }
-
-//function getCareerWorkFuture(soc){
-//    console.log('get work futures');
-//    $.ajax({
-//        type: 'GET',
-//        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict?soc='+soc+'&minYear=2013&maxYear=2020',
-//        async: false,
-//        contentType: "application/json",
-//        dataType: 'jsonp',
-//        success: function(json) {
-//            drawChart(createCareerFutureDataForChart(json)); //rename
-//            calcJobPercentageChange(json, getCurrentYear(), getGraduationYear());
-//        },
-//        error: function(e) {
-//            console.log(e.message);
-//            alert('I have no JSON');
-//        }
-//    });
-//}
 
 function getEductionWorkFuture(soc){
     console.log('get education work futures');
