@@ -9,7 +9,7 @@ var ractive = new Ractive({
     data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayMonthly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
         percentSkillsShortages:0,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:0,
-        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0,regionName:'Unknown region',futureRentPriceData:[],estimatedFuturePayMonthly:0}
+        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0,regionName:'Unknown region',futureRentPriceData:[],estimatedFuturePayMonthly:0,homeBuyersDeposits:[]}
 });
 
 
@@ -83,6 +83,8 @@ $( "#career-input" ).autocomplete({
 function search(soc){
     setStoredSocCode(soc);
 
+    getEstimatedPay(soc);
+
     getExpenses();
     calcUsersFutureExpenses(getExpenses(),getCurrentYear(),getGraduationYear());
     ractive.set("userExpenses", getExpenses());
@@ -94,7 +96,7 @@ function search(soc){
     getRegionWorkFuture(soc,getRegionCode());
     getEductionWorkFuture(soc);
 
-    getEstimatedPay(soc);
+
 
     scrollToStart();
 
@@ -381,42 +383,42 @@ function setYearsAtUniversity(startYear, finishYear){
 }
 
 
-function searchForJob(searchInput){
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/soc/search?q='+searchInput,
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-            for(var jobIndex=0;jobIndex < json.length; jobIndex++){
-                jobMatches.push({name:json[jobIndex].title.toString(), soc:json[jobIndex].soc})
-            }
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('Unable to get back searches for jobs');
-        }
-    });
-}
+//function searchForJob(searchInput){
+//    $.ajax({
+//        type: 'GET',
+//        url: 'http://api.lmiforall.org.uk/api/v1/soc/search?q='+searchInput,
+//        async: false,
+//        contentType: "application/json",
+//        dataType: 'jsonp',
+//        success: function(json) {
+//            for(var jobIndex=0;jobIndex < json.length; jobIndex++){
+//                jobMatches.push({name:json[jobIndex].title.toString(), soc:json[jobIndex].soc})
+//            }
+//        },
+//        error: function(e) {
+//            console.log(e.message);
+//            alert('Unable to get back searches for jobs');
+//        }
+//    });
+//}
 
-function searchJobData(){
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/soc/search?q=science',
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-            console.log(JSON.stringify(json));
-//                       alert('I have JSON');
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON');
-        }
-    });
-}
+//function searchJobData(){
+//    $.ajax({
+//        type: 'GET',
+//        url: 'http://api.lmiforall.org.uk/api/v1/soc/search?q=science',
+//        async: false,
+//        contentType: "application/json",
+//        dataType: 'jsonp',
+//        success: function(json) {
+//            console.log(JSON.stringify(json));
+////                       alert('I have JSON');
+//        },
+//        error: function(e) {
+//            console.log(e.message);
+//            alert('I have no JSON');
+//        }
+//    });
+//}
 
 function getExtendedJobInfomation(soc){
     $.ajax({
@@ -426,17 +428,10 @@ function getExtendedJobInfomation(soc){
         contentType: "application/json",
         dataType: 'jsonp',
         success: function(json) {
-            console.log('Extended Soc info : ' + JSON.stringify(json));
-
-            console.log('Job title' + json.title);
-            console.log('qualificationsRequired' + json.title);
-
             ractive.set('jobTitle', json.title) ;
             ractive.set('qualificationsRequired', json.qualifications) ;
             ractive.set('jobDescription', json.description) ;
             ractive.set('jobTasks', json.tasks) ;
-
-//                       alert('I have JSON');
         },
         error: function(e) {
             console.log(e.message);
@@ -592,15 +587,28 @@ function setMoneyFutureData(json){
     }
 
     ractive.set('easYearlyPayGraduationYear', numberWithCommaAtThousand(parseInt(easYearlyPayGraduationYear)));
+    setEstimatedPayYearlyGraduationYear(numberWithCommaAtThousand(parseInt(easYearlyPayGraduationYear)));
+
     ractive.set('estimatedPayWeekly', estimatedAverageSalaryWeeklyPay);
     ractive.set('estimatedPayMonthly', estimatedAverageSalaryWeeklyPay*4);
+
 
     setEstimatedPayMonthlyGraduationYear(parseInt(easYearlyPayGraduationYear/12));
 
     ractive.set('estimatedPayYearly', numberWithCommaAtThousand(estimatedAverageSalaryYearlyPay));
 }
 
+function setEstimatedPayYearlyGraduationYear(futureYearlyPay){
+    this.estimatedFutureYearlyPay = futureYearlyPay;
+}
+
+function getEstimatedPayYearlyGraduationYear(){
+    return this.estimatedFutureYearlyPay;
+}
+
 function setEstimatedPayMonthlyGraduationYear(futureMonthlyPay){
+
+    console.log('NOW WE ARE SETTING THE ESTIMATED PAY MONTHLY');
 
     console.log('Estimate Future Pay monthly' + futureMonthlyPay);
     ractive.set('estimatedFuturePayMonthly', futureMonthlyPay);
@@ -608,6 +616,7 @@ function setEstimatedPayMonthlyGraduationYear(futureMonthlyPay){
 }
 
 function getEstimatedPayMonthlyGraduationYear(){
+    console.log('NOW WE ARE GETTING THE ESTIMATED PAY MONTHLY');
     return this.estimatedFuturePayMonthly;
 }
 
@@ -707,6 +716,8 @@ function extractNestoriaData(json,nestoriaDataTime) {
     ractive.set("rentPrices", avgRentPrices);
     ractive.set("buyPrices", avgBuyPrices);
 
+
+
 //    calcSavingPerMonth(avgRentPrices[0].price);
 }
 
@@ -731,17 +742,26 @@ function calcSavingPerMonth(rentFor1BedFlat){
     ractive.set("userSavingPerMonth", totalSavingPerMonth);
 
     setPrepareSavingsChart(totalSavingPerMonth);
+    setEstimatedSavingsPerMonth(totalSavingPerMonth);
 
+}
+
+function setEstimatedSavingsPerMonth(savingsPerMonth){
+    this.estimatedSavingsPerMonth = savingsPerMonth;
+}
+
+function getEstimatedSavingsPerMonth(){
+    return this.estimatedSavingsPerMonth;
 }
 
 function setPrepareSavingsChart(totalSavingPerMonth){
 
     //so let's run through each year and the saving from that year
 
-    var yearsSavingsToShow = 11;
-    var yearlySavings = totalSavingPerMonth * 12;
+    var yearsSavingsToShow = 20;
+    var yearlySavings = totalSavingPerMonth;
     var savingTime=[];
-    var year = getGraduationYear();
+    var year = 0;
     console.log('year' + year);
 
 
@@ -750,16 +770,6 @@ function setPrepareSavingsChart(totalSavingPerMonth){
         savingTime.push({year:year,savings:yearlySavings * i});
         year++;
     }
-
-
-//    var dataSource = [
-//        { year: 2016, savings: 0 },
-//        { year: 2017, savings: 1000 },
-//        { year: 2018, savings: 1500},
-//        { year: 2019, savings: 1900 },
-//        { year: 2020, savings: 2300},
-//        { year: 2021, savings: 4000}
-//    ];
 
     drawSavingsOverTimeChart(savingTime);
 }
@@ -789,17 +799,12 @@ function createFutureRentChart(data,currentYear, graduationYear){
 
         for(var j=0;j<yearDifference;j++){
             priceForYear += (parseInt(data[i].price) / 100) * averagePriceIncrease;
-            console.log('Rent Price in year : '+i+ ' : ' + priceForYear);
         }
         priceData.push(priceForYear);
     }
 
     chartContainerFutureRent(priceData, endValue);
-
-    console.log('Price data' + priceData);
-
     ractive.set("futureRentPriceData", priceData);
-
     calcSavingPerMonth(parseInt(priceData[0]));
 }
 
@@ -832,6 +837,8 @@ function createFuturePurchaseChart(data,currentYear, graduationYear){
         }
         priceData.push(priceForYear);
     }
+
+    calculateHowLongToDeposit(priceData, getEstimatedSavingsPerMonth());
 
     chartContainerFuturePurchasePrice(priceData, endValue);
 }
@@ -902,32 +909,7 @@ function getJobFutureInRegionDXChartFormatted(json,region){
     }
 
     console.log(employmentByYearData);
-
-    var dataSource = [
-        {year: "Monday", employment: 3},
-        {year: "Tuesday", employment: 2},
-        {year: "Wednesday", employment: 3},
-        {year: "Thursday", employment: 4},
-        {year: "Friday", employment: 6},
-        {year: "Saturday", employment: 11},
-        {year: "Sunday", employment: 4} ];
-
-//    var data = {
-//        labels : year,
-//        datasets : [
-//            {
-////                fillColor : "rgba(255,204,0,0.45)",
-//                fillColor : "#CE0043",
-//                strokeColor : "#CE0043",
-//                pointColor : "#CE0043",
-//                pointStrokeColor : "#CE0043",
-//                data : predictedNumberEmployed
-//            },
-//        ]
-//    }
-
     return employmentByYearData;
-
 }
 
 function getEductionWorkFuture(soc){
@@ -1125,7 +1107,24 @@ function getEmployedGraduationYear(){
     return this.employedGraduationYearForEducation;
 }
 
+function calculateHowLongToDeposit(propertyPrices, savingsPerMonth){
 
+    const FIVE_PERCENT_HOME_BUYERS_DEPOSIT=5;
+    var homeBuyersDeposits=[];
+    var moneyNeededForDeposit = 0;
+    var timeToSaveForDeposit=0;
+
+    console.log(propertyPrices);
+    console.log(savingsPerMonth);
+
+    for(var i=0;i<propertyPrices.length;i++){
+        moneyNeededForDeposit = parseInt(propertyPrices[i]/100) * FIVE_PERCENT_HOME_BUYERS_DEPOSIT;
+        timeToSaveForDeposit = moneyNeededForDeposit/(savingsPerMonth);
+        homeBuyersDeposits.push(Math.round(timeToSaveForDeposit));
+    }
+
+    ractive.set("homeBuyersDeposits", homeBuyersDeposits)
+}
 
 function createFormattedDataForEducationChart(futureEducationData){
 
@@ -1139,8 +1138,6 @@ function createFormattedDataForEducationChart(futureEducationData){
 }
 
 function createFormattedDataForEducationDXChart(futureEducationData){
-
-    console.log('futureEducationData' + JSON.stringify(futureEducationData));
 
     var formattedEducationChartData = [];
     for(var j=0; j < futureEducationData.length;j++){
@@ -1434,16 +1431,6 @@ function drawSavingsChart(){
 function drawSavingsOverTimeChart(savingsDataSource){
 
     var palette = ['#BD0102'];
-
-//    var dataSource = [
-//        { year: 2016, savings: 0 },
-//        { year: 2017, savings: 1000 },
-//        { year: 2018, savings: 1500},
-//        { year: 2019, savings: 1900 },
-//        { year: 2020, savings: 2300},
-//        { year: 2021, savings: 4000}
-//    ];
-
     $("#chartContainerSavingsOverTime").dxChart({
         dataSource: savingsDataSource,
         commonSeriesSettings: {
@@ -1459,7 +1446,10 @@ function drawSavingsOverTimeChart(savingsDataSource){
             { valueField: "savings", name: "Savings" }
         ],
         tooltip:{
-            enabled: true
+            enabled: true,
+            customizeText: function() {
+                return "£" + this.originalValue + " saved.";
+            }
         },
         argumentAxis: {
             label: {
@@ -1649,7 +1639,6 @@ function chartContainerCurrentCostOfLiving(){
 }
 
 function chartContainerFutureCostOfLiving(){
-//    var palette = ['#b4d34f', '#d3dc5a', '#f1e064', '#fad075', '#fa9a46', '#fa6b63'];
     var palette = ['#efefef', '#F6E2AB', '#98002f','#d5d5d5'];
 
     var dataSource = [
@@ -1784,6 +1773,7 @@ function chartContainerWorkFuture(dataSource,startValue,endValue){
     });
 }
 
+//needed?
 $(window).resize(resizeChart);
 //$(window).resize(resizeEducationChart);
 
@@ -1792,24 +1782,15 @@ listenDropdownGraduationChange();
 listenDropdownRegionChange();
 
 
-$(window).resize(drawSavingsChart);
+//needed?
+//$(window).resize(drawSavingsChart);
 //$(window).resize(drawSavingsOverTimeChart);
 
-drawSavingsChart();
-//drawSavingsOverTimeChart();
+//needed?
+//drawSavingsChart();
 
-//chartContainerCurrentRent();
-//chartContainerFutureRent();
 
 chartContainerFutureCostOfLiving();
 chartContainerCurrentCostOfLiving();
-
-//getNestoriaData();
-
-//chartContainerDegreeEducated();
-//chartContainerWorkFuture();
-
-//listenForGraduateYearClick();
-//listenForRegionClick();
 
 listenForClickInSearch();
