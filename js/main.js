@@ -83,7 +83,7 @@ $( "#career-input" ).autocomplete({
 function search(soc){
     setStoredSocCode(soc);
 
-    getEstimatedPay(soc);
+    getEstimatedPay(soc,getRegionCode());
 
     getExpenses();
     calcUsersFutureExpenses(getExpenses(),getCurrentYear(),getGraduationYear());
@@ -505,10 +505,10 @@ function getUnemployment(soc){
 }
 
 //soc is Standard Occupational Classification
-function getEstimatedPay(soc){
+function getEstimatedPay(soc,region){
     $.ajax({
         type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?soc='+soc+'&coarse=true',
+        url: 'http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?soc='+soc+'&coarse=true&filters=region%3A'+region,
         async: false,
         jsonpCallback: 'jsonCallback',
         contentType: "application/json",
