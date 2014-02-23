@@ -308,8 +308,8 @@
                             <div class='job-item-small-percentage-unemployment'>{{unemploymentRate}}%</div>
                         </div>
                     </div>
-                    <div class="col-md-10 job-item-small-description-container-unemployment"><h4>Unemployment</h4><p>{{jobTitle}} has an employment rate of {{unemploymentRate}} UK wide which means that for every 100 jobs
-                        there are 6 people unemployed within the UK for this role.</p></div>
+                    <div class="col-md-10 job-item-small-description-container-unemployment"><h4>Unemployment</h4><p>{{jobTitle}} has an employment rate of {{unemploymentRate}}% UK wide which means that for every 100 jobs
+                        there are {{unemploymentRate}} people unemployed within the UK for this role.</p></div>
                 </div>
             </div>
         </div>
@@ -352,11 +352,11 @@
                 </div>
             </div>
             <div class="col-md-12 job-item-content-education-description">
-                It's the future, and you want to rent a flat. You need to know how much
+                It's the future, and you want to rent a property. You need to know how much
                     it will cost, so that you know how much
-                    you can save each month, for maybe that dream flat!
-                    This is the estimated rent price in {{regionName}} in your Graduation Year, calculated from
-                    from the rental prices in {{regionName}} last month (Jan 2014), and previous rent prices.
+                    you can save each month, for maybe that dream property !
+                    This is the estimated rent price in {{regionName}} for your graduation year &#40;{{graduationYear}}&#41;, calculated from
+                    the rental price in {{regionName}} last month (Jan 2014), and previous rent prices.
             </div>
             <div class="col-md-12">
                 <div class="row">
@@ -365,7 +365,7 @@
                         <div id="chartContainerCurrentRent" style="max-width:600px;height: 300px;"></div>
                     </div>
                     <div class="col-md-6 job-item-content-future-housing">
-                        <div class='title'>Estimated Graduation Year Rent prices for 1 Bed, 2 Bed & 3 Bed property respectively.</div>
+                        <div class='title'>Estimated Graduation Year &#40;{{graduationYear}}&#41; Rent prices for 1 Bed, 2 Bed & 3 Bed property respectively.</div>
                         <div id="chartContainerFutureRent" style="max-width:600px;height: 300px;"></div>
                     </div>
                 </div>
@@ -380,11 +380,9 @@
                 </div>
             </div>
             <div class="col-md-12 job-item-content-education-description">
-                It's the future, and you want to rent a flat. You need to know how much
-                it will cost, so that you know how much
-                you can save each month, for maybe that dream flat!
-                This is the estimated rent price in {{regionName}} in your Graduation Year, calculated from
-                from the rental prices in {{regionName}} last month (Jan 2014), and previous rent prices.
+                You want to save up for your dream property, but how much will this cost in the future?
+                Let's try to give a rough estimate of the purchase price in {{regionName}} in your graduation Year &#40;{{graduationYear}}&#41;, calculated from
+                the purchase price in {{regionName}} last month (Jan 2014), and previous purchase prices.
             </div>
             <div class="col-md-12">
                 <div class="row">
@@ -393,40 +391,12 @@
                         <div id="chartContainerCurrentPurchasePrice" style="max-width:600px;height: 300px;"></div>
                     </div>
                     <div class="col-md-6 job-item-content-future-housing">
-                        <div class='title'>Estimated Graduation Year Purchase prices for 1 Bed, 2 Bed & 3 Bed property respectively.</div>
+                        <div class='title'>Estimated Graduation Year &#40;{{graduationYear}}&#41; Purchase prices for 1 Bed, 2 Bed & 3 Bed property respectively.</div>
                         <div id="chartContainerFuturePurchasePrice" style="max-width:600px;height: 300px;"></div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Cost of Living -->
-        <!--<div class="row job-item">-->
-            <!--<div class="col-md-12">-->
-                <!--<div class="row">-->
-                    <!--<h2>Cost of Living</h2>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="col-md-12 job-item-content-education-description">-->
-                <!--This is your average cost of living per month, excluding rent.-->
-                <!--You would of put this in at the top of the page, if you havn't-->
-                <!--it will just default to £500. Over here we've giving you-->
-                <!--an estimated average cost of living per month in your graduation year,-->
-                <!--just by multiplying your current cost of living by inflation again.-->
-            <!--</div>-->
-            <!--<div class="col-md-12">-->
-                <!--<div class="row">-->
-                    <!--<div class="col-md-6 job-item-content-housing">-->
-                        <!--<div class='title'>Current Estimated cost of living</div>-->
-                        <!--<div id="chartContainerCurrentCostOfLiving" style="max-width:600px;height: 300px;"></div>-->
-                    <!--</div>-->
-                    <!--<div class="col-md-6 job-item-content-future-housing">-->
-                        <!--<div class='title'>Estimated cost of living graduation year.</div>-->
-                        <!--<div id="chartContainerFutureCostOfLiving" style="max-width:600px;height: 300px;"></div>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
 
         <div class="row job-item">
             <div class="col-md-12">
@@ -436,9 +406,9 @@
             </div>
             <div class="col-md-12 job-item-content-education-description">
                 This is your average cost of living per month, excluding rent.
-                If you havn't input this above it will default to £500. Over here we've giving you
-                an estimated average cost of living per month in your graduation year,
-                just by multiplying your current cost of living by inflation again.
+                If you havn't input this above, it will default to £500. Over here we've giving you
+                an estimated average cost of living per month in your graduation year &#40;{{graduationYear}}&#41;,
+                by multiplying your current cost of living by inflation calculated using the Retail Price Index.
             </div>
             <div class="col-md-6 job-item-content-estimated-salary current">
                 <div class="row">
@@ -471,8 +441,8 @@
                     <div class="col-md-12 job-item-content-estimated-salary remove-borders">
                         <div class="row">
                             If you spend £{{userFutureExpenses}} on expenses per month when you come out of university,
-                            and the average rent is £{{rentPrices[0].price}} for a 1 Bed Property in {{regionName}}, in 2017, and your average estimated salary is £{{estimatedPayMonthly}} per month as a {{jobTitle}}
-                            you will save the following figure per month!
+                            and the average rent is £{{rentPrices[0].price}} for a 1 Bed Property in {{regionName}} in your graduation year &#40;{{graduationYear}}&#41;, and your average estimated salary is £{{estimatedPayMonthly}} per month as a {{jobTitle}}
+                            you will save the following figure per month :
                         </div>
                     </div>
                     <div class="col-md-12 job-item-content-estimated-salary  remove-borders">

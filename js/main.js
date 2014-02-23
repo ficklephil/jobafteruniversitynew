@@ -8,8 +8,8 @@ var ractive = new Ractive({
     template:'#myTemplate',
     data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayMonthly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
-        percentSkillsShortages:0,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:22,
-        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0}
+        percentSkillsShortages:0,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:0,
+        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0,regionName:'Unknown region'}
 });
 
 
@@ -102,18 +102,10 @@ function search(soc){
 
     setYearsAtUniversity(getGraduationYear(), getCurrentYear());
     ractive.set("graduationYear", getGraduationYear());
-
-    console.log('REGION CODE : ' + getRegionCode);
-    console.log('REGION NAME : ' + getRegionName());
     ractive.set("regionName", getRegionName());
 
-
     getOnet(soc);
-
     getNestoriaData(getRegionName());
-
-    console.log('REGION CODE ' + getRegionCode());
-
 }
 
 function getStoredSocCode(){
@@ -133,8 +125,6 @@ function listenDropdownGraduationChange(){
     $(".graduation-menu li a").click(function(){
         $(".graduation-year").text($(this).text());
 
-        console.log('getStoredSocCode()' + getStoredSocCode());
-
         if(getStoredSocCode() != undefined){
             search(getStoredSocCode());
         }else{
@@ -151,7 +141,6 @@ function getCurrentYear(){
 }
 
 function getGraduationYear(){
-    console.log('Graduation Year : ' + $(".graduation-year").text());
     return parseInt($(".graduation-year").text());
 }
 
@@ -171,7 +160,6 @@ function listenDropdownRegionChange(){
 
 //improve later
 function calcRegionCode(value){
-    console.log('value' + value);
     var code = 1;//default is London
 
     switch(value){
@@ -213,7 +201,6 @@ function calcRegionCode(value){
             break;
     }
 
-    console.log('code ' + code);
     return code;
 }
 
@@ -304,7 +291,6 @@ function getSkillsOfEmployed(ONetCode){
             var skillsDataFromOnet = getSkillsDataFromOnetJsonSorted(json);
 
             drawSkills(skillsDataFromOnet);
-            console.log('skills' + JSON.stringify(skillsDataFromOnet));
         },
         error: function(e) {
             console.log(e.message);
@@ -359,22 +345,8 @@ function getSkillsDataFromOnetJson(json){
 
 //    for(var i=0; i < json.scales[0].skills.length;i++){
     for(var i=0; i < 1;i++){
-
-//        var obj = new Object();
-//        obj.name = String(json.scales[0].skills[i].name);
-
-//        var name = JSON.stringify(json.scales[0].skills[i].name); //SO IT DOES't Like the JSon Name
-
-        console.log(JSON.stringify(json.scales[0].skills[i].name));
-
         name +=  JSON.stringify(json.scales[0].skills[i].name);
-
-        console.log('json.scales[0].skills[i].name' + JSON.stringify(json.scales[0].skills[i].name));
-        console.log('json.scales[0].skills[i].value' + json.scales[0].skills[i].value);
-
         skillNames.push(name);
-
-//        skillNames.push(json.scales[0].skills[i].name);
         skillValues.push(json.scales[0].skills[i].value);
     }
 
@@ -706,21 +678,19 @@ function extractNestoriaData(json,nestoriaDataTime) {
     avgRentPrices.sort(function(a, b){return a.beds - b.beds});
     avgBuyPrices.sort(function(a, b){return a.beds - b.beds});
 
-    createFutureRentChart(avgRentPrices);
+    createFutureRentChart(avgRentPrices, getCurrentYear(), getGraduationYear());
     createCurrentRentChart(avgRentPrices);
 
-
     createCurrentPurchaseChart(avgBuyPrices);
-    createFuturePurchaseChart(avgBuyPrices);
+    createFuturePurchaseChart(avgBuyPrices, getCurrentYear(), getGraduationYear());
 
+    console.log("Average Rent Prices from Nestoria : ");
     console.log(avgRentPrices);
+    console.log("Average Buy Prices from Nestoria : ");
     console.log(avgBuyPrices);
 
     ractive.set("rentPrices", avgRentPrices);
     ractive.set("buyPrices", avgBuyPrices);
-
-
-    //over here you want to
 
     calcSavingPerMonth(avgRentPrices[0].price);
 }
@@ -771,7 +741,7 @@ function setPrepareSavingsChart(totalSavingPerMonth){
 function createCurrentRentChart(data){
 
     var priceData = [];
-    var endValue = data[data.length - 1].price;
+    var endValue = 2500;//data[data.length - 1].price;
 
     for(var i=0;i<data.length;i++){
         priceData.push(parseInt(data[i].price));
@@ -780,14 +750,22 @@ function createCurrentRentChart(data){
     chartContainerCurrentRent(priceData, endValue);
 }
 
-function createFutureRentChart(data){
+function createFutureRentChart(data,currentYear, graduationYear){
 
-    var averagePriceIncrease = 1.5;
+    var averagePriceIncrease = 7;
     var priceData = [];
-    var endValue = (data[data.length - 1].price) * averagePriceIncrease;
+    var endValue = 2500;//(data[data.length - 1].price) * averagePriceIncrease;
+    var yearDifference = graduationYear - currentYear;
+    var priceForYear =0;
 
     for(var i=0;i<data.length;i++){
-        priceData.push(parseInt(data[i].price) * averagePriceIncrease);
+        priceForYear = parseInt(data[i].price);
+
+        for(var j=0;j<yearDifference;j++){
+            priceForYear += (parseInt(data[i].price) / 100) * averagePriceIncrease;
+            console.log('Rent Price in year : '+i+ ' : ' + priceForYear);
+        }
+        priceData.push(priceForYear);
     }
 
     chartContainerFutureRent(priceData, endValue);
@@ -796,7 +774,7 @@ function createFutureRentChart(data){
 function createCurrentPurchaseChart(data){
 
     var priceData = [];
-    var endValue = data[data.length - 1].price;
+    var endValue = 700000;//data[data.length - 1].price;
 
     for(var i=0;i<data.length;i++){
         priceData.push(parseInt(data[i].price));
@@ -805,14 +783,22 @@ function createCurrentPurchaseChart(data){
     chartContainerCurrentPurchasePrice(priceData, endValue);
 }
 
-function createFuturePurchaseChart(data){
+function createFuturePurchaseChart(data,currentYear, graduationYear){
 
-    var averagePriceIncrease = 1.5;
+    var averagePriceIncrease = 7;
     var priceData = [];
-    var endValue = (data[data.length - 1].price) * averagePriceIncrease;
+    var endValue = 700000;//(data[data.length - 1].price) * averagePriceIncrease;
+    var yearDifference = graduationYear - currentYear;
+    var priceForYear =0;
 
     for(var i=0;i<data.length;i++){
-        priceData.push(parseInt(data[i].price) * averagePriceIncrease);
+        priceForYear = parseInt(data[i].price);
+
+        for(var j=0;j<yearDifference;j++){
+            priceForYear += (parseInt(data[i].price) / 100) * averagePriceIncrease;
+            console.log('Purchase Price in year : '+i+ ' : ' + priceForYear);
+        }
+        priceData.push(priceForYear);
     }
 
     chartContainerFuturePurchasePrice(priceData, endValue);
