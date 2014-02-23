@@ -517,7 +517,7 @@ function getEstimatedPay(soc,region){
 //            console.log('Estimated Pay Info : ' + JSON.stringify(json));
 //            console.log(json.series[0].estpay);
 
-            setMoneyFutureData(json);
+            setMoneyFutureData(json,getCurrentYear(),getGraduationYear());
         },
         error: function(e) {
             console.log(e.message);
@@ -572,10 +572,10 @@ function numberWithCommaAtThousand(number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function setMoneyFutureData(json){
+function setMoneyFutureData(json,currentYear,graduationYear){
 
     var predictedInflation = avgRetailPriceIndex();
-    var yearsAtUniversity = 3;
+    var yearsAtUniversity = graduationYear - currentYear;
     const MONTHS_IN_YEAR = 12;
 
     var estimatedAverageSalaryWeeklyPay = parseInt(json.series[0].estpay);
