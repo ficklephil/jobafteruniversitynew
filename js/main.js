@@ -8,8 +8,8 @@ var ractive = new Ractive({
     template:'#myTemplate',
     data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayMonthly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
         qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
-        percentSkillsShortages:0,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:0,
-        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0,regionName:'Unknown Region'}
+        percentSkillsShortages:0,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:22,
+        yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0}
 });
 
 
@@ -633,8 +633,6 @@ function getRegionWorkFuture(soc,region){
         contentType: "application/json",
         dataType: 'jsonp',
         success: function(json) {
-            console.log('regionAna')
-
             //getJobFutureInRegionChartFormatted(json);
             drawChart(getJobFutureInRegionChartJSFormatted(json,region)); //rename
 
@@ -648,7 +646,7 @@ function getRegionWorkFuture(soc,region){
         },
         error: function(e) {
             console.log(e.message);
-            alert('I have no JSON');
+            alert('I cannot reach the LMI Work Futures API');
         }
     });
 }
@@ -841,7 +839,6 @@ function getJobFutureInRegionChartJSFormatted(json,region){
         labels : year,
         datasets : [
             {
-//                fillColor : "rgba(255,204,0,0.45)",
                 fillColor : "#98002F",
                 strokeColor : "#98002F",
                 pointColor : "#98002F",
@@ -1064,10 +1061,6 @@ function scrollToStart(){
     }
 }
 
-//scrollToStart();
-//drawChart();
-
-
 /**
  * Associated Levels with Codes
  *
@@ -1096,7 +1089,7 @@ function getFutureEducationDataForEmployed(json, year){ //rename
 
     for(var i=0;i< predictedEmployment.length;i++){
 
-        if(predictedEmployment[i].year == 2017){
+        if(predictedEmployment[i].year == year){
 
             for(var breakdownIndex=0; breakdownIndex < predictedEmployment[i].breakdown.length; breakdownIndex++){
 
