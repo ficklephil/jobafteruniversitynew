@@ -1,34 +1,10 @@
-var jobMatches = [];
-
-//NAME SPACING NEEDED
-//USE LONDON RENTS FROM http://www.voa.gov.uk/
-
 var ractive = new Ractive({
     el:'container',
     template:'#myTemplate',
     data: {greeting:'hello',recipient:'sdsds',estimatedPayWeekly:0,estimatedPayMonthly:0,estimatedPayYearly:0,easYearlyPayGraduationYear:0,jobTitle:'Job Title Holder',jobDescription:'Job Description',jobTasks:'Job Tasks',
-        qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,jobs:jobMatches,
+        qualificationsRequired:'Qualifications Holder',workFutureJobs:2323,
         percentSkillsShortages:0,percentHardToFill:20,percentHardToFillIsSkillsShortages:21,unemploymentRate:0,
         yearsAtUniversity:0,graduationYear:0,jobPercentageChange:0,employedCurrently:0,employedGraduationYear:0,jobIncreaseOrDecreased:'no data',jobIncreaseOrDecrease:'no data',changeInNumberOfEmployed:0,rentPrices:[],buyPrices:[],userExpenses:500,userFutureExpenses:0,userSavingPerMonth:0,regionName:'Unknown region',futureRentPriceData:[],estimatedFuturePayMonthly:0,homeBuyersDeposits:[]}
-});
-
-
-$(function() {
-    var availableTags = [
-        "2014",
-        "2015",
-        "2016",
-        "2017",
-        "2018",
-        "2019",
-        "2020"
-    ];
-    $( "#graduation-input" ).autocomplete({
-        source: availableTags,
-        select:function( event, ui){
-            console.log('Soc code of selected item is ' + $("#graduation-input").val());
-        }
-    });
 });
 
 $( "#career-input" ).autocomplete({
@@ -74,40 +50,51 @@ $( "#career-input" ).autocomplete({
 
         console.log('Soc code of selected item is ' + ui.item.soc);
         var soc = ui.item.soc;
-
-        //think about putting work futures in here when finished.
-        //getWorkFuture(soc);
     }
 });
 
 function search(soc){
+
     setStoredSocCode(soc);
-
-    getEstimatedPay(soc,getRegionCode());
-
     getExpenses();
     calcUsersFutureExpenses(getExpenses(),getCurrentYear(),getGraduationYear());
-    ractive.set("userExpenses", getExpenses());
-
-    getExtendedJobInfomation(soc);
-    getSkillsShortages(soc,getRegionCode());
-    getUnemployment(soc);
-
-    getRegionWorkFuture(soc,getRegionCode());
-    getEductionWorkFuture(soc);
-
-
-
+    setYearsAtUniversity(getGraduationYear(), getCurrentYear());
     scrollToStart();
 
-    console.log('getGraduationYear()' + getGraduationYear());
-
-    setYearsAtUniversity(getGraduationYear(), getCurrentYear());
+    ractive.set("userExpenses", getExpenses());
     ractive.set("graduationYear", getGraduationYear());
     ractive.set("regionName", getRegionName());
 
-    getOnet(soc);
-    getNestoriaData(getRegionName());
+    //Get Estimated Pay Data from LMI API
+    apiService('http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?soc='+soc+'&coarse=true&filters=region%3A'+getRegionCode(),
+                                                            parseEstimatedPay,'Cannot Access Estimated Pay LMI Data.');
+
+    //Get Extended Data from LMI API
+    apiService('http://api.lmiforall.org.uk/api/v1/soc/code/'+soc, parseExtendedJobData,
+                                                                            'Cannot Access Extended Job LMI Data.');
+
+    //Get Skills Shortage Data from LMI API
+    apiService('http://api.lmiforall.org.uk/api/v1/ess/region/'+getRegionCode()+'/'+soc+'?coarse=true',
+                                                parseSkillsShortageData,'Cannot Access Skills Shortage LMI Data.');
+
+    //Get Unemployment Data from LMI API
+    apiService('http://api.lmiforall.org.uk/api/v1/lfs/unemployment?soc='+soc+'&minYear=2012&maxYear=2012',
+                                                         parseUnemploymentData,'Cannot Access Unemployment LMI Data.');
+
+    //Get Region Work Future Data from LMI API
+    apiService('http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region?soc='+soc+'&minYear=2014&maxYear=2020',
+                                                    parseRegionWorkFutureData,'Cannot Access Work Futures LMI Data.');
+
+    //Get Education Work Future Data from LMI API
+    apiService('http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/qualification?soc='+soc+'&minYear=2013&maxYear=2020',
+                                        parseEducationWorkFutureData,'Cannot Access Education Work Futures LMI Data.');
+
+    //Get Education Work Future Data from LMI API
+    apiService('http://api.lmiforall.org.uk/api/v1/o-net/soc2onet/'+soc,parseOnetData,'Cannot Access ONET LMI Data.');
+
+    //Get Nestoria Data
+    apiService('http://api.nestoria.co.uk/api?country=uk&pretty=1&action=metadata&place_name='+encodeURI(getRegionName())+
+                                            '&encoding=json',parseNestoriaData,'Cannot Access Nestoria Data.');
 }
 
 function getStoredSocCode(){
@@ -118,9 +105,7 @@ function setStoredSocCode(code){
     this.socCode = code;
 }
 
-
 //GRADUATION YEAR
-
 //this is not in keeping with the logic of the
 //application change
 function listenDropdownGraduationChange(){
@@ -133,9 +118,6 @@ function listenDropdownGraduationChange(){
             alert('Now set what job you would like to do after university.');
         }
     });
-
-
-
 };
 
 function getCurrentYear(){
@@ -254,51 +236,17 @@ function calcUsersFutureExpenses(currentExpense, currentYear, graduationYear){
     ractive.set("userFutureExpenses", parseInt(userFutureExpense) );
 }
 
-function getOnet(soc){  //remove if not used
-    getSocToOnet(soc);
+function parseOnetData(json){
+    var ONetCode = getOnetCode(json);
+
+    apiService('http://api.lmiforall.org.uk/api/v1/o-net/skills/'+encodeURI(ONetCode),
+                                          parseSkillsOfEmployedData,'Cannot Access Skills Of Employed ONET LMI Data.');
 }
 
-function getSocToOnet(soc){
+function parseSkillsOfEmployedData(json){
 
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/o-net/soc2onet/'+soc,
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-
-            var ONetCode = getOnetCode(json);
-            getSkillsOfEmployed(ONetCode);
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON');
-        }
-    });
-}
-
-function getSkillsOfEmployed(ONetCode){
-    console.log('ONet Code' + ONetCode);
-
-    var skillsDataFromOnet=[];
-
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/o-net/skills/'+encodeURI(ONetCode),
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-            var skillsDataFromOnet = getSkillsDataFromOnetJsonSorted(json);
-
-            drawSkills(skillsDataFromOnet);
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON Onet');
-        }
-    });
+    var skillsDataFromOnet = getSkillsDataFromOnetJsonSorted(json);
+    drawSkills(skillsDataFromOnet);
 }
 
 /*  If you get more time think about putting these in columns */
@@ -339,39 +287,6 @@ function getSkillsDataFromOnetJsonSorted(json){
     return skills.sort(function(a, b){return b.value - a.value});
 }
 
-function getSkillsDataFromOnetJson(json){
-
-    var skillNames=["Eating","Drinking","Sleeping","Designing","Coding"];
-    var skillValues=[];
-    var name ="hello";
-
-//    for(var i=0; i < json.scales[0].skills.length;i++){
-    for(var i=0; i < 1;i++){
-        name +=  JSON.stringify(json.scales[0].skills[i].name);
-        skillNames.push(name);
-        skillValues.push(json.scales[0].skills[i].value);
-    }
-
-    console.log('skillNames' + skillNames);
-
-//    skillNames = ["Eating","Drinking","Sleeping","Designing","Coding"]
-
-    var data = {
-        labels : skillNames,
-        datasets : [
-            {
-                fillColor : "rgba(151,187,205,0.5)",
-                strokeColor : "rgba(151,187,205,1)",
-                pointColor : "rgba(151,187,205,1)",
-                pointStrokeColor : "#fff",
-                data : [3,4,3,3,4]
-            }
-        ]
-    }
-
-    return data;
-}
-
 //Assume first code is the correct one to give better UX
 function getOnetCode(json){
     console.log("json.onetCodes[0].code" + json.onetCodes[0].code);
@@ -382,62 +297,12 @@ function setYearsAtUniversity(startYear, finishYear){
     ractive.set('yearsAtUniversity', startYear - finishYear);
 }
 
+function parseExtendedJobData(json){
 
-//function searchForJob(searchInput){
-//    $.ajax({
-//        type: 'GET',
-//        url: 'http://api.lmiforall.org.uk/api/v1/soc/search?q='+searchInput,
-//        async: false,
-//        contentType: "application/json",
-//        dataType: 'jsonp',
-//        success: function(json) {
-//            for(var jobIndex=0;jobIndex < json.length; jobIndex++){
-//                jobMatches.push({name:json[jobIndex].title.toString(), soc:json[jobIndex].soc})
-//            }
-//        },
-//        error: function(e) {
-//            console.log(e.message);
-//            alert('Unable to get back searches for jobs');
-//        }
-//    });
-//}
-
-//function searchJobData(){
-//    $.ajax({
-//        type: 'GET',
-//        url: 'http://api.lmiforall.org.uk/api/v1/soc/search?q=science',
-//        async: false,
-//        contentType: "application/json",
-//        dataType: 'jsonp',
-//        success: function(json) {
-//            console.log(JSON.stringify(json));
-////                       alert('I have JSON');
-//        },
-//        error: function(e) {
-//            console.log(e.message);
-//            alert('I have no JSON');
-//        }
-//    });
-//}
-
-function getExtendedJobInfomation(soc){
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/soc/code/'+soc,
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-            ractive.set('jobTitle', json.title) ;
-            ractive.set('qualificationsRequired', json.qualifications) ;
-            ractive.set('jobDescription', json.description) ;
-            ractive.set('jobTasks', json.tasks) ;
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON');
-        }
-    });
+    ractive.set('jobTitle', json.title) ;
+    ractive.set('qualificationsRequired', json.qualifications) ;
+    ractive.set('jobDescription', json.description) ;
+    ractive.set('jobTasks', json.tasks) ;
 }
 
 /**
@@ -445,33 +310,15 @@ function getExtendedJobInfomation(soc){
  *
  * Use this to return the skills shortages within a given region
  *
- * WARNING : Region of London hardcoded here for now.
  * WARNING : you need to do some calulations here around hard to fill jobs
  * and job shortges
- * @param soc
  */
+function parseSkillsShortageData(json){
+    console.log('SKILLS SHORTAGES');
 
-function getSkillsShortages(soc,region){
-    console.log('getSkillsShortages' + soc + region);
-
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/ess/region/'+region+'/'+soc+'?coarse=true',
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-            console.log('ESS Data on Skills Shortages : ' + JSON.stringify(json));
-
-            ractive.set('percentSkillsShortages', parseInt(json.percentSSV));
-            ractive.set('percentHardToFill', parseInt(json.percentHTF));
-            ractive.set('percentHardToFillIsSkillsShortages', parseInt(json.percentHTFisSSV));
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON from Skills shortages');
-        }
-    });
+    ractive.set('percentSkillsShortages', parseInt(json.percentSSV));
+    ractive.set('percentHardToFill', parseInt(json.percentHTF));
+    ractive.set('percentHardToFillIsSkillsShortages', parseInt(json.percentHTFisSSV));
 }
 
 /**
@@ -480,51 +327,48 @@ function getSkillsShortages(soc,region){
  *
  * NOTE : Here we can actaully get the unemployment by age!
  * Also by qualification, also by Female/Males
- *
- * @param soc
- * @param region
  */
-function getUnemployment(soc){
+function parseUnemploymentData(json){
+    console.log('Unemployment Data : ' + JSON.stringify(json));
+    ractive.set('unemploymentRate', parseInt(json.years[0].unemprate));
+}
+
+function parseEstimatedPay(json){
+    setMoneyFutureData(json,getCurrentYear(),getGraduationYear());
+}
+
+/**
+ * Generic JSON Service that uses AJAX to get an API, when
+ * passed a URI. Returns the JSON to a callback function.
+ *
+ * @param uri
+ * @param callback
+ * @param errorText
+ */
+function apiService(uri,callback,errorText){
     $.ajax({
         type: 'GET',
-//        url: 'http://api.lmiforall.org.uk/api/v1/ess/region/'+region+'/'+soc+'?coarse=true',
-        url: 'http://api.lmiforall.org.uk/api/v1/lfs/unemployment?soc='+soc+'&minYear=2012&maxYear=2012',
+        url: uri,
         async: false,
+//        jsonpCallback: 'jsonCallback',
         contentType: "application/json",
         dataType: 'jsonp',
         success: function(json) {
-            console.log('LFS Data on Unemployment : ' + JSON.stringify(json));
-
-          ractive.set('unemploymentRate', parseInt(json.years[0].unemprate));
+            callback(json);
         },
         error: function(e) {
+            console.log('Error : ' + errorText);
             console.log(e.message);
-            alert('I have no JSON from Unemployment');
         }
     });
 }
 
-//soc is Standard Occupational Classification
-function getEstimatedPay(soc,region){
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/ashe/estimatePay?soc='+soc+'&coarse=true&filters=region%3A'+region,
-        async: false,
-        jsonpCallback: 'jsonCallback',
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-//            console.log('Estimated Pay Info : ' + JSON.stringify(json));
-//            console.log(json.series[0].estpay);
-
-            setMoneyFutureData(json,getCurrentYear(),getGraduationYear());
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON');
-        }
-    });
+function parseService(json){
+    console.log('Parsing Service');
+    console.log(JSON.stringify(json));
 }
+
+apiService('http://api.lmiforall.org.uk/api/v1/soc/search?q=software',parseService)
 
 const WEEKS_IN_YEAR=52;
 
@@ -620,31 +464,11 @@ function getEstimatedPayMonthlyGraduationYear(){
     return this.estimatedFuturePayMonthly;
 }
 
-function getRegionWorkFuture(soc,region){
-    console.log('get work futures');
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/region?soc='+soc+'&minYear=2014&maxYear=2020',
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-            //getJobFutureInRegionChartFormatted(json);
-            drawChart(getJobFutureInRegionChartJSFormatted(json,region)); //rename
+function parseRegionWorkFutureData(json){
 
-            //DX Charts
-            //var workFutureFormattedData = getJobFutureInRegionDXChartFormatted(json,1);
-            //var workFutureRange = [];
-            //workFutureRange = getWorkFutureChartRange(workFutureFormattedData);
-            //chartContainerWorkFuture(workFutureFormattedData,workFutureRange[0],workFutureRange[1]);
-
-            calcJobPercentageChangeRegion(json, getCurrentYear(), getGraduationYear(),region);
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I cannot reach the LMI Work Futures API');
-        }
-    });
+    var region = getRegionCode();
+    drawChart(getJobFutureInRegionChartJSFormatted(json,region));
+    calcJobPercentageChangeRegion(json, getCurrentYear(), getGraduationYear(),region);
 }
 
 function getWorkFutureChartRange(data){
@@ -656,23 +480,8 @@ function getWorkFutureChartRange(data){
     return workFutureChartRange.sort(function(a, b){return a - b});
 }
 
-function getNestoriaData(regionName){
-
-    console.log('get Nestoria Data');
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.nestoria.co.uk/api?country=uk&pretty=1&action=metadata&place_name='+encodeURI(regionName)+'&encoding=json',
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
-            extractNestoriaData(json,"2011_m10");
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON from Nestoria');
-        }
-    });
+function parseNestoriaData(json){
+    extractNestoriaData(json,"2011_m10");
 }
 
 function extractNestoriaData(json,nestoriaDataTime) {
@@ -912,34 +721,17 @@ function getJobFutureInRegionDXChartFormatted(json,region){
     return employmentByYearData;
 }
 
-function getEductionWorkFuture(soc){
-    console.log('get education work futures');
-
+function parseEducationWorkFutureData(json){
     var futureEducationDataForEmployed = [];
     var formattedDatasetForEmployedChart = [];
 
-    $.ajax({
-        type: 'GET',
-        url: 'http://api.lmiforall.org.uk/api/v1/wf/predict/breakdown/qualification?soc='+soc+'&minYear=2013&maxYear=2020',
-        async: false,
-        contentType: "application/json",
-        dataType: 'jsonp',
-        success: function(json) {
+    futureEducationDataForEmployed = getFutureEducationDataForEmployed(json,getGraduationYear());
+    //formattedDatasetForEmployedChart = createFormattedDataForEducationChart(futureEducationDataForEmployed);
+    formattedDatasetForEmployedChart = createFormattedDataForEducationDXChart(futureEducationDataForEmployed);
 
-            futureEducationDataForEmployed = getFutureEducationDataForEmployed(json,getGraduationYear());
-//            formattedDatasetForEmployedChart = createFormattedDataForEducationChart(futureEducationDataForEmployed);
-            formattedDatasetForEmployedChart = createFormattedDataForEducationDXChart(futureEducationDataForEmployed);
-
-            chartContainerDegreeEducated(formattedDatasetForEmployedChart);
-
-//            drawEducationFutureChart(formattedDatasetForEmployedChart);
-//            drawEducationFutureKey(futureEducationDataForEmployed, getEmployedGraduationYear());
-        },
-        error: function(e) {
-            console.log(e.message);
-            alert('I have no JSON Education Work Futures');
-        }
-    });
+    chartContainerDegreeEducated(formattedDatasetForEmployedChart);
+    //drawEducationFutureChart(formattedDatasetForEmployedChart);
+    //drawEducationFutureKey(futureEducationDataForEmployed, getEmployedGraduationYear());
 }
 
 function calcJobPercentageChangeRegion(json, currentYear, graduationYear, region){
@@ -979,34 +771,6 @@ function calcJobPercentageChangeRegion(json, currentYear, graduationYear, region
     ractive.set("employedGraduationYear", employedGraduationYear);
 }
 
-//function calcJobPercentageChange(json, currentYear, graduationYear){
-//
-//    console.log('json' + JSON.stringify(json));
-//
-//    var employedCurrently=0;
-//    var employedGraduationYear=0;
-//
-//    for(var i=0;i < json.predictedEmployment.length;i++){
-//        var year = parseInt(json.predictedEmployment[i].year);
-//        var numberEmployed = parseInt(json.predictedEmployment[i].employment);
-//
-//        if(year == currentYear){
-//            employedCurrently = numberEmployed;
-//            console.log('Currently Employed set as ' + employedCurrently);
-//        }else if(year == graduationYear){
-//            employedGraduationYear = numberEmployed;
-//            console.log('In Graduation year Employed set as ' + employedGraduationYear);
-//        }
-//    }
-//
-//    setJobPercentageChange(calcPercentageChange(employedCurrently, employedGraduationYear));
-//    setJobIncreaseOrDecrease(calcJobIncreaseOrDecrease(employedCurrently, employedGraduationYear));
-//
-//    ractive.set("employedCurrently", employedCurrently);
-//    ractive.set("employedGraduationYear", employedGraduationYear);
-//
-//}
-
 function calcPercentageChange(employedCurrently,employedGraduationYear){
     return ((employedGraduationYear-employedCurrently)/employedCurrently)*100;
 }
@@ -1022,7 +786,6 @@ function calcJobIncreaseOrDecrease(employedCurrently,employedGraduationYear){
 function setJobIncreaseOrDecrease(jobIncreaseOrDecreased){
     ractive.set("jobIncreaseOrDecreased", jobIncreaseOrDecreased);
     ractive.set("jobIncreaseOrDecrease", jobIncreaseOrDecreased.substring(0, jobIncreaseOrDecreased.length - 1));
-
 }
 
 function setJobPercentageChange(percentage){
@@ -1101,7 +864,6 @@ function getFutureEducationDataForEmployed(json, year){ //rename
 function setEmployedGraduationYear(employed){
     this.employedGraduationYearForEducation = employed;
 }
-
 
 function getEmployedGraduationYear(){
     return this.employedGraduationYearForEducation;
@@ -1299,24 +1061,24 @@ function drawEducationFutureChart(data){
     new Chart(ctx).Pie(data,options);             //watch out here for memory issues
 }
 
-function drawSkillChart(data){
-
-    this.skillData = data;
-
-    $('#skill-chart').remove();
-    $('.skill-chart-container').append('<canvas id="skill-chart"></canvas>');
-
-    $('#skill-chart').attr('width', jQuery(".skill-chart-container").width());
-    $('#skill-chart').attr('height', (jQuery(".skill-chart-container").height() * 1.8));
-
-    var ctx = $('#skill-chart').get(0).getContext("2d");
-
-    var options = {
-//        animateRotate : true,
-    }
-
-    new Chart(ctx).Radar(data,options);             //watch out here for memory issues
-}
+//function drawSkillChart(data){
+//
+//    this.skillData = data;
+//
+//    $('#skill-chart').remove();
+//    $('.skill-chart-container').append('<canvas id="skill-chart"></canvas>');
+//
+//    $('#skill-chart').attr('width', jQuery(".skill-chart-container").width());
+//    $('#skill-chart').attr('height', (jQuery(".skill-chart-container").height() * 1.8));
+//
+//    var ctx = $('#skill-chart').get(0).getContext("2d");
+//
+//    var options = {
+////        animateRotate : true,
+//    }
+//
+//    new Chart(ctx).Radar(data,options);             //watch out here for memory issues
+//}
 
 function drawChart(data){
 
@@ -1353,80 +1115,80 @@ function resizeChart(){
 }
 
 
-function resizeEducationChart(){
+//function resizeEducationChart(){
+//
+//    $('#education-chart').remove();
+//    $('.education-chart-container').append('<canvas id="education-chart"></canvas>');
+//    var ctx = $('#education-chart').get(0).getContext("2d");
+//
+//    $('#education-chart').attr('width', jQuery(".education-chart-container").width());
+//    $('#education-chart').attr('height', (jQuery(".education-chart-container").height()*1.8));
+//    new Chart(ctx).Pie(this.eductionFutureData);
+//}
 
-    $('#education-chart').remove();
-    $('.education-chart-container').append('<canvas id="education-chart"></canvas>');
-    var ctx = $('#education-chart').get(0).getContext("2d");
-
-    $('#education-chart').attr('width', jQuery(".education-chart-container").width());
-    $('#education-chart').attr('height', (jQuery(".education-chart-container").height()*1.8));
-    new Chart(ctx).Pie(this.eductionFutureData);
-}
-
-function drawSavingsChart(){
-
-//    var palette = ['#9BCE7d', '#72Ac93', '#699E87', '#BD0102', '#98002F', '#fa6b63'];
-    var palette = ['#796844', '#F8DA98', '#B64B4B','#365F4E'];
-    var dataSource = [
-        {region: "Council Tax, Gas, Water, Electricity", val: 150},
-        {region: "Food", val: 200},
-        {region: "Rent", val: 600},
-        {region: "Entertainment", val: 200},
-        {region: "Travel", val: 150},
-        {region: "Savings", val: 500}
-    ];
-
-    $("#chartContainer").dxPieChart({
-        dataSource: dataSource,
-//        title: "The Population of Continents and Regions",
-        tooltip: {
-            enabled: true,
-            format:"millions",
-            percentPrecision: 2,
-            customizeText: function() {
-
-                if(this.argumentText == "Savings"){
-                    return "£" + this.originalValue + " saved per month.";
-                }
-                else{
-                    return "£" + this.originalValue + " spent on " +this.argumentText+" per month.";
-                }
-            }
-        },
-        legend: {
-            enabled:false,
-            orientation: "horizontal",
-            itemTextPosition: "right",
-            horizontalAlignment: "center",
-            verticalAlignment: "bottom",
-            rowCount: 2
-        },
-        palette: palette,
-        series: [{
-            type: "pie",
-            argumentField: "region",
-            label: {
-                visible: true,
-                font: {
-                    size: 18
-                },
-                format: "millions",
-                connector: {
-                    visible: true
-                },
-                position: "columns",
-                customizeText: function(arg) {
-                    if(arg.argumentText == "Savings"){
-                        return arg.percentText + " of Estimate Avg. Salary Saved!";
-                    }else{
-                        return arg.percentText + " of Salary spent on " + arg.argumentText;
-                    }
-                }
-            }
-        }]
-    });
-}
+//function drawSavingsChart(){
+//
+////    var palette = ['#9BCE7d', '#72Ac93', '#699E87', '#BD0102', '#98002F', '#fa6b63'];
+//    var palette = ['#796844', '#F8DA98', '#B64B4B','#365F4E'];
+//    var dataSource = [
+//        {region: "Council Tax, Gas, Water, Electricity", val: 150},
+//        {region: "Food", val: 200},
+//        {region: "Rent", val: 600},
+//        {region: "Entertainment", val: 200},
+//        {region: "Travel", val: 150},
+//        {region: "Savings", val: 500}
+//    ];
+//
+//    $("#chartContainer").dxPieChart({
+//        dataSource: dataSource,
+////        title: "The Population of Continents and Regions",
+//        tooltip: {
+//            enabled: true,
+//            format:"millions",
+//            percentPrecision: 2,
+//            customizeText: function() {
+//
+//                if(this.argumentText == "Savings"){
+//                    return "£" + this.originalValue + " saved per month.";
+//                }
+//                else{
+//                    return "£" + this.originalValue + " spent on " +this.argumentText+" per month.";
+//                }
+//            }
+//        },
+//        legend: {
+//            enabled:false,
+//            orientation: "horizontal",
+//            itemTextPosition: "right",
+//            horizontalAlignment: "center",
+//            verticalAlignment: "bottom",
+//            rowCount: 2
+//        },
+//        palette: palette,
+//        series: [{
+//            type: "pie",
+//            argumentField: "region",
+//            label: {
+//                visible: true,
+//                font: {
+//                    size: 18
+//                },
+//                format: "millions",
+//                connector: {
+//                    visible: true
+//                },
+//                position: "columns",
+//                customizeText: function(arg) {
+//                    if(arg.argumentText == "Savings"){
+//                        return arg.percentText + " of Estimate Avg. Salary Saved!";
+//                    }else{
+//                        return arg.percentText + " of Salary spent on " + arg.argumentText;
+//                    }
+//                }
+//            }
+//        }]
+//    });
+//}
 
 function drawSavingsOverTimeChart(savingsDataSource){
 
@@ -1467,11 +1229,6 @@ function drawSavingsOverTimeChart(savingsDataSource){
             },
             title: 'Savings (£)'
         },
-//        legend: {
-//            enabled:false,
-//            verticalAlignment: "bottom",
-//            horizontalAlignment: "center"
-//        },
         commonPaneSettings: {
             border:{
                 visible: true,
@@ -1773,23 +1530,10 @@ function chartContainerWorkFuture(dataSource,startValue,endValue){
     });
 }
 
-//needed?
 $(window).resize(resizeChart);
-//$(window).resize(resizeEducationChart);
-
 
 listenDropdownGraduationChange();
 listenDropdownRegionChange();
-
-
-//needed?
-//$(window).resize(drawSavingsChart);
-//$(window).resize(drawSavingsOverTimeChart);
-
-//needed?
-//drawSavingsChart();
-
-
 chartContainerFutureCostOfLiving();
 chartContainerCurrentCostOfLiving();
 
